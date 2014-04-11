@@ -33,8 +33,10 @@
 
   2. [Description of NDFD Database Contents: Elements](http://www.nws.noaa.gov/ndfd/technical.htm#elements);
 
-  2. [Element Definitions](http://www.nws.noaa.gov/ndfd/definitions.htm).
+  2. "[Element Definitions](http://www.nws.noaa.gov/ndfd/definitions.htm)", meaning definitions of field-names.
 
 1. It isn't clear to us whether "maximum/minimum temperature" and "apparent temperature" are predictions or not. On 20140411, we wrote to the National Weather Service (NWS) to ask for clarification about this.
+
+1. We are somewhat puzzled about how to evaluate the accuracy of predictions about rain. However, there is a field "12-HOUR PROBABILITY OF PRECIPITATION" (PoP12) that may serve to answer this. It is defined: "The likelihood, expressed as a percent, of a measurable precipitation event (1/100th of an inch or more) at a grid point during the 12-hour valid period. The 12-hour valid periods begin and end at 0000 and 1200 Coordinated Universal Time (UTC)."
 
 [end]
