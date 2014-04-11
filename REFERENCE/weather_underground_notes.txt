@@ -1,0 +1,5 @@
+## Weather Underground Notes
+
+1. API introduction: http://www.wunderground.com/weather/api/d/docs
+
+1. Signed up for "Anvil Developer + History", $0/month.
