@@ -1,0 +1,13 @@
+[sent by email to nws.ndfd@noaa.gov on 20140411]
+
+To Whom It May Concern:
+
+	We are interested in comparing predictions of temperature to actual observed temperature. On page http://www.nws.noaa.gov/ndfd/definitions.htm we see elements "maximum/minimum temperature" and "apparent temperature". Are we correct in thinking that these fields represent NOAA's *predictions* of actual and apparent temperature? Or should we be looking elsewhere for that data?
+	
+	Also, if that is correct, then can you tell us where we would find records of actual observed temperature at the same locations?
+	
+	Thanks very much for your time with this inquiry.
+	
+				Sincerely,
+				
+						David Branner and Gina Schmalzle
