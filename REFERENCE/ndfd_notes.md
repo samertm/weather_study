@@ -17,4 +17,6 @@
   2. `suds`: Lightweight SOAP client
   2. `SOAPpy`: SOAP Services for Python
 
+1. Have requested to join the Yahoo-based discussion forum. However, there is also a REST service: http://graphical.weather.gov/xml/rest.php
+
 [end]
