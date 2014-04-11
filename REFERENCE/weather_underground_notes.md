@@ -10,4 +10,6 @@
 
 1. Code samples at http://www.wunderground.com/weather/api/d/docs?d=resources/code-samples
 
+1. But historical **predictions** not available, it seems. We would have to collect our own.
+
 [end]
