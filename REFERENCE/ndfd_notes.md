@@ -12,4 +12,9 @@
 
   2. "[What if I need lots of NDFD data or find the web service too slow?](http://graphical.weather.gov/xml/#degrib)"
 
+1. XML is served through Simple Object Access Protocol (SOAP) requests. Python 2.7 libraries:
+
+  2. `suds`: Lightweight SOAP client
+  2. `SOAPpy`: SOAP Services for Python
+
 [end]
