@@ -19,4 +19,10 @@
 
 1. Have requested to join the Yahoo-based discussion forum. However, there is also a REST service: http://graphical.weather.gov/xml/rest.php
 
+1. Some details:
+
+  2. [Description of NDFD Database Contents: Elements](http://www.nws.noaa.gov/ndfd/technical.htm#elements)
+
+  2. [Element Definitions](http://www.nws.noaa.gov/ndfd/definitions.htm)
+
 [end]
