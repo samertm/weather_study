@@ -4,9 +4,12 @@
 
 1. Installing `mpld3` under pip3 succeeds, but it cannot be imported without `matplotlib` installed.
 
-1. Various `matplotlib` dependencies were installed under pip3, but `matplotlib` itself fails repeatedly to install. Finally cloned from repo:
+1. Various `matplotlib` dependencies were installed under pip3, but `matplotlib` itself fails repeatedly to install. 
 
-    pip install pyzmq dateutils pyparsing tornado numpy scipy pygtk cairocffi[all]
+    pip install pyzmq dateutils pyparsing tornado numpy scipy pygtk mpld3 cairocffi[all]
+
+Finally cloned from repo:
+
     git clone https://github.com/matplotlib/matplotlib
     cd matplotlib
     python3 setup.py build
