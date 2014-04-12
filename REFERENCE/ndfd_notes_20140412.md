@@ -6,7 +6,7 @@
 
 1. Various `matplotlib` dependencies were installed under pip3, but `matplotlib` itself fails repeatedly to install. Finally cloned from repo:
 
-    pip install -U cairocffi[all]
+    pip install pyzmq dateutils pyparsing tornado numpy scipy pygtk cairocffi[all]
     git clone https://github.com/matplotlib/matplotlib
     cd matplotlib
     python3 setup.py build
