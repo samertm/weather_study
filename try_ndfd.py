@@ -5,6 +5,9 @@
 
 """Make preliminary experiments with XML/ReST calls to NDFD."""
 
+# Note that we are only getting five future days' forecast, even when we ask
+# for much more than that.
+
 import urllib
 import pprint
 
