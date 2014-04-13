@@ -1,0 +1,19 @@
+## Weather Underground Notes
+
+[edited 20140413]
+
+1. Planning thoughts send by DPB to GS:
+
+> As for the central question of how we share a database, I have these thoughts:
+> 
+>     A. We can both keep a copy of the database on our local computers; my machine-wide `.gitignore` file excludes `.db` files from being pushed to the repository in any case. We would update our copies of the database separately, but we could share retrieved data and all code.
+>     B. The real question is how to share retrieved data, since we're perhaps not supposed to let our repo serve as a data source for other users — were we to do so, we would then be redistributing the data, something I think we're not supposed to do. As I read Section 3 "Conditions & Restrictions", Subsection (d), of the Terms and Conditions (http://www.wunderground.com/weather/api/d/terms.html), that is forbidden: "You will not resell, sublicense, redistribute or provide access to the API to any third party, including, without limitation, by incorporating API access into chipsets of any kind."
+>     C. Instead, I see the following options:
+>         i. We could store the data in a private repository and each insert it into the db on our separate instances running on own machines. GitHub charges for that, but Bitbucket does not. We could keep everything except the data on GitHub. That would be simplest.
+>         ii. We could set up a server somewhere else on which to store the data and the database. However, the problem of backing it up to a repository is not really resolved by this solution.
+>         iii. We could store the data publicly but in encrypted form in the repo, using a tool such as PyCrypto (https://www.dlitz.net/software/pycrypto/) or one of the many competitors available through `pip`. That would be less simple but it would give us exposure to an additional tool of interest.
+>         iv. We could each set up `cron` jobs to download the data on our own system. That seems to me inefficient and not worth considering for now.
+
+
+
+[end]
