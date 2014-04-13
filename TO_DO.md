@@ -2,7 +2,7 @@
      
 ### Questions                 
      
-- [ ] What are the locations available?   
+- [x] What are the locations available?   
 - [ ] How many locations can be queried in a single query?
 - [ ] How often are forecasts revised?    
      
