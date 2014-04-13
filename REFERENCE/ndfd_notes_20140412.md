@@ -26,6 +26,6 @@ No error messages now. Finally, remove installed `matplotlib` clone:
     cd ..
     sudo rm -R matplotlib
 
-1. In file `try_ndfd.py` we request data for 10 or 16 days but only five day's of predictions are returned.
+1. In file `try_ndfd.py` we request data for 10 or 16 days but only five day's of predictions are returned. So we will try to work first with Weather Underground. See "notes" file for Weather Underground.
 
 [end]
