@@ -1,12 +1,13 @@
 #! /usr/bin/python
 # David Prager Branner
-# 20140412
+# 20140413
 
 """Utilities for Weather Study project."""
 
 import os
 
-filename = 'weather_underground_api.ignore'
+# filename = 'wu_api.ignore'
+filename = 'owm_api.ignore'
 with open(os.path.join('../DATA', filename), 'r') as f:
     api_key = f.read()
 
