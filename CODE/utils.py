@@ -1,4 +1,5 @@
 #! /usr/bin/python
+# utils.py
 # David Prager Branner
 # 20140413
 
@@ -8,6 +9,7 @@ import os
 import urllib
 import datetime
 import json
+import glob
 
 def get_api_key(site='owm', show=False):
     """Without allowing API key to appear in repo, fetch from file."""
@@ -116,3 +118,16 @@ def construct_date():
 def convert_from_unixtime(unixtime):
     return datetime.datetime.fromtimestamp(
             unixtime).strftime('%Y-%m-%d %H:%M')
+
+def open_last_city_list():
+    """Find filename of most recently saved city code list."""
+    file_list = glob.glob('../DATA/city_list*')
+    filename = file_list[-1]
+    return filename.split('/')[-1]
+
+def isolate_city_codes():
+    """Get contents of most recently saved city code list, as list of lists."""
+    filename = open_last_city_list()
+    with open(os.path.join('../DATA', filename), 'r') as f:
+        contents = f.read()
+    return [line.split('\t') for line in contents.split('\n')]
