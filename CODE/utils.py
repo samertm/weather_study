@@ -7,8 +7,9 @@
 import os
 import urllib
 import datetime
+import json
 
-def get_api_key(site='owm'):
+def get_api_key(site='owm', show=False):
     """Without allowing API key to appear in repo, fetch from file."""
     if site == 'owm':
         filename = 'owm_api.ignore'
@@ -18,10 +19,12 @@ def get_api_key(site='owm'):
         return
     with open(os.path.join('../DATA', filename), 'r') as f:
         api_key = f.read()
-    print('Obtained API key: {}.'.format(api_key))
+    if show:
+        print('Obtained API key: {}'.format(api_key))
     return api_key
 
 def make_urlrequest(url):
+    """Tries to make URL request until successful."""
     content = ''
     while content == '':
         try:
@@ -31,13 +34,21 @@ def make_urlrequest(url):
             content = ''
     return content
 
-# The following is not yet working.
-def construct_OWN_api_req(id='5128581'): # ID 5128581 = New York City
+# The following is not yet fully working.
+def construct_OWM_api_req(id='5128581'): # ID 5128581 = New York City
+    """Attempt OWM query."""
     head = 'http://openweathermap.org/data/2.5/forecast/city?'
     id_string = 'id=' + id
     appid = '&APPID=' + get_api_key()
     url = head + id_string + appid
-    forecast = make_urlrequest(url)
+    while True:
+        forecast = make_urlrequest(url)
+        if forecast.msg == 'OK':
+            break
+    # Forecast is of type http.client.HTTPResponse
+    # forecast.readall(): bytes; use `.decode()` for long string
+    forecast = forecast.readall().decode()
+    forecast = json.loads(forecast)
     return forecast
 
 # The following is not working yet.
