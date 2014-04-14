@@ -9,7 +9,7 @@
 ### To build                  
      
 - [x] Construct query.        
-- [ ] Construct saved-file name: `item` + `date_time` + `.ignore`.
+- [ ] Construct saved-file name: `item` + `date_time` + `.ignore`. Or do we need to worry about this?
 - [ ] Save returned results to file.      
 - [ ] Experiment with encryption of results.
 - [ ] Choose data to query and retain.
