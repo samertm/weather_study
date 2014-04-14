@@ -57,13 +57,6 @@ def construct_OWM_api_req(id='5128581', count=14): # ID 5128581 = New York City
     return forecast
     # forecast is dict; key 'list' is a list containing most of the content.
 
-# The following is not working yet.
-#def construct_WU_api_req(city='New_York', history=None):
-#    head = 'http://api.wunderground.com/api/'
-#    tail = '/geolookup/conditions/q/'
-#    if city:
-#        city += '.json'
-
 def get_city_code_list():
     """Get city code list from OWM; check to see if changed; save; normalize."""
     cities = make_urlrequest( 'http://openweathermap.org/help/city_list.txt')
