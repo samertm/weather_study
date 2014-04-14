@@ -37,11 +37,12 @@ def make_urlrequest(url):
 # The following is not yet fully working.
 def construct_OWM_api_req(id='5128581', count=14): # ID 5128581 = New York City
     """Attempt OWM query."""
+    # "...daily..." required for the `count` variable to be meaningful.
     head = 'http://openweathermap.org/data/2.5/forecast/daily?'
     id_string = 'id=' + id
     count_string = '&cnt=' + str(count)
     units = '&units=metric'
-    mode = '&mode=daily_compact'
+    mode = '&mode=daily_compact' # Not clear how this affects, but does affect.
     the_type = '&type=day'
     appid = '&APPID=' + get_api_key() # Apparently goes last or empty results.
     url = head + id_string + units + count_string + mode + the_type + appid
