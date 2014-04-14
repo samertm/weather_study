@@ -21,9 +21,24 @@ def get_api_key(site='owm'):
     print('Obtained API key: {}.'.format(api_key))
     return api_key
 
+def make_urlrequest(url):
+    content = ''
+    while content == '':
+        try:
+            content = urllib.request.urlopen(url)
+        except urllib.error.URLError as e:
+            print(e)
+            content = ''
+    return content
+
 # The following is not yet working.
-def construct_OWN_api_req(id='5128581') # ID 5128581 = New York City
-    head = 'http://api.openweathermap.org/data/2.5/find?q=London&units=metric&mode=xml'
+def construct_OWN_api_req(id='5128581'): # ID 5128581 = New York City
+    head = 'http://openweathermap.org/data/2.5/forecast/city?'
+    id_string = 'id=' + id
+    appid = '&APPID=' + get_api_key()
+    url = head + id_string + appid
+    forecast = make_urlrequest(url)
+    return forecast
 
 # The following is not working yet.
 #def construct_WU_api_req(city='New_York', history=None):
@@ -34,14 +49,14 @@ def construct_OWN_api_req(id='5128581') # ID 5128581 = New York City
 
 def get_city_code_list():
     """Get city code list from OWM; check to see if changed; save; normalize."""
-    cities = ''
-    while cities == '':
-        try:
-            cities = urllib.request.urlopen(
-                    'http://openweathermap.org/help/city_list.txt')
-        except urllib.error.URLError as e:
-            print(e)
-            cities = ''
+    cities = make_urlrequest( 'http://openweathermap.org/help/city_list.txt')
+#    cities = ''
+#    while cities == '':
+#        try:
+#            cities = urllib.request.urlopen(
+#        except urllib.error.URLError as e:
+#            print(e)
+#            cities = ''
     # Is content changed?
     # Compare hash to hash of previously downloaded version.
     cities = cities.read()
