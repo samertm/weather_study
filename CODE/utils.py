@@ -52,6 +52,7 @@ def construct_OWM_api_req(id='5128581', count=14): # ID 5128581 = New York City
     forecast = forecast.readall().decode()
     forecast = json.loads(forecast)
     return forecast
+    # forecast is dict; key 'list' is a list containing most of the content.
 
 # The following is not working yet.
 #def construct_WU_api_req(city='New_York', history=None):
