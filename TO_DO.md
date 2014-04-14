@@ -13,6 +13,7 @@
 - [ ] Choose data to query and retain. Where is the list of all fields available for querying?
 - [ ] Save returned results to file in standard format.
 - [ ] Construct schema for storing data.
+- [ ] Enter city list into database and then select points for study based on Country and Lat./Long.
 - [x] Construct query.
 - [x] Construct saved-file name: `item` + `date_time` + suffix.
 
