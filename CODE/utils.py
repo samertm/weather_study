@@ -35,12 +35,14 @@ def make_urlrequest(url):
     return content
 
 # The following is not yet fully working.
-def construct_OWM_api_req(id='5128581'): # ID 5128581 = New York City
+def construct_OWM_api_req(id='5128581', count=14): # ID 5128581 = New York City
     """Attempt OWM query."""
     head = 'http://openweathermap.org/data/2.5/forecast/city?'
     id_string = 'id=' + id
-    appid = '&APPID=' + get_api_key()
-    url = head + id_string + appid
+    count_string = '&cnt=' + str(count)
+    units = '&units=metric'
+    appid = '&APPID=' + get_api_key() # Apparently goes last or empty results.
+    url = head + id_string + units + count_string + appid
     while True:
         forecast = make_urlrequest(url)
         if forecast.msg == 'OK':
