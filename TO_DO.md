@@ -3,7 +3,7 @@
 ### Questions                 
      
 - [x] What are the locations available?
-- [ ] How many locations can be queried in a single query?
+- [x] How many locations can be queried in a single query?
 - [ ] How often are forecasts revised?
 - [ ] What is meant by `mode=daily_compact` in a query? (It does seem to change the results slightly.)
 
