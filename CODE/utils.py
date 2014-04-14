@@ -134,6 +134,7 @@ def isolate_city_codes():
     return [line.split('\t') for line in contents.split('\n')]
 
 def populate_db_w_city_codes(db='weather_data_OWM.db'):
+    """Populate database with contents of most recently saved city code list."""
     connection = sqlite3.connect(os.path.join('../', db))
     cursor = connection.cursor()
     city_codes = isolate_city_codes()
@@ -146,4 +147,5 @@ def populate_db_w_city_codes(db='weather_data_OWM.db'):
                 '''INSERT INTO locations VALUES''' +
                 str(tuple(code)))
     connection.commit()
+
 
