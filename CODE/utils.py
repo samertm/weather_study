@@ -10,6 +10,7 @@ import urllib
 import datetime
 import json
 import glob
+import sqlite3
 
 def get_api_key(site='owm', show=False):
     """Without allowing API key to appear in repo, fetch from file."""
@@ -131,3 +132,18 @@ def isolate_city_codes():
     with open(os.path.join('../DATA', filename), 'r') as f:
         contents = f.read()
     return [line.split('\t') for line in contents.split('\n')]
+
+def populate_db_w_city_codes(db='weather_data_OWM.db'):
+    connection = sqlite3.connect(os.path.join('../', db))
+    cursor = connection.cursor()
+    city_codes = isolate_city_codes()
+    for code in city_codes[1:-1]:
+        if code == ['']:
+            print('\n    Empty tuple found; skipping.\n')
+            continue
+        print(str(tuple(code)))
+        cursor.execute(
+                '''INSERT INTO locations VALUES''' +
+                str(tuple(code)))
+    connection.commit()
+

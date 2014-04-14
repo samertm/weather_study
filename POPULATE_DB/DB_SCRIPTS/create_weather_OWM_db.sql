@@ -11,10 +11,10 @@
 
 DROP TABLE IF EXISTS locations;
 CREATE TABLE locations (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id TEXT PRIMARY KEY UNIQUE,
     name TEXT,
-    lat NUMBER,
-    lon NUMBER,
+    lat TEXT,
+    lon TEXT,
     country TEXT
 );
 
