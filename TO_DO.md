@@ -10,7 +10,7 @@
 ### To build                  
 
 - [ ] Construct protocol for preventing retrieved data from being revealed. Encryption? Or do we need to worry about this?
-- [ ] Choose data to query and retain. Where is the list of all fields available for querying?
+- [ ] Choose data to query and retain: `temp.max`, `temp.min`, `rain`. (Few options available in forecast data.)
 - [ ] Save returned results to file in standard format.
 - [ ] Construct schema for storing data.
 - [ ] Enter city list into database and then select points for study based on Country and Lat./Long.
