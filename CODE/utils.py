@@ -119,3 +119,7 @@ def construct_date():
     time = datetime.datetime.today()
     time = time.strftime('%Y%m%d-%H%M')
     return time
+
+def convert_from_unixtime(unixtime):
+    return datetime.datetime.fromtimestamp(
+            unixtime).strftime('%Y-%m-%d %H:%M:%S')
