@@ -22,7 +22,7 @@ def get_api_key(site='owm'):
     return api_key
 
 # The following is not yet working.
-def construct_OWN_api_req(city='2643743,6058560'):
+def construct_OWN_api_req(id='5128581') # ID 5128581 = New York City
     head = 'http://api.openweathermap.org/data/2.5/find?q=London&units=metric&mode=xml'
 
 # The following is not working yet.
@@ -56,15 +56,16 @@ def get_city_code_list():
     except Exception as e:
         print('Unexpected error:', e)
     if hash(cities) != int(hash_of_last):
-        city_list_filename = 'city_list_bytes_' + construct_date() + '.txt'
+        print('City-code byte-data retrieved, proves different from previous.')
         # Why do we need to save bytes version of list, if we also save the
         # normalized string version and a hash of the bytes version?
+#        city_list_filename = 'city_list_bytes_' + construct_date() + '.txt'
 #        with open(os.path.join('../DATA', city_list_filename), 'wb') as f:
 #            f.write(cities)
+        # Save new hash of current version.
         with open(os.path.join('../DATA', 'hash_of_last.txt'), 'w') as f:
             f.write(str(hash(cities)))
-        print('New city-code byte-data saved.')
-        # Check for non-ASCII content and normalize.
+        # Report any non-ASCII content to STDOUT and normalize.
         chars = set([i for i in cities])
         for c in chars:
             if c > 122:
@@ -72,13 +73,14 @@ def get_city_code_list():
                         format(c, repr(chr(c)), cities.find(c)))
         city_list_filename = 'city_list_normalized_' + construct_date() + '.txt'
         normalized = ''.join([chr(char) for char in cities])
-        # Here we replace any non-ASCII characters we have found above.
+        # Here we replace any non-ASCII characters we know about already.
         normalized = normalized.replace(chr(150), '-')
         with open(os.path.join('../DATA', city_list_filename), 'w') as f:
             f.write(normalized)
         print('Normalized city-code data saved.')
     else:
         print('No change in data found.')
+
 
 def construct_date():
     """Construct a time-and-date string for appending to a filename."""
