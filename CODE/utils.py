@@ -9,6 +9,7 @@ import urllib
 import datetime
 
 def get_api_key(site='owm'):
+    """Without allowing API key to appear in repo, fetch from file."""
     if site == 'owm':
         filename = 'owm_api.ignore'
     elif site == 'wu':
@@ -32,6 +33,7 @@ def construct_OWN_api_req(city='2643743,6058560'):
 #        city += '.json'
 
 def get_city_code_list():
+    """Get city code list from OWM; check to see if changed; save; normalize."""
     cities = ''
     while cities == '':
         try:
@@ -55,8 +57,10 @@ def get_city_code_list():
         print('Unexpected error:', e)
     if hash(cities) != int(hash_of_last):
         city_list_filename = 'city_list_bytes_' + construct_date() + '.txt'
-        with open(os.path.join('../DATA', city_list_filename), 'wb') as f:
-            f.write(cities)
+        # Why do we need to save bytes version of list, if we also save the
+        # normalized string version and a hash of the bytes version?
+#        with open(os.path.join('../DATA', city_list_filename), 'wb') as f:
+#            f.write(cities)
         with open(os.path.join('../DATA', 'hash_of_last.txt'), 'w') as f:
             f.write(str(hash(cities)))
         print('New city-code byte-data saved.')
