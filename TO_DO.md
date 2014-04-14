@@ -10,7 +10,7 @@
 ### To build                  
 
 - [x] Construct query.
-- [ ] Construct saved-file name: `item` + `date_time` + suffix.
+- [x] Construct saved-file name: `item` + `date_time` + suffix.
 - [ ] Construct protocol for preventing retrieved data from being revealed. Encryption? Or do we need to worry about this?
 - [ ] Choose data to query and retain.
 - [ ] Save returned results to file in standard format.
