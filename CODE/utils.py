@@ -34,7 +34,7 @@ def make_urlrequest(url):
             content = ''
     return content
 
-# The following is not yet fully working.
+# The following is not yet fully implemented.
 def construct_OWM_api_req(id='5128581', count=14): # ID 5128581 = New York City
     """Attempt OWM query."""
     # "...daily..." required for the `count` variable to be meaningful.
