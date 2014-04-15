@@ -12,12 +12,12 @@
 
 ### To build                  
 
-- [x] Revise `full_forecast_download()` and `make_urlrequest()` to show city-code number in case of error. (We had one `HTTP Error 504: Gateway Time-out` on 20140415 morning download run.)
-- [ ] Tool to archive data after storage. Use `tarfile` module.
-- [ ] Tool to read data from saved `.txt` files. Use `ast.literal_eval()`.
 - [ ] Tool to evaluate extent of any differences in the 10 p.m. and 10 a.m. downloads for the same 24-hour period.
+- [ ] Tool to read data from saved `.txt` files. Use `ast.literal_eval()`.
+- [ ] Tool to archive data after storage. Use `tarfile` module.
 - [ ] Select locations for study based on Country and Lat./Long.
 - [ ] Place OWM's name and license information on site.
+- [x] Revise `full_forecast_download()` and `make_urlrequest()` to show URL in case of error. (We had one `HTTP Error 504: Gateway Time-out` on 20140415 morning download run.)
 - [X] Save returned results to file in standard format. 
 - [x] Enter city list into database.
 - [x] Construct schema for storing data.
