@@ -34,7 +34,7 @@ def make_urlrequest(url):
         try:
             content = urllib.request.urlopen(url)
         except urllib.error.URLError as e:
-            print(e)
+            print(url, e, sep='\n', end='\n\n')
             content = ''
     return content
 
