@@ -1,13 +1,14 @@
 #! /usr/bin/python
 # utils.py
 # David Prager Branner
-# 20140413
+# 20140414
 
 """Utilities for Weather Study project."""
 
 import os
 import urllib
 import datetime
+import time
 import json
 import glob
 import sqlite3
@@ -166,3 +167,20 @@ def get_city_codes(country='US', db='weather_data_OWM.db'):
                 print('\n    ', e)
     # id_hits is now a list of 1-tuples. Convert to plain list and retur.
     return [i[0] for i in id_hits]
+
+def full_forecast_download(country='US', db='weather_data_OWM.db'):
+    start_time = time.time()
+    # Create time-stamped directory, with country-name, for this download.
+    dir_name = 'downloads_OWM_' + country + '_' + construct_date()
+    if not os.path.exists(os.path.join('../DOWNLOADS/', dir_name)):
+        os.makedirs(os.path.join('../DOWNLOADS/', dir_name))
+    # Download all forecasts.
+    code_list = get_city_codes(country, db)
+    for code in code_list:
+        content = str(construct_OWM_api_req(id=code))
+        with open(os.path.join(
+            '../DOWNLOADS/'+dir_name, code+'.txt'), 'w') as f:
+            f.write(content)
+    end_time = time.time()
+    print('\nTime elapsed: {} seconds.'.format(
+        round(end_time-start_time)))
