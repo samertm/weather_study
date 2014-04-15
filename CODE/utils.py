@@ -12,6 +12,7 @@ import time
 import json
 import glob
 import sqlite3
+import ast
 
 def get_api_key(site='owm', show=False):
     """Without allowing API key to appear in repo, fetch from file."""
@@ -126,6 +127,32 @@ def open_last_city_list():
     file_list = glob.glob('../DATA/city_list*')
     filename = file_list[-1]
     return filename.split('/')[-1]
+
+def open_download_values(path):
+    """Find filename of most recently saved values downloads."""
+    file_list = glob.glob(path+'*')
+    return file_list
+
+def retrieve_data_vals():
+    """ """
+    # Get names of directories in download folder
+    directories = open_download_values('../DOWNLOADS/downloads_OWM_US_')
+    # For each directory, get all files
+    for directory in directories:
+        files = open_download_values(directory+'/')	
+            # Process each file
+        for file in files[0:2000]:
+            with open(os.path.join(file), 'r') as f:
+               contents = f.read()
+            content_dict = ast.literal_eval(contents)
+            forecast_list = content_dict['list']
+            for forecast in forecast_list:
+                if 'rain' in forecast and forecast['rain'] == 0:
+                    print(file, forecast['rain'])
+       
+    return len(forecast_list)
+    # Return results
+    
 
 def isolate_city_codes():
     """Get contents of most recently saved city code list, as list of lists."""
