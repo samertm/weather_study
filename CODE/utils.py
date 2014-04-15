@@ -136,16 +136,33 @@ def isolate_city_codes():
 def populate_db_w_city_codes(db='weather_data_OWM.db'):
     """Populate database with contents of most recently saved city code list."""
     connection = sqlite3.connect(os.path.join('../', db))
-    cursor = connection.cursor()
-    city_codes = isolate_city_codes()
-    for code in city_codes[1:-1]:
-        if code == ['']:
-            print('\n    Empty tuple found; skipping.\n')
-            continue
-        print(str(tuple(code)))
-        cursor.execute(
-                '''INSERT INTO locations VALUES''' +
-                str(tuple(code)))
-    connection.commit()
+    with connection:
+        cursor = connection.cursor()
+        city_codes = isolate_city_codes()
+        for code in city_codes[1:-1]:
+            if code == ['']:
+                print('\n    Empty tuple found; skipping.\n')
+                continue
+            print(str(tuple(code)))
+            cursor.execute(
+                    '''INSERT INTO locations VALUES''' +
+                    str(tuple(code)))
 
-
+def get_city_codes(country='US', db='weather_data_OWM.db'):
+    """Get city codes only from database and return as list."""
+    connection = sqlite3.connect(os.path.join('../', db))
+    with connection:
+        cursor = connection.cursor()
+        if country:
+            id_hits = cursor.execute(
+                    '''SELECT id FROM locations WHERE country=?''', (country,))
+        else:
+            id_hits = cursor.execute(
+                    '''SELECT id FROM locations''')
+        if id_hits:
+            try:
+                id_hits = id_hits.fetchall()
+            except sqlite3.IntegrityError or IndexError as e:
+                print('\n    ', e)
+    # id_hits is now a list of 1-tuples. Convert to plain list and retur.
+    return [i[0] for i in id_hits]
