@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS owm_values;
 -- Forecast and observed-data values from the Open Weather Map project.
 CREATE TABLE owm_values (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    location_id INTEGER,
+    location_id TEXT,
     target_date INTEGER,
     -- Numerical value fields follow this format:
     --     <type>_<displacement>
