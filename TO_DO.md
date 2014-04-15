@@ -2,7 +2,7 @@
      
 ### Questions                 
      
-- [ ] How often are forecasts revised?
+- [ ] How often are forecasts revised? We will test this by two full runs within a 24-hour (or shorter) period.
 - [ ] What is meant by `mode=daily_compact` in a query? (It does seem to change the results slightly.)
 - [ ] What is the unit of measurement for rain (in metric queries)?
 - [x] What are the locations available? List located; code written to check for updates.
@@ -10,8 +10,10 @@
 
 ### To build                  
 
-- [ ] Enter city list into database and then select points for study based on Country and Lat./Long.
-- [ ] Save returned results to file in standard format. 
+- [ ] Select locations for study based on Country and Lat./Long.
+- [ ] Place OWM's name and license information on site.
+- [X] Save returned results to file in standard format. 
+- [x] Enter city list into database.
 - [x] Construct schema for storing data.
 - [x] Construct protocol for preventing retrieved data from being revealed. Encryption? Or do we need to worry about this? Do not — under Creative Commons license and redistribution is permitted.
 - [x] Choose data to query and retain: `temp.max`, `temp.min`, `rain`. (Few options available in forecast data.)
