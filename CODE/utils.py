@@ -133,6 +133,7 @@ def open_download_values(path):
     file_list = glob.glob(path+'*')
     return file_list
 
+# The following function is still under way.
 def retrieve_data_vals():
     """ """
     # Get names of directories in download folder
@@ -204,7 +205,11 @@ def full_forecast_download(country='US', db='weather_data_OWM.db'):
         os.makedirs(os.path.join('../DOWNLOADS/', dir_name))
     # Download all forecasts.
     code_list = get_city_codes(country, db)
-    for code in code_list:
+    for i, code in enumerate(code_list):
+        # Print stats so we can see where we are in long download.
+        if not i % 100:
+            print('{:>6d} done out of {}: {:%}.'.
+                    format(i, len(code_list), i/len(code_list)))
         content = str(construct_OWM_api_req(id=code))
         with open(os.path.join(
             '../DOWNLOADS/'+dir_name, code+'.txt'), 'w') as f:
