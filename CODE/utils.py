@@ -38,9 +38,8 @@ def make_urlrequest(url):
             content = ''
     return content
 
-# The following is not yet fully implemented.
 def construct_OWM_api_req(id='5128581', count=15): # ID 5128581 = New York City
-    """Attempt OWM query."""
+    """Make OWM forecast query."""
     # "...daily..." required for the `count` variable to be meaningful.
     head = 'http://openweathermap.org/data/2.5/forecast/daily?'
     id_string = 'id=' + id
@@ -58,8 +57,8 @@ def construct_OWM_api_req(id='5128581', count=15): # ID 5128581 = New York City
     # forecast.readall(): bytes; use `.decode()` for long string
     forecast = forecast.readall().decode()
     forecast = json.loads(forecast)
+    # Forecast is dict; key 'list' is a list containing most of the content.
     return forecast
-    # forecast is dict; key 'list' is a list containing most of the content.
 
 def get_city_code_list():
     """Get city code list from OWM; check to see if changed; save; normalize."""
@@ -118,6 +117,7 @@ def construct_date():
     return time
 
 def convert_from_unixtime(unixtime):
+    """Convert Unix time to human-readable string."""
     return datetime.datetime.fromtimestamp(
             unixtime).strftime('%Y-%m-%d %H:%M')
 
