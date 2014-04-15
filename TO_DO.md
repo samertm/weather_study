@@ -1,7 +1,9 @@
-## Weather Study To-Do List   
-     
-### Questions                 
-     
+## Weather Study To-Do List
+
+### Questions
+
+- [ ] Decide how to manipulate data.
+- [ ] Decide how to visualize data.
 - [ ] How often are forecasts revised? We will test this by two full runs within a 24-hour (or shorter) period.
 - [ ] What is meant by `mode=daily_compact` in a query? (It does seem to change the results slightly.)
 - [ ] What is the unit of measurement for rain (in metric queries)?
@@ -10,6 +12,8 @@
 
 ### To build                  
 
+- [ ] Tool to archive data after storage. Use `tarfile` module.
+- [ ] Tool to read data from saved `.txt` files. Use `ast.literal_eval()`.
 - [ ] Select locations for study based on Country and Lat./Long.
 - [ ] Place OWM's name and license information on site.
 - [X] Save returned results to file in standard format. 
