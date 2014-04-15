@@ -169,6 +169,7 @@ def get_city_codes(country='US', db='weather_data_OWM.db'):
     return [i[0] for i in id_hits]
 
 def full_forecast_download(country='US', db='weather_data_OWM.db'):
+    """Download forecasts for set of locations and save to unique directory."""
     start_time = time.time()
     # Create time-stamped directory, with country-name, for this download.
     dir_name = 'downloads_OWM_' + country + '_' + construct_date()
