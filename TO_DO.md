@@ -19,7 +19,7 @@
 - [ ] Place OWM's name and license information on site.
 - [ ] Consider storing `lat` and `lon` each as a pair of integers rather than as a number or text. 
 - [x] Revise `full_forecast_download()` and `make_urlrequest()` to show URL in case of error. (We had one `HTTP Error 504: Gateway Time-out` on 20140415 morning download run.)
-- [X] Save returned results to file in standard format. 
+- [x] Save returned results to file in standard format. 
 - [x] Enter city list into database.
 - [x] Construct schema for storing data.
 - [x] Construct protocol for preventing retrieved data from being revealed. Encryption? Or do we need to worry about this? Do not — under Creative Commons license and redistribution is permitted.
