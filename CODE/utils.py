@@ -201,6 +201,7 @@ def full_forecast_download(country='US', db='weather_data_OWM.db'):
     start_time = time.time()
     # Create time-stamped directory, with country-name, for this download.
     dir_name = 'downloads_OWM_' + country + '_' + construct_date()
+    print('Saving to directory {}'.format(dir_name))
     if not os.path.exists(os.path.join('../DOWNLOADS/', dir_name)):
         os.makedirs(os.path.join('../DOWNLOADS/', dir_name))
     # Download all forecasts.
