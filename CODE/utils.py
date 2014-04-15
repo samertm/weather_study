@@ -1,7 +1,7 @@
 #! /usr/bin/python
 # utils.py
 # David Prager Branner
-# 20140414
+# 20140414, works
 
 """Utilities for Weather Study project."""
 
