@@ -212,8 +212,8 @@ def full_forecast_download(country='US', db='weather_data_OWM.db'):
         # Print stats so we can see where we are in long download.
         if not i % 100:
             length = len(code_list)
-            print('{:>6d} done out of {}: {:}%.'.
-                    format(i, length, round(1*100/length)))
+            print('{:>6d} done out of {}: {}%.'.
+                    format(i, length, round(i*100/length, 1)))
         content = str(construct_OWM_api_req(id=code))
         with open(os.path.join(
             '../DOWNLOADS/'+dir_name, code+'.txt'), 'w') as f:
