@@ -238,12 +238,14 @@ def compress_directory(source):
 # The following seems to work, but resulting file cannot be opened.
 def tar_directory(source):
     start_time = time.time()
+    # qqq we would like to do this for any existing directories in DOWNLOADS
     file_list = glob.glob('../DOWNLOADS/'+source+'/*')
     # qqq here make sure ../COMPRESSED exists or create it
     with tarfile.open(
             '../COMPRESSED/' + source + '.tar.bz2', 'w:bz2') as f:
         for i, item in enumerate(file_list):
             f.add(item)
+    # qqq once we are sure it is compressed, we would like to delete the old
     end_time = time.time()
     print('\nTime elapsed: {} seconds.'.
             format(round(end_time-start_time)))
