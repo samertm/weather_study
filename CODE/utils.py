@@ -222,20 +222,6 @@ def full_forecast_download(country='US', db='weather_data_OWM.db'):
     print('\nTime elapsed: {} seconds.'.
             format(round(end_time-start_time)))
 
-def compress_directory(source):
-    file_list = glob.glob('../DOWNLOADS/'+source+'/*')
-    for i, item in enumerate(file_list[0:3]):
-        print(i, item)
-        with open(item, 'r') as f:
-            contents = f.read()
-#        compressed = bz2.compress(contents)
-        item = item.split('/')[-1]
-        print(item)
-        filename = '../COMPRESSED/'+source+'/'+item+'.bz2'
-        print(filename)
-        with bz2.BZ2File(os.path.join('../COMPRESSED/'+source, item+'.bz2'), 'wb') as f:
-            f.write(bytes(contents, 'UTF-8'))
-
 def tar_directory():
     """Compress all directories found in DOWNLOAD/ and delete originals."""
     start_time = time.time()
