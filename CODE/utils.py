@@ -1,7 +1,7 @@
 #! /usr/bin/python
 # utils.py
 # David Prager Branner
-# 20140414, works
+# 20140415, works
 
 """Utilities for Weather Study project."""
 
@@ -240,14 +240,16 @@ def tar_directory():
     start_time = time.time()
     home_dir = os.getcwd()
     os.chdir('../DOWNLOADS')
-    # Do the procedure below for any existing directories in DOWNLOADS.
+    # Do the whole procedure below for any existing directories in DOWNLOADS.
+    # First find the directories.
     directories = open_directory('downloads_OWM_US_')
     print('{} directories to be compressed.'.
             format(len(directories)), end='\n\n')
-    # Make sure ../COMPRESSED exists or create it
+    # Make sure ../COMPRESSED exists or create it.
     if not os.path.exists('../COMPRESSED'):
         os.makedirs('../COMPRESSED')
         print('Created directory ../COMPRESSED', end='\n\n')
+    # Now compress each directory and finally delete it.
     for directory in directories:
         file_list = glob.glob(directory+'/*')
         print('{} files to compress in directory\n    "{}":'.
@@ -271,5 +273,5 @@ def tar_directory():
     # When finished, return to directory where we started.
     os.chdir(home_dir)
     end_time = time.time()
-    print('\nTime elapsed: {} seconds.'.
+    print('Total time elapsed: {} seconds.'.
             format(round(end_time-start_time)))
