@@ -267,7 +267,7 @@ def tar_directory():
         # version.
         shutil.rmtree(directory)
         print('Directory "{}" deleted.'.format(directory), end='\n\n')
-        print('—' * 40)
+        print('—' * 40, end='\n\n')
     # When finished, return to directory where we started.
     os.chdir(home_dir)
     end_time = time.time()
