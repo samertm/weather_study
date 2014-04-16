@@ -253,15 +253,16 @@ def check_dt_uniformity():
     directories = open_download_values('../DOWNLOADS/downloads_OWM_US_')
     # For each directory, get all files
     for directory in directories:
-        dt_set = set()
+        list_dt_set = [set()] * 15
         files = open_download_values(directory+'/') 
         # Process each file
-        for file in files[0:1]:
+        for file in files:
             #  print(file)  # debug
             with open(os.path.join(file), 'r') as f:
                 contents = f.read()
             content_dict = ast.literal_eval(contents)
             forecast_list =(content_dict['list'])
-            query_date = forecast_list[0]['dt']
-            dt_set.add(convert_from_unixtime(query_date))
-        print(directory, dt_set, sep='\n', end='\n\n')
+            for j in range(0, 15):
+                query_date = forecast_list[j]['dt']
+                list_dt_set[j].add(convert_from_unixtime(query_date))
+        print(directory, list_dt_set, sep='\n', end='\n\n')
