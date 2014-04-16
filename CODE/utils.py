@@ -236,22 +236,29 @@ def compress_directory(source):
             f.write(bytes(contents, 'UTF-8'))
 
 # The following works and file can be opened.
-def tar_directory(source):
+def tar_directory():
     start_time = time.time()
     home_dir = os.getcwd()
     os.chdir('../DOWNLOADS')
+    print(os.getcwd())
     # qqq we would like to do this for any existing directories in DOWNLOADS
-    file_list = glob.glob(source+'/*')
-    # qqq here make sure ../COMPRESSED exists or create it
-    with tarfile.open(
-            '../COMPRESSED/' + source + '.tar.bz2', 'w:bz2') as f:
-        for i, item in enumerate(file_list):
-            f.add(item)
-            if not i % 1000:
-                length = len(file_list)
-                print('{} files compressed out of {}: {}%.'.
-                        format(i, length, round(i*100/length)))
-    # qqq once we are sure it is compressed, we would like to delete the old
+    directories = open_directory('downloads_OWM_US_')
+    print(directories)
+    for directory in directories:
+        os.chdir(directory)
+        print(os.getcwd())
+        file_list = glob.glob(directory+'/*')
+        # qqq here make sure ../COMPRESSED exists or create it
+        with tarfile.open(
+                '../../COMPRESSED/' + directory + '.tar.bz2', 'w:bz2') as f:
+            for i, item in enumerate(file_list):
+                f.add(item)
+                if not i % 1000:
+                    length = len(file_list)
+                    print('{} files compressed out of {}: {}%.'.
+                            format(i, length, round(i*100/length)))
+        # qqq once we are sure it is compressed, we would like to delete the old
+    # When finished, return to directory where we started.
     os.chdir(home_dir)
     end_time = time.time()
     print('\nTime elapsed: {} seconds.'.
