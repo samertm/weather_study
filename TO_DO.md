@@ -15,7 +15,7 @@
 - [ ] Tool to evaluate extent of any differences in the 10 p.m. and 10 a.m. downloads for the same 24-hour period.
 - [ ] Select locations for study based on Country and Lat./Long.
 - [ ] Place OWM's name and license information on site.
-- [ ] Consider storing `lat` and `lon` each as a pair of integers rather than as a number or text. 
+- [ ] Consider storing `lat` and `lon` each as a pair of integers rather than as a number or text. Or multiply by some power of ten and truncate the decimal portion, giving us only high-precision integers to store.
 - [ ] Consider changing compression module to `shutil` (http://chimera.labs.oreilly.com/books/1230000000393/ch13.html#_problem_218).
 - [ ] Public short description suitable for README and Hacker School project pages.
 - [x] Tool to read data from saved `.txt` files. Use `ast.literal_eval()`.
