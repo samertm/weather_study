@@ -163,9 +163,9 @@ def retrieve_data_vals():
                 else:
                    rn = 'NA'
                    print(city_id,target_date,forecast['dt'], forecast['temp']['max'],forecast['temp']['min'],'NA')
-                reduced_hash[i,file] = { 'id' : city_id , 'target_date' : target_date, 'dt' : forecast['dt'], 'tmax' : forecast['temp']['max'], 'tmin' : forecast['temp']['min'], 'rain' : rn }
+                reduced_hash[i,file] = {'forecast': { 'id' : city_id , 'target_date' : target_date, 'dt' : forecast['dt'], 'tmax' : forecast['temp']['max'], 'tmin' : forecast['temp']['min'], 'rain' : rn }}
                 i = i + 1
-    return reduced_hash
+    return reduced_hash[5,'../DOWNLOADS/downloads_OWM_US_20140415-1628/4046255.txt']
     
 
 def isolate_city_codes():
