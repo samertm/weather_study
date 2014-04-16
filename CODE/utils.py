@@ -13,7 +13,7 @@ import json
 import glob
 import sqlite3
 import ast
-import bz2
+import shutil
 import tarfile
 
 def get_api_key(site='owm', show=False):
@@ -235,8 +235,8 @@ def compress_directory(source):
         with bz2.BZ2File(os.path.join('../COMPRESSED/'+source, item+'.bz2'), 'wb') as f:
             f.write(bytes(contents, 'UTF-8'))
 
-# The following works and file can be opened.
 def tar_directory():
+    """Compress all directories found in DOWNLOAD/ and delete originals."""
     start_time = time.time()
     home_dir = os.getcwd()
     os.chdir('../DOWNLOADS')
@@ -244,14 +244,14 @@ def tar_directory():
     directories = open_directory('downloads_OWM_US_')
     print('{} directories to be compressed.'.
             format(len(directories)), end='\n\n')
+    # Make sure ../COMPRESSED exists or create it
+    if not os.path.exists('../COMPRESSED'):
+        os.makedirs('../COMPRESSED')
+        print('Created directory ../COMPRESSED', end='\n\n')
     for directory in directories:
         file_list = glob.glob(directory+'/*')
-        print('{} files to compress in directory\n    {}:'.
+        print('{} files to compress in directory\n    "{}":'.
                 format(len(file_list), directory))
-        # Here make sure ../COMPRESSED exists or create it
-        if not os.path.exists('../COMPRESSED'):
-            os.makedirs('../COMPRESSED')
-            print('Created directory ../COMPRESSED', end='\n\n')
         # Compress each contained file, using context manager.
         with tarfile.open(
                 '../COMPRESSED/' + directory + '.tar.bz2', 'w:bz2') as f:
@@ -261,18 +261,15 @@ def tar_directory():
                     length = len(file_list)
                     print('{} files compressed out of {}: {}%.'.
                             format(i, length, round(i*100/length)))
-        print('{} files compressed in directory\n{}.'.
+        print('\n{} files compressed in directory\n    "{}".'.
                 format(len(file_list), directory), end='\n\n')
-        # qqq once we are sure it is compressed, we would like to delete the old
+        # Once directory is compressed, we would like to delete uncompressed
+        # version.
+        shutil.rmtree(directory)
+        print('Directory "{}" deleted.'.format(directory), end='\n\n')
+        print('—' * 40)
     # When finished, return to directory where we started.
     os.chdir(home_dir)
     end_time = time.time()
     print('\nTime elapsed: {} seconds.'.
             format(round(end_time-start_time)))
-
-# The following does not work.
-def untar_directory(source):
-    with tarfile.open(
-            '../COMPRESSED/' + source + '.tar.bz2', 'r:bz2') as f:
-        file_list = f.extractall()
-    print(len(file_list))
