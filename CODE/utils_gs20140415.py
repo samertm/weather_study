@@ -262,7 +262,7 @@ def check_dt_uniformity():
                 contents = f.read()
             content_dict = ast.literal_eval(contents)
             forecast_list =(content_dict['list'])
-            for j in range(0, 15):
-                query_date = forecast_list[j]['dt']
+            for j in range(0, 1):
+                query_date = forecast_list[0]['dt']
                 list_dt_set[j].add(convert_from_unixtime(query_date))
         print(directory, list_dt_set, sep='\n', end='\n\n')
