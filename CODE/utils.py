@@ -241,12 +241,12 @@ def tar_directory():
     home_dir = os.getcwd()
     os.chdir('../DOWNLOADS')
     print(os.getcwd())
-    # qqq we would like to do this for any existing directories in DOWNLOADS
+    # Do the procedure below for any existing directories in DOWNLOADS.
     directories = open_directory('downloads_OWM_US_')
-    print(directories)
+    print(directories, end'\n\n')
     for directory in directories:
         os.chdir(directory)
-        print(os.getcwd())
+        print(os.getcwd(), end'\n\n')
         file_list = glob.glob(directory+'/*')
         # qqq here make sure ../COMPRESSED exists or create it
         with tarfile.open(
@@ -258,6 +258,7 @@ def tar_directory():
                     print('{} files compressed out of {}: {}%.'.
                             format(i, length, round(i*100/length)))
         # qqq once we are sure it is compressed, we would like to delete the old
+        os.chdir('..')
     # When finished, return to directory where we started.
     os.chdir(home_dir)
     end_time = time.time()
