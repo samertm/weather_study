@@ -240,13 +240,13 @@ def tar_directory():
     start_time = time.time()
     home_dir = os.getcwd()
     os.chdir('../DOWNLOADS')
-    print(os.getcwd())
+    print(os.getcwd(), end='\n\n')
     # Do the procedure below for any existing directories in DOWNLOADS.
     directories = open_directory('downloads_OWM_US_')
-    print(directories, end'\n\n')
+    print(directories, end='\n\n')
     for directory in directories:
         os.chdir(directory)
-        print(os.getcwd(), end'\n\n')
+        print(' cwd:', os.getcwd(), end='\n\n')
         file_list = glob.glob(directory+'/*')
         # qqq here make sure ../COMPRESSED exists or create it
         with tarfile.open(
