@@ -130,8 +130,8 @@ def open_last_city_list():
     filename = file_list[-1]
     return filename.split('/')[-1]
 
-def open_download_values(path):
-    """Find filename of most recently saved values downloads."""
+def open_directory(path):
+    """Get list of files in a given directory."""
     file_list = glob.glob(path+'*')
     return file_list
 
@@ -139,10 +139,10 @@ def open_download_values(path):
 def retrieve_data_vals():
     """ """
     # Get names of directories in download folder
-    directories = open_download_values('../DOWNLOADS/downloads_OWM_US_')
+    directories = open_directory('../DOWNLOADS/downloads_OWM_US_')
     # For each directory, get all files
     for directory in directories:
-        files = open_download_values(directory+'/')	
+        files = open_directory(directory+'/')	
             # Process each file
         for file in files[0:2000]:
             with open(os.path.join(file), 'r') as f:
