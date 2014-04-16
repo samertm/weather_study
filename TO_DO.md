@@ -6,7 +6,7 @@
 - [ ] Decide how to visualize data.
 - [ ] How often are forecasts revised? We will test this by two full runs within a 24-hour (or shorter) period. **Update**: It seems that query-runs around noon are disorganized; our three query-runs on 20140414 and 20140415 between the hours of 16:30 and 01:00 were more coherent.
 - [ ] What is meant by `mode=daily_compact` in a query? (It does seem to change the results slightly.)
-- [ ] What is the unit of measurement for rain (in metric queries)? Mm. (Seen on bugs.openweathermap.org/projects/api/wiki/Weather_Data)
+- [x] What is the unit of measurement for rain (in metric queries)? Mm. (Seen on bugs.openweathermap.org/projects/api/wiki/Weather_Data)
 - [x] What are the locations available? List located; code written to check for updates.
 - [x] How many locations can be queried in a single query? Apparently only one for forecasts.
 
