@@ -248,6 +248,20 @@ def full_forecast_download(country='US', db='weather_data_OWM.db'):
     print('\nTime elapsed: {} seconds.'.format(
         round(end_time-start_time)))
 
-
 def check_dt_uniformity():
-    
+    # Get names of directories in download folder
+    directories = open_download_values('../DOWNLOADS/downloads_OWM_US_')
+    # For each directory, get all files
+    for directory in directories:
+        dt_set = set()
+        files = open_download_values(directory+'/') 
+        # Process each file
+        for file in files[0:1]:
+            #  print(file)  # debug
+            with open(os.path.join(file), 'r') as f:
+                contents = f.read()
+            content_dict = ast.literal_eval(contents)
+            forecast_list =(content_dict['list'])
+            query_date = forecast_list[0]['dt']
+            dt_set.add(query_date)
+        print(directory, dt_set, sep='\n', end='\n\n')
