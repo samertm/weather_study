@@ -146,7 +146,7 @@ def retrieve_data_vals():
     for directory in directories:
         files = open_download_values(directory+'/')	
             # Process each file
-        for file in files[0:1]:
+        for file in files:
             print(file)
             with open(os.path.join(file), 'r') as f:
                contents = f.read()
@@ -154,7 +154,7 @@ def retrieve_data_vals():
             forecast_list =(content_dict['list'])
             city_id = (content_dict['city']['id'])
             i  = 0
-            for forecast in forecast_list:
+            for i,forecast in enumerate(forecast_list):
                 if i == 0:
                    target_date = forecast['dt']
                 if 'rain' in forecast:
@@ -164,7 +164,6 @@ def retrieve_data_vals():
                    rn = 'NA'
                    print(city_id,target_date,forecast['dt'], forecast['temp']['max'],forecast['temp']['min'],'NA')
                 reduced_hash[i,file] = {'forecast': { 'id' : city_id , 'target_date' : target_date, 'dt' : forecast['dt'], 'tmax' : forecast['temp']['max'], 'tmin' : forecast['temp']['min'], 'rain' : rn }}
-                i = i + 1
     return reduced_hash[5,'../DOWNLOADS/downloads_OWM_US_20140415-1628/4046255.txt']
     
 
