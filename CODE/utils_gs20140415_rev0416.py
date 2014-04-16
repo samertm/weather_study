@@ -267,10 +267,9 @@ def check_dt_uniformity_01():
             if len(forecast_list) < 15:
                 print('In dir. {}, there are {} forecasts in forecast_list.'.
                         format(directory, len(forecast_list)))
-            else:
-                for j in range(1):
-                    query_date = forecast_list[j]['dt']
-                    list_dt_set[j].add(convert_from_unixtime(query_date))
+            for j in range(len(forecast_list)):
+                query_date = forecast_list[j]['dt']
+                list_dt_set[j].add(convert_from_unixtime(query_date))
         pprint.pprint(directory, list_dt_set[0], sep='\n', end='\n\n')
 
 def check_dt_uniformity_02():
