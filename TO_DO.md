@@ -10,14 +10,14 @@
 - [x] What are the locations available? List located; code written to check for updates.
 - [x] How many locations can be queried in a single query? Apparently only one for forecasts.
 
-### To build                  
+### To build             
 
 - [ ] Tool to evaluate extent of any differences in the 10 p.m. and 10 a.m. downloads for the same 24-hour period.
-- [x] Tool to read data from saved `.txt` files. Use `ast.literal_eval()`.
-- [x] Tool to archive data after storage. Use `tarfile` module.
 - [ ] Select locations for study based on Country and Lat./Long.
 - [ ] Place OWM's name and license information on site.
 - [ ] Consider storing `lat` and `lon` each as a pair of integers rather than as a number or text. 
+- [x] Tool to read data from saved `.txt` files. Use `ast.literal_eval()`.
+- [x] Tool to archive data after storage. Use `tarfile` module.
 - [x] Revise `full_forecast_download()` and `make_urlrequest()` to show URL in case of error. (We had one `HTTP Error 504: Gateway Time-out` on 20140415 morning download run.)
 - [x] Save returned results to file in standard format. 
 - [x] Enter city list into database.
