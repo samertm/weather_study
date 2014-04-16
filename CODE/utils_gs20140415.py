@@ -145,26 +145,34 @@ def retrieve_data_vals():
     # For each directory, get all files
     for directory in directories:
         files = open_download_values(directory+'/')	
-            # Process each file
+        # Process each file
         for file in files:
-            print(file)
+            #  print(file)  # debug
             with open(os.path.join(file), 'r') as f:
                contents = f.read()
             content_dict = ast.literal_eval(contents)
             forecast_list =(content_dict['list'])
             city_id = (content_dict['city']['id'])
-            i  = 0
-            for i,forecast in enumerate(forecast_list):
+            for i, forecast in enumerate(forecast_list):
                 if i == 0:
                    target_date = forecast['dt']
                 if 'rain' in forecast:
                    rn = forecast['rain']
-                   print(city_id,target_date,forecast['dt'], forecast['temp']['max'],forecast['temp']['min'],forecast['rain'])
+                 #  print(city_id, target_date, forecast['dt'], forecast['temp']['max'], forecast['temp']['min'], forecast['rain']) # debug
                 else:
-                   rn = 'NA'
-                   print(city_id,target_date,forecast['dt'], forecast['temp']['max'],forecast['temp']['min'],'NA')
-                reduced_hash[i,file] = {'forecast': { 'id' : city_id , 'target_date' : target_date, 'dt' : forecast['dt'], 'tmax' : forecast['temp']['max'], 'tmin' : forecast['temp']['min'], 'rain' : rn }}
-    return reduced_hash[5,'../DOWNLOADS/downloads_OWM_US_20140415-1628/4046255.txt']
+                   rn = 0
+                 #  print(city_id, target_date, forecast['dt'], forecast['temp']['max'], forecast['temp']['min'], 'NA') #debug
+                reduced_hash[i, file] = {
+                       'forecast': {
+                           'id': city_id, 
+                           'target_date': target_date, 
+                           'dt': forecast['dt'], 
+                           'tmax': forecast['temp']['max'], 
+                           'tmin': forecast['temp']['min'], 
+                           'rain': rn
+                           }
+                        }
+    return reduced_hash[5, '../DOWNLOADS/downloads_OWM_US_20140415-1628/4046255.txt']
     
 
 def isolate_city_codes():
