@@ -17,6 +17,7 @@
 - [ ] Place OWM's name and license information on site.
 - [ ] Consider storing `lat` and `lon` each as a pair of integers rather than as a number or text. 
 - [ ] Consider changing compression module to `shutil` (http://chimera.labs.oreilly.com/books/1230000000393/ch13.html#_problem_218).
+- [ ] Public short description suitable for README and Hacker School project pages.
 - [x] Tool to read data from saved `.txt` files. Use `ast.literal_eval()`.
 - [x] Tool to archive data after storage. Use `tarfile` module.
 - [x] Revise `full_forecast_download()` and `make_urlrequest()` to show URL in case of error. (We had one `HTTP Error 504: Gateway Time-out` on 20140415 morning download run.)
