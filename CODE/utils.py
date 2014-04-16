@@ -240,31 +240,35 @@ def tar_directory():
     start_time = time.time()
     home_dir = os.getcwd()
     os.chdir('../DOWNLOADS')
-    print(os.getcwd(), end='\n\n')
     # Do the procedure below for any existing directories in DOWNLOADS.
     directories = open_directory('downloads_OWM_US_')
-    print(directories, end='\n\n')
+    print('{} directories to be compressed.'.
+            format(len(directories)), end='\n\n')
     for directory in directories:
-        os.chdir(directory)
-        print(' cwd:', os.getcwd(), end='\n\n')
         file_list = glob.glob(directory+'/*')
-        # qqq here make sure ../COMPRESSED exists or create it
+        print('{} files to compress in directory\n    {}:'.
+                format(len(file_list), directory))
+        # Here make sure ../COMPRESSED exists or create it
+        if not os.path.exists('../COMPRESSED'):
+            os.makedirs('../COMPRESSED')
+            print('Created directory ../COMPRESSED', end='\n\n')
+        # Compress each contained file, using context manager.
         with tarfile.open(
-                '../../COMPRESSED/' + directory + '.tar.bz2', 'w:bz2') as f:
+                '../COMPRESSED/' + directory + '.tar.bz2', 'w:bz2') as f:
             for i, item in enumerate(file_list):
                 f.add(item)
                 if not i % 1000:
                     length = len(file_list)
                     print('{} files compressed out of {}: {}%.'.
                             format(i, length, round(i*100/length)))
+        print('{} files compressed in directory\n{}.'.
+                format(len(file_list), directory), end='\n\n')
         # qqq once we are sure it is compressed, we would like to delete the old
-        os.chdir('..')
     # When finished, return to directory where we started.
     os.chdir(home_dir)
     end_time = time.time()
     print('\nTime elapsed: {} seconds.'.
             format(round(end_time-start_time)))
-    print('{} files compressed.'.format(len(file_list)))
 
 # The following does not work.
 def untar_directory(source):
