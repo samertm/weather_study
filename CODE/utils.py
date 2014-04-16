@@ -264,9 +264,9 @@ def tar_directory():
         print('\n{} files compressed in directory\n    "{}".'.
                 format(len(file_list), directory), end='\n\n')
         # Once directory is compressed, we would like to delete uncompressed
-        # version.
+        # version. `shutil` makes this easier than `os.rmdir` etc.
         shutil.rmtree(directory)
-        print('Directory "{}" deleted.'.format(directory), end='\n\n')
+        print('Original directory "{}" deleted.'.format(directory), end='\n\n')
         print('—' * 40, end='\n\n')
     # When finished, return to directory where we started.
     os.chdir(home_dir)
