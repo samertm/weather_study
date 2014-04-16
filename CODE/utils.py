@@ -14,6 +14,7 @@ import glob
 import sqlite3
 import ast
 import bz2
+import tarfile
 
 def get_api_key(site='owm', show=False):
     """Without allowing API key to appear in repo, fetch from file."""
@@ -217,8 +218,8 @@ def full_forecast_download(country='US', db='weather_data_OWM.db'):
             '../DOWNLOADS/'+dir_name, code+'.txt'), 'w') as f:
             f.write(content)
     end_time = time.time()
-    print('\nTime elapsed: {} seconds.'.format(
-        round(end_time-start_time)))
+    print('\nTime elapsed: {} seconds.'.
+            format(round(end_time-start_time)))
 
 def compress_directory(source):
     file_list = glob.glob('../DOWNLOADS/'+source+'/*')
@@ -228,8 +229,29 @@ def compress_directory(source):
             contents = f.read()
 #        compressed = bz2.compress(contents)
         item = item.split('/')[-1]
+        print(item)
         filename = '../COMPRESSED/'+source+'/'+item+'.bz2'
         print(filename)
-        with bz2.BZ2File(os.path.join('../COMPRESSED/'+source, item+'bz2'), 'wb') as f:
+        with bz2.BZ2File(os.path.join('../COMPRESSED/'+source, item+'.bz2'), 'wb') as f:
             f.write(bytes(contents, 'UTF-8'))
 
+# The following seems to work, but resulting file cannot be opened.
+def tar_directory(source):
+    start_time = time.time()
+    file_list = glob.glob('../DOWNLOADS/'+source+'/*')
+    # qqq here make sure ../COMPRESSED exists or create it
+    with tarfile.open(
+            '../COMPRESSED/' + source + '.tar.bz2', 'w:bz2') as f:
+        for i, item in enumerate(file_list):
+            f.add(item)
+    end_time = time.time()
+    print('\nTime elapsed: {} seconds.'.
+            format(round(end_time-start_time)))
+    print('{} files compressed.'.format(len(file_list)))
+
+# The following does not work.
+def untar_directory(source):
+    with tarfile.open(
+            '../COMPRESSED/' + source + '.tar.bz2', 'r:bz2') as f:
+        file_list = f.extractall()
+    print(len(file_list))
