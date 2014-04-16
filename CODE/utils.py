@@ -235,17 +235,24 @@ def compress_directory(source):
         with bz2.BZ2File(os.path.join('../COMPRESSED/'+source, item+'.bz2'), 'wb') as f:
             f.write(bytes(contents, 'UTF-8'))
 
-# The following seems to work, but resulting file cannot be opened.
+# The following works and file can be opened.
 def tar_directory(source):
     start_time = time.time()
+    home_dir = os.getcwd()
+    os.chdir('../DOWNLOADS')
     # qqq we would like to do this for any existing directories in DOWNLOADS
-    file_list = glob.glob('../DOWNLOADS/'+source+'/*')
+    file_list = glob.glob(source+'/*')
     # qqq here make sure ../COMPRESSED exists or create it
     with tarfile.open(
             '../COMPRESSED/' + source + '.tar.bz2', 'w:bz2') as f:
         for i, item in enumerate(file_list):
             f.add(item)
+            if not i % 1000:
+                length = len(file_list)
+                print('{} files compressed out of {}: {}%.'.
+                        format(i, length, round(i*100/length)))
     # qqq once we are sure it is compressed, we would like to delete the old
+    os.chdir(home_dir)
     end_time = time.time()
     print('\nTime elapsed: {} seconds.'.
             format(round(end_time-start_time)))
