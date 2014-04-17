@@ -211,7 +211,6 @@ def retrieve_data_vals(files):
     forecast_dict = {'query_date': query_date}
     for file in files:
         forecast_list_pruned = []
-#       print(file)  # debug
         with open(os.path.join(file), 'r') as f:
             contents = f.read()
         content_dict = ast.literal_eval(contents)
@@ -220,16 +219,10 @@ def retrieve_data_vals(files):
         for i, forecast in enumerate(forecast_list_received):
             if 'rain' in forecast:
                rain = forecast['rain']
-#               print(city_id, target_date, forecast['dt'],
-#                       forecast['temp']['max'], forecast['temp']['min'],
-#                       forecast['rain']) # debug
             else:
                # We believe that when 'rain' is forecast to be zero, no 'rain'
                # key is placed in the forecast.
                rain = 0
-#               print(city_id, target_date, forecast['dt'],
-#                       forecast['temp']['max'], forecast['temp']['min'],
-#                       'NA') #debug
             if 'snow' in forecast:
                 # We have found explicit examples of snow = 0; not same
                 # situation as rain.
