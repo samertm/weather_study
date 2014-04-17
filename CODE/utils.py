@@ -231,9 +231,10 @@ def retrieve_data_vals(files):
 #                       forecast['temp']['max'], forecast['temp']['min'],
 #                       'NA') #debug
             if 'snow' in forecast:
+                # We have found explicit examples of snow = 0; not same
+                # situation as rain.
                 snow = forecast['snow']
             else:
-                # We have found explicit examples of snow = 0.
                 snow = 0
             forecast_tuple = (
                     forecast['dt'],
