@@ -1,6 +1,6 @@
 #! /usr/bin/python
 # utils.py
-# David Prager Branner
+# David Prager Branner and Gina Schmalzle
 # 20140417, works
 
 """Utilities for Weather Study project."""
@@ -15,6 +15,7 @@ import sqlite3
 import ast
 import shutil
 import tarfile
+import pprint
 
 def get_api_key(site='owm', show=False):
     """Without allowing API key to appear in repo, fetch from file."""
@@ -310,12 +311,13 @@ def tar_directory():
             format(round(end_time-start_time)))
 
 def check_dt_uniformity_01():
-    """Report the set of initial dt values found in all files in one dir."""
+    """Report all initial dt values & # of forecasts in all files in one dir."""
     # Get names of directories in download folder
     directories = open_directory('../DOWNLOADS/downloads_OWM_US_')
     # For each directory, get all files
     for directory in directories:
-        list_dt_set = [set()]# * 15
+        num_forecasts = set()
+        dt_set = set()
         files = open_directory(directory+'/')
         # Process each file
         for file in files:
@@ -324,13 +326,15 @@ def check_dt_uniformity_01():
                 contents = f.read()
             content_dict = ast.literal_eval(contents)
             forecast_list =(content_dict['list'])
-            if len(forecast_list) < 15:
-                print('In dir. {}, there are {} forecasts in forecast_list.'.
-                        format(directory, len(forecast_list)))
-            for j in range(len(forecast_list)):
-                query_date = forecast_list[j]['dt']
-                list_dt_set[j].add(convert_from_unixtime(query_date))
-        pprint.pprint(directory, list_dt_set[0], sep='\n', end='\n\n')
+            # How many forecasts in this file?
+            num_forecasts.add(len(forecast_list))
+            query_date = forecast_list[0]['dt']
+            dt_set.add(convert_from_unixtime(query_date))
+        print(directory)
+        pprint.pprint(dt_set)
+        print('\n')
+        print('In dir. {}, there are the following numbers of forecasts: {}.'.
+                format(directory, num_forecasts), end='\n')
 
 def check_dt_uniformity_02():
     """Report the consistence of dt-time values in each file."""
