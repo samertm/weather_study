@@ -312,11 +312,11 @@ def tar_directory():
 def check_dt_uniformity_01():
     """Report the set of initial dt values found in all files in one dir."""
     # Get names of directories in download folder
-    directories = open_download_values('../DOWNLOADS/downloads_OWM_US_')
+    directories = open_directory('../DOWNLOADS/downloads_OWM_US_')
     # For each directory, get all files
     for directory in directories:
         list_dt_set = [set()]# * 15
-        files = open_download_values(directory+'/')
+        files = open_directory(directory+'/')
         # Process each file
         for file in files:
             #  print(file)  # debug
@@ -335,11 +335,11 @@ def check_dt_uniformity_01():
 def check_dt_uniformity_02():
     """Report the consistence of dt-time values in each file."""
     # Get names of directories in download folder
-    directories = open_download_values('../DOWNLOADS/downloads_OWM_US_')
+    directories = open_directory('../DOWNLOADS/downloads_OWM_US_')
     # For each directory, get all files
     for directory in directories:
         print(directory)
-        files = open_download_values(directory+'/')
+        files = open_directory(directory+'/')
         # Process each file
         below15 = False # boolean: < 15 forecasts in files in this dir?
         counter_same_time_each_day = 0
