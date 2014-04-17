@@ -6,6 +6,7 @@
 """Utilities for Weather Study project."""
 
 import os
+import sys
 import urllib
 import datetime
 import time
@@ -151,6 +152,42 @@ def populate_db_w_forecasts(forecast_dict):
     """Populate database with the contents of a forecast dictionary."""
     pass
 
+def find_lowest_value(to_find='rain'):
+    """Report cases where rain (or other) are forecast explicitly to be 0."""
+    # Get names of directories in download folder
+    directories = open_directory('../DOWNLOADS/downloads_OWM_US_')
+    lowest_value= None
+    # For each directory, get all files
+    for directory in directories:
+        files = open_directory(directory+'/')
+        for file in files:
+            with open(os.path.join(file), 'r') as f:
+                contents = f.read()
+            content_dict = ast.literal_eval(contents)
+            forecast_list_received =(content_dict['list'])
+            for forecast in forecast_list_received:
+                if to_find in forecast:
+                    if not lowest_value or forecast[to_find] < lowest_value:
+                        lowest_value = forecast[to_find]
+        print('In directory {} the lowest value of {} is {}.'.
+                format(directory, to_find, lowest_value))
+
+def find_snow_or_rain_0(to_find='rain'):
+    """Report cases where rain (or other) are forecast explicitly to be 0."""
+    # Get names of directories in download folder
+    directories = open_directory('../DOWNLOADS/downloads_OWM_US_')
+    # For each directory, get all files
+    for directory in directories:
+        files = open_directory(directory+'/')
+        for file in files:
+            with open(os.path.join(file), 'r') as f:
+                contents = f.read()
+            content_dict = ast.literal_eval(contents)
+            forecast_list_received =(content_dict['list'])
+            for forecast in forecast_list_received:
+                if to_find in forecast and forecast[to_find] == 0:
+                    print('In file\n    {}\n    {} = 0.'.format(file, to_find))
+
 def retrieve_data_vals(files):
     """From a list of files return a dictionary of forecasts.
 
@@ -172,7 +209,7 @@ def retrieve_data_vals(files):
     query_date = dir_name.split('_')[-1] # e.g. 20140414-2215
     # Process each file
     forecast_dict = {'query_date': query_date}
-    for file in files[0:10]:
+    for file in files:
         forecast_list_pruned = []
 #       print(file)  # debug
         with open(os.path.join(file), 'r') as f:
@@ -193,11 +230,17 @@ def retrieve_data_vals(files):
 #               print(city_id, target_date, forecast['dt'],
 #                       forecast['temp']['max'], forecast['temp']['min'],
 #                       'NA') #debug
+            if 'snow' in forecast:
+                snow = forecast['snow']
+            else:
+                # We have found explicit examples of snow = 0.
+                snow = 0
             forecast_tuple = (
                     forecast['dt'],
                     forecast['temp']['max'],
                     forecast['temp']['min'],
-                    rain)
+                    rain,
+                    snow)
             forecast_list_pruned.append(forecast_tuple)
         forecast_dict[city_id] = forecast_list_pruned
     pprint.pprint(forecast_dict) # debug
