@@ -135,13 +135,15 @@ def open_download_values(path):
     return file_list
 
 
-def process_dir(): 
+def process_dir():
     # Get names of directories in download folder
     directories = open_download_values('../DOWNLOADS/downloads_OWM_US_')
     # For each directory, get all files
     for directory in directories:
-        files = open_download_values(directory+'/') 
+        files = open_download_values(directory+'/')
         forecast_dict = retrieve_data_vals(files)
+        print(directory) # debug
+        pprint.pprint(forecast_dict) # debug
         populate_db_w_forecasts(forecast_dict)
 
 
@@ -154,36 +156,41 @@ def retrieve_data_vals(files):
     # will have a reduced number of key value pairs that will be used in our
     # data analysis, including dt, min, maxt, rain and city id.
     """ """
-    reduced_hash = {}
-
+    # Get the date of the query from the filename. `dt` values vary too much.
+    filename = files[0]
+    dir_name = filename.split('/')[-2] # e.g. downloads_OWM_US_20140414-2215
+    query_date = dir_name.split('_')[-1] # e.g. 20140414-2215
     # Process each file
-    for file in files[0:1]:
-        #  print(file)  # debug
+    forecast_dict = {'query_date': query_date}
+    for file in files[0:10]:
+        forecast_list_pruned = []
+#       print(file)  # debug
         with open(os.path.join(file), 'r') as f:
             contents = f.read()
         content_dict = ast.literal_eval(contents)
-        forecast_list =(content_dict['list'])
-        query_date = forecast_list[0]['dt']
+        forecast_list_received =(content_dict['list'])
         city_id = (content_dict['city']['id'])
-        for i, forecast in enumerate(forecast_list):
+        for i, forecast in enumerate(forecast_list_received):
             if 'rain' in forecast:
-               rn = forecast['rain']
-             #  print(city_id, target_date, forecast['dt'], forecast['temp']['max'], forecast['temp']['min'], forecast['rain']) # debug
+               rain = forecast['rain']
+#               print(city_id, target_date, forecast['dt'],
+#                       forecast['temp']['max'], forecast['temp']['min'],
+#                       forecast['rain']) # debug
             else:
-               rn = 0
-             #  print(city_id, target_date, forecast['dt'], forecast['temp']['max'], forecast['temp']['min'], 'NA') #debug
-            reduced_hash[i, file] = {
-                   'forecast': {
-                       'id': city_id, 
-                       'query_date': query_date, 
-                       'dt': forecast['dt'], 
-                       'tmax': forecast['temp']['max'], 
-                       'tmin': forecast['temp']['min'], 
-                       'rain': rn
-                       }
-                    }
-    return reduced_hash
-    
+               # We believe that when 'rain' is forecast to be zero, no 'rain'
+               # key is placed in the forecast.
+               rain = 0
+#               print(city_id, target_date, forecast['dt'],
+#                       forecast['temp']['max'], forecast['temp']['min'],
+#                       'NA') #debug
+            forecast_tuple = (
+                    forecast['dt'],
+                    forecast['temp']['max'],
+                    forecast['temp']['min'],
+                    rain)
+            forecast_list_pruned.append(forecast_tuple)
+        forecast_dict[city_id] = forecast_list_pruned
+    return forecast_dict
 
 def isolate_city_codes():
     """Get contents of most recently saved city code list, as list of lists."""
@@ -309,5 +316,5 @@ def check_dt_uniformity_02():
                     format(directory, length))
         print('''In this directory, {} out of {} files had only a single '''
                 '''time in all the dt values (= {}%).'''.
-                format(counter_same_time_each_day, len(files), 
+                format(counter_same_time_each_day, len(files),
                     round(100*counter_same_time_each_day/len(files), 1)))
