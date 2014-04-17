@@ -309,7 +309,7 @@ def tar_directory():
     end_time = time.time()
     total_time = round(end_time - start_time)
     print('Total time elapsed: {} seconds; {} seconds per directory on avg.'.
-            format(total_time, round(total_time/len(directories), 1))
+            format(total_time, round(total_time/len(directories), 1)))
 
 def check_dt_uniformity_01():
     """Report all initial dt values & # of forecasts in all files in one dir."""
