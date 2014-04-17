@@ -201,7 +201,8 @@ def retrieve_data_vals(files):
       * target date/time,
       * max temp.,
       * min. temp., and
-      * rain.
+      * rain,
+      * snow.
     """
     # Get the date of the query from the filename. `dt` values vary too much.
     filename = files[0]
