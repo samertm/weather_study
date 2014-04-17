@@ -140,22 +140,29 @@ def process_dir():
     directories = open_download_values('../DOWNLOADS/downloads_OWM_US_')
     # For each directory, get all files
     for directory in directories:
+        print(directory) # debug
         files = open_download_values(directory+'/')
         forecast_dict = retrieve_data_vals(files)
-        print(directory) # debug
-        pprint.pprint(forecast_dict) # debug
         populate_db_w_forecasts(forecast_dict)
-
 
 def populate_db_w_forecasts(forecast_dict):
     pass
 
-# The following function is still under way.
 def retrieve_data_vals(files):
-    # Purpose of this function is to create a hash from a hash.  The new hash
-    # will have a reduced number of key value pairs that will be used in our
-    # data analysis, including dt, min, maxt, rain and city id.
-    """ """
+    """From a list of files return a dictionary of forecasts.
+
+    Dictionary contains:
+
+      * query_date (from directory name in filenames) and
+      * a series of "city_id:forecast_list_pruned" pairs.
+
+    Each "forecast_list_pruned" list contains tuples, bearing:
+
+      * target date/time,
+      * max temp.,
+      * min. temp., and
+      * rain.
+    """
     # Get the date of the query from the filename. `dt` values vary too much.
     filename = files[0]
     dir_name = filename.split('/')[-2] # e.g. downloads_OWM_US_20140414-2215
@@ -190,6 +197,8 @@ def retrieve_data_vals(files):
                     rain)
             forecast_list_pruned.append(forecast_tuple)
         forecast_dict[city_id] = forecast_list_pruned
+    pprint.pprint(forecast_dict) # debug
+    print('\n') # debug
     return forecast_dict
 
 def isolate_city_codes():
@@ -263,7 +272,7 @@ def check_dt_uniformity_01():
     # For each directory, get all files
     for directory in directories:
         list_dt_set = [set()]# * 15
-        files = open_download_values(directory+'/') 
+        files = open_download_values(directory+'/')
         # Process each file
         for file in files:
             #  print(file)  # debug
