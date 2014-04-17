@@ -296,7 +296,7 @@ def tar_directory():
                 if not i % 1000:
                     length = len(file_list)
                     print('{} files compressed out of {}: {}%.'.
-                            format(i, length, round(i*100/length)))
+                            format(i, length, round(i*100/length, 1)))
         print('\n{} files compressed in directory\n    "{}".'.
                 format(len(file_list), directory), end='\n\n')
         # Once directory is compressed, we would like to delete uncompressed
@@ -307,8 +307,9 @@ def tar_directory():
     # When finished, return to directory where we started.
     os.chdir(home_dir)
     end_time = time.time()
-    print('Total time elapsed: {} seconds.'.
-            format(round(end_time-start_time)))
+    total_time = round(end_time - start_time)
+    print('Total time elapsed: {} seconds; {} seconds per directory on avg.'.
+            format(total_time, round(total_time/len(directories), 1))
 
 def check_dt_uniformity_01():
     """Report all initial dt values & # of forecasts in all files in one dir."""
