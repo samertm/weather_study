@@ -334,7 +334,7 @@ def check_dt_uniformity_01():
         pprint.pprint(dt_set)
         print('\n')
         print('In dir. {}, there are the following numbers of forecasts: {}.'.
-                format(directory, num_forecasts), end='\n')
+                format(directory, num_forecasts), end='\n\n')
 
 def check_dt_uniformity_02():
     """Report the consistence of dt-time values in each file."""
