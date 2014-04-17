@@ -1,7 +1,7 @@
 #! /usr/bin/python
 # utils.py
 # David Prager Branner
-# 20140415, works
+# 20140417, works
 
 """Utilities for Weather Study project."""
 
@@ -135,27 +135,73 @@ def open_directory(path):
     file_list = glob.glob(path+'*')
     return file_list
 
-# The following function is still under way.
-def retrieve_data_vals():
-    """ """
+def process_dir():
+    """Populate database with the forecasts from all files in DOWNLOADS."""
     # Get names of directories in download folder
     directories = open_directory('../DOWNLOADS/downloads_OWM_US_')
     # For each directory, get all files
     for directory in directories:
-        files = open_directory(directory+'/')	
-            # Process each file
-        for file in files[0:2000]:
-            with open(os.path.join(file), 'r') as f:
-               contents = f.read()
-            content_dict = ast.literal_eval(contents)
-            forecast_list = content_dict['list']
-            for forecast in forecast_list:
-                if 'rain' in forecast and forecast['rain'] == 0:
-                    print(file, forecast['rain'])
-       
-    return len(forecast_list)
-    # Return results
-    
+        print(directory) # debug
+        files = open_directory(directory+'/')
+        forecast_dict = retrieve_data_vals(files)
+        populate_db_w_forecasts(forecast_dict)
+
+def populate_db_w_forecasts(forecast_dict):
+    """Populate database with the contents of a forecast dictionary."""
+    pass
+
+def retrieve_data_vals(files):
+    """From a list of files return a dictionary of forecasts.
+
+    Dictionary contains:
+
+      * query_date (from directory name in filenames) and
+      * a series of "city_id:forecast_list_pruned" pairs.
+
+    Each "forecast_list_pruned" list contains tuples, bearing:
+
+      * target date/time,
+      * max temp.,
+      * min. temp., and
+      * rain.
+    """
+    # Get the date of the query from the filename. `dt` values vary too much.
+    filename = files[0]
+    dir_name = filename.split('/')[-2] # e.g. downloads_OWM_US_20140414-2215
+    query_date = dir_name.split('_')[-1] # e.g. 20140414-2215
+    # Process each file
+    forecast_dict = {'query_date': query_date}
+    for file in files[0:10]:
+        forecast_list_pruned = []
+#       print(file)  # debug
+        with open(os.path.join(file), 'r') as f:
+            contents = f.read()
+        content_dict = ast.literal_eval(contents)
+        forecast_list_received =(content_dict['list'])
+        city_id = (content_dict['city']['id'])
+        for i, forecast in enumerate(forecast_list_received):
+            if 'rain' in forecast:
+               rain = forecast['rain']
+#               print(city_id, target_date, forecast['dt'],
+#                       forecast['temp']['max'], forecast['temp']['min'],
+#                       forecast['rain']) # debug
+            else:
+               # We believe that when 'rain' is forecast to be zero, no 'rain'
+               # key is placed in the forecast.
+               rain = 0
+#               print(city_id, target_date, forecast['dt'],
+#                       forecast['temp']['max'], forecast['temp']['min'],
+#                       'NA') #debug
+            forecast_tuple = (
+                    forecast['dt'],
+                    forecast['temp']['max'],
+                    forecast['temp']['min'],
+                    rain)
+            forecast_list_pruned.append(forecast_tuple)
+        forecast_dict[city_id] = forecast_list_pruned
+    pprint.pprint(forecast_dict) # debug
+    print('\n') # debug
+    return forecast_dict
 
 def isolate_city_codes():
     """Get contents of most recently saved city code list, as list of lists."""
@@ -262,3 +308,67 @@ def tar_directory():
     end_time = time.time()
     print('Total time elapsed: {} seconds.'.
             format(round(end_time-start_time)))
+
+def check_dt_uniformity_01():
+    """Report the set of initial dt values found in all files in one dir."""
+    # Get names of directories in download folder
+    directories = open_download_values('../DOWNLOADS/downloads_OWM_US_')
+    # For each directory, get all files
+    for directory in directories:
+        list_dt_set = [set()]# * 15
+        files = open_download_values(directory+'/')
+        # Process each file
+        for file in files:
+            #  print(file)  # debug
+            with open(os.path.join(file), 'r') as f:
+                contents = f.read()
+            content_dict = ast.literal_eval(contents)
+            forecast_list =(content_dict['list'])
+            if len(forecast_list) < 15:
+                print('In dir. {}, there are {} forecasts in forecast_list.'.
+                        format(directory, len(forecast_list)))
+            for j in range(len(forecast_list)):
+                query_date = forecast_list[j]['dt']
+                list_dt_set[j].add(convert_from_unixtime(query_date))
+        pprint.pprint(directory, list_dt_set[0], sep='\n', end='\n\n')
+
+def check_dt_uniformity_02():
+    """Report the consistence of dt-time values in each file."""
+    # Get names of directories in download folder
+    directories = open_download_values('../DOWNLOADS/downloads_OWM_US_')
+    # For each directory, get all files
+    for directory in directories:
+        print(directory)
+        files = open_download_values(directory+'/')
+        # Process each file
+        below15 = False # boolean: < 15 forecasts in files in this dir?
+        counter_same_time_each_day = 0
+        for file in files:
+            #  print(file)  # debug
+            with open(os.path.join(file), 'r') as f:
+                contents = f.read()
+            content_dict = ast.literal_eval(contents)
+            forecast_list =(content_dict['list'])
+            length = len(forecast_list)
+            if length < 15:
+                below15 = True
+            times = set()
+            for j in range(length):
+                date = forecast_list[j]['dt']
+                the_time = convert_from_unixtime(date).split(' ')[-1]
+                times.add(the_time)
+            if len(times) == 1:
+                # increment counter
+                counter_same_time_each_day += 1
+            else:
+                # report id, times
+                ID = file.split('/')[-1]
+                print(ID, times, sep='\n', end='\n\n')
+        if below15:
+            print('In dir. {}, there are {} forecasts in forecast_list.'.
+                    format(directory, length))
+        print('''In this directory, {} out of {} files had only a single '''
+                '''time in all the dt values (= {}%).'''.
+                format(counter_same_time_each_day, len(files),
+                    round(100*counter_same_time_each_day/len(files), 1)))
+
