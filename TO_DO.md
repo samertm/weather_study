@@ -18,13 +18,14 @@
 - [ ] Check whether `get_city_code_list` is in fact working — successive downloaded files appear to be identical (according to diff). Then why are we downloading them?
 - [ ] Tools to process observation data for display.
 - [ ] Tools to place observation data in database.
-- [ ] Tool to evaluate extent of any differences in the 10 p.m. and 10 a.m. downloads for the same 24-hour period.
-- [ ] Select locations for study based on Country and Lat./Long.
+- [ ] Tools to evaluate concisely any changes between subsequent downloads.
+- [ ] Tool to evaluate extent of any differences in multiple downloads for the same 24-hour period.
 - [ ] Place OWM's name and license information on site.
 - [ ] Consider changing compression module to `shutil` (http://chimera.labs.oreilly.com/books/1230000000393/ch13.html#_problem_218).
  
 ---
 
+- [x] Select locations for study based on Country and Lat./Long. **Update**: de facto, we are studying US locations.
 - [x] Experiment to see what the ideal representation of non-integer numbers is. Rain has two places of precision. Snow has between zero and two. Latitude and longitude have many. How will Python's floating point behavior affect these? Consider storing `lat` and `lon` each as a pair of integers rather than as a number or text. Or multiply by some power of ten and truncate the decimal portion, giving us only high-precision integers to store. **Update**: simply changed them to `float()` in `utils.py` and to `NUMBER` in SQL script.
 - [x] Tools to fetch observation data.
 - [x] Public short description suitable for README and Hacker School project pages.
