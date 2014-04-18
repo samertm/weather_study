@@ -12,6 +12,7 @@
 
 ### To build             
 
+- [ ] Check whether `get_city_code_list` is in fact working — successive downloaded files appear to be identical (according to diff). Then why are we downloading them?
 - [ ] Tools to process observation data for display.
 - [ ] Tools to place observation data in database.
 - [ ] Tool to evaluate extent of any differences in the 10 p.m. and 10 a.m. downloads for the same 24-hour period.
