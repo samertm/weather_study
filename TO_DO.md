@@ -12,7 +12,7 @@
 
 ### To build             
 
-- [ ] Tools to fetch observation data.
+- [x] Tools to fetch observation data.
 - [ ] Tools to process observation data.
 - [ ] Tools to place observation data in database.
 - [ ] Tool to evaluate extent of any differences in the 10 p.m. and 10 a.m. downloads for the same 24-hour period.
