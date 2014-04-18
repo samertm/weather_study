@@ -13,8 +13,8 @@ DROP TABLE IF EXISTS locations;
 CREATE TABLE locations (
     id TEXT PRIMARY KEY UNIQUE,
     name TEXT,
-    lat TEXT,
-    lon TEXT,
+    lat NUMBER,
+    lon NUMBER,
     country TEXT
 );
 
