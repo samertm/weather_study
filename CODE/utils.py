@@ -68,13 +68,6 @@ def construct_OWM_api_req(id='5128581', count=15): # ID 5128581 = New York City
 def get_city_code_list():
     """Get city code list from OWM; check to see if changed; save; normalize."""
     cities = make_urlrequest( 'http://openweathermap.org/help/city_list.txt')
-#    cities = ''
-#    while cities == '':
-#        try:
-#            cities = urllib.request.urlopen(
-#        except urllib.error.URLError as e:
-#            print(e)
-#            cities = ''
     # Is content changed?
     # Compare hash to hash of previously downloaded version.
     cities = cities.read()
@@ -89,6 +82,8 @@ def get_city_code_list():
     except Exception as e:
         print('Unexpected error:', e)
     if hash(cities) != int(hash_of_last):
+        print('hash of new: {}\nlast saved hash: {}'.
+                format(hash(cities), int(hash_of_last)), sep='\n')
         print('City-code byte-data retrieved, proves different from previous.')
         # Why do we need to save bytes version of list, if we also save the
         # normalized string version and a hash of the bytes version?
@@ -113,7 +108,6 @@ def get_city_code_list():
         print('Normalized city-code data saved.')
     else:
         print('No change in data found.')
-
 
 def construct_date():
     """Construct a time-and-date string for appending to a filename."""
@@ -264,7 +258,7 @@ def populate_db_w_city_codes(db='weather_data_OWM.db'):
                     '''INSERT INTO locations VALUES''' +
                     str(tuple(code)))
 
-def get_city_codes(country='US', db='weather_data_OWM.db'):
+def get_city_codes_from_db(country='US', db='weather_data_OWM.db'):
     """Get city codes only from database and return as list."""
     connection = sqlite3.connect(os.path.join('../', db))
     with connection:
@@ -292,7 +286,7 @@ def full_forecast_download(country='US', db='weather_data_OWM.db'):
     if not os.path.exists(os.path.join('../DOWNLOADS/', dir_name)):
         os.makedirs(os.path.join('../DOWNLOADS/', dir_name))
     # Download all forecasts.
-    code_list = get_city_codes(country, db)
+    code_list = get_city_codes_from_db(country, db)
     for i, code in enumerate(code_list):
         # Print stats so we can see where we are in long download.
         if not i % 100:
