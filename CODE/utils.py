@@ -246,8 +246,8 @@ def isolate_city_codes():
     for i in range(1, len(list_of_lines)-1):
         list_of_lines[i][2] = float(list_of_lines[i][2])
         list_of_lines[i][3] = float(list_of_lines[i][3])
-        print(list_of_lines[i])
     print('Total number of city codes: {}.'.format(len(list_of_lines)))
+    return list_of_lines
 
 def populate_db_w_city_codes(db='weather_data_OWM.db'):
     """Populate database with contents of most recently saved city code list."""
