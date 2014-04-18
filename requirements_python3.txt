@@ -3,12 +3,14 @@ MarkupSafe==0.19
 Pygments==1.6
 Sphinx==1.2.2
 argparse==1.1
+basemap==1.0.7
 beautifulsoup4==4.3.2
+bpython==0.12
 cairocffi==0.5.3
 cffi==0.8.2
 dateutils==0.6.6
 docutils==0.11
-gnureadline==6.2.5
+gnureadline==6.3.3
 ipython==2.0.0
 matplotlib==1.4.x
 mpld3==0.1
