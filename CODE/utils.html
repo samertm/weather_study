@@ -46,7 +46,7 @@
  <dl><dt><a name="-full_forecast_download"><strong>full_forecast_download</strong></a>(country='US', db='weather_data_OWM.db')</dt><dd><tt>Download&nbsp;forecasts&nbsp;for&nbsp;set&nbsp;of&nbsp;locations&nbsp;and&nbsp;save&nbsp;to&nbsp;unique&nbsp;directory.</tt></dd></dl>
  <dl><dt><a name="-get_api_key"><strong>get_api_key</strong></a>(site='owm', show=False)</dt><dd><tt>Without&nbsp;allowing&nbsp;API&nbsp;key&nbsp;to&nbsp;appear&nbsp;in&nbsp;repo,&nbsp;fetch&nbsp;from&nbsp;file.</tt></dd></dl>
  <dl><dt><a name="-get_city_code_list"><strong>get_city_code_list</strong></a>()</dt><dd><tt>Get&nbsp;city&nbsp;code&nbsp;list&nbsp;from&nbsp;OWM;&nbsp;check&nbsp;to&nbsp;see&nbsp;if&nbsp;changed;&nbsp;save;&nbsp;normalize.</tt></dd></dl>
- <dl><dt><a name="-get_city_codes"><strong>get_city_codes</strong></a>(country='US', db='weather_data_OWM.db')</dt><dd><tt>Get&nbsp;city&nbsp;codes&nbsp;only&nbsp;from&nbsp;database&nbsp;and&nbsp;return&nbsp;as&nbsp;list.</tt></dd></dl>
+ <dl><dt><a name="-get_city_codes_from_db"><strong>get_city_codes_from_db</strong></a>(country='US', db='weather_data_OWM.db')</dt><dd><tt>Get&nbsp;city&nbsp;codes&nbsp;only&nbsp;from&nbsp;database&nbsp;and&nbsp;return&nbsp;as&nbsp;list.</tt></dd></dl>
  <dl><dt><a name="-isolate_city_codes"><strong>isolate_city_codes</strong></a>()</dt><dd><tt>Get&nbsp;contents&nbsp;of&nbsp;most&nbsp;recently&nbsp;saved&nbsp;city&nbsp;code&nbsp;list,&nbsp;as&nbsp;list&nbsp;of&nbsp;lists.</tt></dd></dl>
  <dl><dt><a name="-make_urlrequest"><strong>make_urlrequest</strong></a>(url)</dt><dd><tt>Tries&nbsp;to&nbsp;make&nbsp;URL&nbsp;request&nbsp;until&nbsp;successful.</tt></dd></dl>
  <dl><dt><a name="-open_directory"><strong>open_directory</strong></a>(path)</dt><dd><tt>Get&nbsp;list&nbsp;of&nbsp;files&nbsp;in&nbsp;a&nbsp;given&nbsp;directory.</tt></dd></dl>
@@ -66,7 +66,8 @@ Each&nbsp;"forecast_list_pruned"&nbsp;list&nbsp;contains&nbsp;tuples,&nbsp;beari
 &nbsp;&nbsp;*&nbsp;target&nbsp;date/time,<br>
 &nbsp;&nbsp;*&nbsp;max&nbsp;temp.,<br>
 &nbsp;&nbsp;*&nbsp;min.&nbsp;temp.,&nbsp;and<br>
-&nbsp;&nbsp;*&nbsp;rain.</tt></dd></dl>
+&nbsp;&nbsp;*&nbsp;rain,<br>
+&nbsp;&nbsp;*&nbsp;snow.</tt></dd></dl>
  <dl><dt><a name="-tar_directory"><strong>tar_directory</strong></a>()</dt><dd><tt>Compress&nbsp;all&nbsp;directories&nbsp;found&nbsp;in&nbsp;DOWNLOAD/&nbsp;and&nbsp;delete&nbsp;originals.</tt></dd></dl>
 </td></tr></table>
 </body></html>

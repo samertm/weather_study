@@ -131,7 +131,7 @@ def open_directory(path):
     file_list = glob.glob(path+'*')
     return file_list
 
-def process_dir():
+def process_dir_of_downloads():
     """Populate database with the forecasts from all files in DOWNLOADS."""
     # Get names of directories in download folder
     directories = open_directory('../DOWNLOADS/downloads_OWM_US_')
@@ -241,7 +241,13 @@ def isolate_city_codes():
     filename = open_last_city_list()
     with open(os.path.join('../DATA', filename), 'r') as f:
         contents = f.read()
-    return [line.split('\t') for line in contents.split('\n')]
+    list_of_lines = [line.split('\t') for line in contents.split('\n')[1:]]
+    # Latitude and longitude should be numbers
+    for i in range(1, len(list_of_lines)-1):
+        list_of_lines[i][2] = float(list_of_lines[i][2])
+        list_of_lines[i][3] = float(list_of_lines[i][3])
+        print(list_of_lines[i])
+    print('Total number of city codes: {}.'.format(len(list_of_lines)))
 
 def populate_db_w_city_codes(db='weather_data_OWM.db'):
     """Populate database with contents of most recently saved city code list."""
