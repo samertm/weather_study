@@ -6,16 +6,7 @@
 """Programs to examine data in Weather Study project."""
 
 import os
-import sys
-import urllib
-import datetime
-import time
-import json
-import glob
-import sqlite3
 import ast
-import shutil
-import tarfile
 import pprint
 import utils as U
 
