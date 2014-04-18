@@ -12,7 +12,9 @@
 
 ### To build             
 
-- [ ] Tools to fetch and process observation data.
+- [ ] Tools to fetch observation data.
+- [ ] Tools to process observation data.
+- [ ] Tools to place observation data in database.
 - [ ] Tool to evaluate extent of any differences in the 10 p.m. and 10 a.m. downloads for the same 24-hour period.
 - [ ] Select locations for study based on Country and Lat./Long.
 - [ ] Place OWM's name and license information on site.
