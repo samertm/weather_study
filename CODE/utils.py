@@ -173,7 +173,9 @@ def retrieve_data_vals(files, to_print=None):
         with open(os.path.join(file), 'r') as f:
             contents = f.read()
         content_dict = ast.literal_eval(contents)
-        forecast_list_received =(content_dict['list'])
+        if content_dict == 'None':
+            # This happens occasionally. Ignore silently and continue.
+            continue
         city_id = (content_dict['city']['id'])
         for i, forecast in enumerate(forecast_list_received):
             if 'rain' in forecast:
@@ -266,6 +268,9 @@ def full_forecast_download(country='US', db='weather_data_OWM.db'):
             print('{:>6d} done out of {}: {}%.'.
                     format(i, length, round(i*100/length, 1)))
         content = str(construct_OWM_api_req(id=code))
+        if content == 'None':
+            print('Received "None" reply on query for city {}.'.format(code))
+            continue
         with open(os.path.join(
             '../DOWNLOADS/'+dir_name, code+'.txt'), 'w') as f:
             f.write(content)
