@@ -173,6 +173,7 @@ def retrieve_data_vals(files, to_print=None):
         with open(os.path.join(file), 'r') as f:
             contents = f.read()
         content_dict = ast.literal_eval(contents)
+        forecast_list_received =(content_dict['list'])
         if content_dict == 'None':
             # This happens occasionally. Ignore silently and continue.
             continue
