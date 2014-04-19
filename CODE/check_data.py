@@ -8,6 +8,7 @@
 import os
 import ast
 import pprint
+import difflib
 import utils as U
 
 def check_dt_uniformity_01():
@@ -112,3 +113,26 @@ def find_snow_or_rain_0(to_find='rain'):
                 if to_find in forecast and forecast[to_find] == 0:
                     print('In file\n    {}\n    {} = 0.'.format(file, to_find))
 
+def find_identical_forecasts():
+    """Determine how much of two forecast-sets are identical."""
+    # Get names of directories in download folder
+    directories = U.open_directory('../DOWNLOADS/downloads_OWM_US_')
+    # For each directory, get all files
+    for dir1, dir2 in zip(directories, directories[1:]):
+        print(dir1, dir2, sep='\n') # debug
+        files1 = U.open_directory(dir1+'/')
+        files2 = U.open_directory(dir2+'/')
+        forecast_dict1 = U.retrieve_data_vals(files1)
+        forecast_dict2 = U.retrieve_data_vals(files2)
+        same_counter = [0] * 5
+        same_counter_items = ['dt', 'maxt', 'mint', 'rain', 'snow']
+        keys = forecast_dict1.keys()
+        for key in keys:
+            for i in range(5):
+                if forecast_dict1[key][i] == forecast_dict2[key][i]:
+                    same_counter[i] += 1
+        pairs = ['{}: {}/{} = {}%'.
+                format(i, j, len(keys), round(100*j/len(keys)))
+                    for i, j in zip(same_counter_items, same_counter)]
+        pprint.pprint(pairs)
+        print('\n')

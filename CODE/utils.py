@@ -146,7 +146,7 @@ def populate_db_w_forecasts(forecast_dict):
     """Populate database with the contents of a forecast dictionary."""
     pass
 
-def retrieve_data_vals(files):
+def retrieve_data_vals(files, to_print=None):
     """From a list of files return a dictionary of forecasts.
 
     Dictionary contains:
@@ -190,14 +190,16 @@ def retrieve_data_vals(files):
                 snow = 0
             forecast_tuple = (
                     forecast['dt'],
-                    forecast['temp']['max'],
-                    forecast['temp']['min'],
-                    rain,
-                    snow)
+                    float(forecast['temp']['max']),
+                    float(forecast['temp']['min']),
+                    float(rain),
+                    float(snow),
+                    )
             forecast_list_pruned.append(forecast_tuple)
         forecast_dict[city_id] = forecast_list_pruned
-    pprint.pprint(forecast_dict) # debug
-    print('\n') # debug
+    if to_print:
+        pprint.pprint(forecast_dict) # debug
+        print('\n') # debug
     return forecast_dict
 
 def isolate_city_codes():
