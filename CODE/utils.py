@@ -131,7 +131,7 @@ def open_directory(path):
     file_list = glob.glob(path+'*')
     return file_list
 
-def process_dir_of_downloads():
+def process_dir_of_downloads(to_print=None):
     """Populate database with the forecasts from all files in DOWNLOADS."""
     # Get names of directories in download folder
     directories = open_directory('../DOWNLOADS/downloads_OWM_US_')
@@ -139,7 +139,7 @@ def process_dir_of_downloads():
     for directory in directories:
         print(directory) # debug
         files = open_directory(directory+'/')
-        forecast_dict = retrieve_data_vals(files)
+        forecast_dict = retrieve_data_vals(files, to_print)
         populate_db_w_forecasts(forecast_dict)
 
 def populate_db_w_forecasts(forecast_dict):
