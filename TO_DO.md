@@ -4,7 +4,9 @@
 
 - [ ] Decide how to manipulate data.
 - [ ] Decide how to visualize data.
-- [ ] How often are forecasts revised? We will test this by two full runs within a 24-hour (or shorter) period. **Update**: It seems that query-runs around noon are disorganized; our three query-runs on 20140414 and 20140415 between the hours of 16:30 and 01:00 were more coherent.
+- [ ] How often are forecasts revised? We will test this by two full runs within a 24-hour (or shorter) period. 
+ * **Update**: It seems that query-runs around noon are disorganized; our three query-runs on 20140414 and 20140415 between the hours of 16:30 and 01:00 were more coherent.
+ * **Update**: NOAA's gridded forecasts are updated every hour.
 - [ ] What is meant by `mode=daily_compact` in a query? (It does seem to change the results slightly.) **Update**: Post question to StackOverflow.
 
 ----
