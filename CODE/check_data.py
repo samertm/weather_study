@@ -1,7 +1,7 @@
 #! /usr/bin/python
 # check_data.py
 # David Prager Branner and Gina Schmalzle
-# 20140418, works
+# 20140419, works
 
 """Programs to examine data in Weather Study project."""
 
@@ -9,6 +9,7 @@ import os
 import ast
 import pprint
 import difflib
+import glob
 import utils as U
 
 def check_dt_uniformity_01():
@@ -138,3 +139,26 @@ def find_identical_forecasts():
                     for i, j in zip(same_counter_items, same_counter)]
         pprint.pprint(pairs)
         print('\n')
+
+def check_dt_deltas_same():
+    """Report if deltas vary betw consecutive dts for single location."""
+    set_of_set_contents = set()
+    # Get all files in a directory
+    sub_dirs = glob.glob('../DOWNLOADS/downloads_OWM_US_*') 
+    for directory in sub_dirs:    
+        files = glob.glob(directory+'/*')
+        forecast_dict = U.retrieve_data_vals(files)
+        for key in forecast_dict:
+            if key == 'query_date':
+                continue
+            forecast_list = forecast_dict[key]
+            set_dt_deltas = set()
+            for tuple1, tuple2 in zip(forecast_list, forecast_list[1:]):
+                set_dt_deltas.add(int(tuple2[0])-int(tuple1[0]))
+            if len(set_dt_deltas) > 1:
+                print("\nScream bloody murder", set_dt_deltas, key, sep='\n')
+            set_of_set_contents.update(set_dt_deltas)
+        if len(set_of_set_contents) > 1: 
+            print("\nAgain, Really?", set_of_set_contents, directory, sep='\n')
+        else:
+            print(set_of_set_contents)

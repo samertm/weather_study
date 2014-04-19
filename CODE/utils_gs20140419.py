@@ -142,9 +142,20 @@ def process_dir_of_downloads():
         forecast_dict = retrieve_data_vals(files)
         populate_db_w_forecasts(forecast_dict)
 
-def populate_db_w_forecasts(forecast_dict):
+def populate_db_w_forecasts(forecast_dict, db='weather_data_OWM.db'):
     """Populate database with the contents of a forecast dictionary."""
-    pass
+    connection = sqlite3.connect(os.path.join('../', db))
+    with connection:
+        cursor = connection.cursor()
+        fc = forecast_dict['city_id']
+        for code in city_codes[1:-1]:
+            if code == ['']:
+                print('\n    Empty tuple found; skipping.\n')
+                continue
+            print(str(tuple(code)))
+            cursor.execute(
+                    '''INSERT INTO locations VALUES''' +
+                    str(tuple(code)))
 
 def retrieve_data_vals(files, to_print=None):
     """From a list of files return a dictionary of forecasts.
