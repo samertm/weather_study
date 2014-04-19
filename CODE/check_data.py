@@ -128,6 +128,8 @@ def find_identical_forecasts():
         same_counter_items = ['dt', 'maxt', 'mint', 'rain', 'snow']
         keys = forecast_dict1.keys()
         for key in keys:
+            if not (key in forecast_dict1 and key in forecast_dict2):
+                continue
             for i in range(5):
                 if forecast_dict1[key][i] == forecast_dict2[key][i]:
                     same_counter[i] += 1
