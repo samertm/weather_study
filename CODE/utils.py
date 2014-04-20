@@ -78,11 +78,71 @@ def request_NOAA_200_cities():
     # Forecast is dict; key 'list' is a list containing most of the content.
     return forecast
 
-def construct_date():
+def request_all_NOAA_points():
+    start_time = time.time()
+    # Get newest file of latitude & longitude values.
+    files = open_directory('../DATA/CITY_LISTS/city_list_normalized_')
+    with open(files[-1], 'r') as f:
+        contents = f.read()
+    # Construct list of 'latitude,longitude' strings for US points only.
+    list_of_lines = [
+            line.split('\t') for line in contents.split('\n')[1:] if 
+                line[-2:] == 'US']
+    lat_and_long_list = [
+            line[2] + ',' + line[3] for line in list_of_lines[:-1]]
+    # Construct groups of 200 '+'-delimited pairs each of 'lat' + ',' + 'long'.
+    groups_of_200 = [lat_and_long_list[i:i+200] for 
+            i in range(0, len(lat_and_long_list), 200)]
+    # Make requests in groups of 200 and store results in forecasts_list.
+    forecasts_list = []
+    download_start_time = construct_date()
+    for i, group in enumerate(groups_of_200): # debug
+        group = '+'.join(group)
+        head = ('''http://www.weather.gov/forecasts/xml/sample_products/'''
+                '''browser_interface/ndfdXMLclient.php?'''
+                '''product=time-series&product=time-series'''
+                '''&maxt=maxt&mint=mint&qpf=qpf&snow=snow&listLatLon=''')
+        url = head + group
+        while True:
+            forecast = make_urlrequest(url)
+            if forecast.msg == 'OK':
+                # Forecast is of type http.client.HTTPResponse
+                # forecast.readall(): bytes; use `.decode()` for long string
+                try:
+                    forecast = forecast.readall().decode()
+                except IncompleteRead as e:
+                    print(e, 'at group', i, group, '\n')
+                    continue
+                if forecast[-8:-1] == '</dwml>':
+                    print('Group {}/{} of <= 200-forecast groups received.'.
+                            format(i, len(groups_of_200)))
+                    break
+                else:
+                    print('Unexpected file, ending in:', forecast[-8:])
+        forecasts_list.append(forecast)
+    download_end_time = construct_date()
+    # Store raw material in a single directory with time-range stamp.
+    if download_start_time.split('-')[0] == download_end_time.split('-')[0]:
+        download_end_time = download_end_time.split('-')[-1]
+    timestamp = download_start_time + '_to_' + download_end_time
+    dir_name = 'downloads_NOAA_US_' + timestamp
+    if not os.path.exists('../DATA/DOWNLOADS/' + dir_name):
+        os.makedirs('../DATA/DOWNLOADS/' + dir_name)
+    for i, forecast in enumerate(forecasts_list):
+        with open(os.path.join(
+                '../DATA/DOWNLOADS/' + dir_name+'/', str(i)+'.txt'), 'w') as f:
+            f.write(forecast)
+    end_time = time.time()
+    print('\nTime elapsed: {} seconds.'.
+            format(round(end_time-start_time)))
+    print('Saved to', dir_name)
+
+def construct_date(date_and_time=None):
     """Construct a time-and-date string for appending to a filename."""
-    time = datetime.datetime.today()
-    time = time.strftime('%Y%m%d-%H%M')
-    return time
+    if not date_and_time:
+        date_and_time = datetime.datetime.today()
+    date_and_time = date_and_time.strftime('%Y%m%d-%H%M')
+    return date_and_time
 
 def convert_from_unixtime(unixtime):
     """Convert Unix time to human-readable string."""
