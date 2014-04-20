@@ -18,6 +18,7 @@ import shutil
 import tarfile
 import pprint
 import utils as U
+import city_codes as CC
 
 def populate_db_w_forecasts(forecast_dict, db='weather_data_OWM.db'):
     """Populate database with the contents of a forecast dictionary."""
@@ -56,7 +57,7 @@ def populate_db_w_city_codes(db='weather_data_OWM.db'):
     connection = sqlite3.connect(os.path.join('../', db))
     with connection:
         cursor = connection.cursor()
-        city_codes = U.isolate_city_codes()
+        city_codes = CC.isolate_city_codes()
         for code in city_codes[1:-1]:
             if code == ['']:
                 print('\n    Empty tuple found; skipping.\n')

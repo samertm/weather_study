@@ -11,13 +11,14 @@ import utils as U
 
 def get_city_code_list():
     """Get city code list from OWM; check to see if changed; save; normalize."""
-    cities = make_urlrequest( 'http://openweathermap.org/help/city_list.txt')
+    cities = U.make_urlrequest( 'http://openweathermap.org/help/city_list.txt')
     # Is content changed?
     # Compare hash to hash of previously downloaded version.
     cities = cities.read()
     hash_of_last = ''
     try:
-        with open(os.path.join('../DATA', 'hash_of_last.txt'), 'r') as f:
+        with open(os.path.join(
+                '../DATA/CITY_LISTS', 'hash_of_last.txt'), 'r') as f:
             hash_of_last = f.read()
     except IOError as e:
         print(e)
@@ -32,10 +33,12 @@ def get_city_code_list():
         # Why do we need to save bytes version of list, if we also save the
         # normalized string version and a hash of the bytes version?
         city_list_filename = 'city_list_bytes_' + U.construct_date() + '.txt'
-        with open(os.path.join('../DATA', city_list_filename), 'wb') as f:
+        with open(os.path.join(
+                '../DATA/CITY_LISTS', city_list_filename), 'wb') as f:
             f.write(cities)
         # Save new hash of current version.
-        with open(os.path.join('../DATA', 'hash_of_last.txt'), 'w') as f:
+        with open(os.path.join(
+                '../DATA/CITY_LISTS', 'hash_of_last.txt'), 'w') as f:
             f.write(str(hash(cities)))
         # Report any non-ASCII content to STDOUT and normalize.
         chars = set([i for i in cities])
@@ -48,7 +51,8 @@ def get_city_code_list():
         normalized = ''.join([chr(char) for char in cities])
         # Here we replace any non-ASCII characters we know about already.
         normalized = normalized.replace(chr(150), '-')
-        with open(os.path.join('../DATA', city_list_filename), 'w') as f:
+        with open(os.path.join(
+                '../DATA/CITY_LISTS', city_list_filename), 'w') as f:
             f.write(normalized)
         print('Normalized city-code data saved.')
     else:
@@ -56,14 +60,14 @@ def get_city_code_list():
 
 def open_last_city_list():
     """Find filename of most recently saved city code list."""
-    file_list = glob.glob('../DATA/city_list*')
+    file_list = glob.glob('../DATA/CITY_LISTS/city_list*')
     filename = file_list[-1]
     return filename.split('/')[-1]
 
 def isolate_city_codes():
     """Get contents of most recently saved city code list, as list of lists."""
     filename = open_last_city_list()
-    with open(os.path.join('../DATA', filename), 'r') as f:
+    with open(os.path.join('../DATA/CITY_LISTS', filename), 'r') as f:
         contents = f.read()
     list_of_lines = [line.split('\t') for line in contents.split('\n')[1:]]
     # Latitude and longitude should be numbers

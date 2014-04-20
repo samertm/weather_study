@@ -17,6 +17,7 @@ import ast
 import shutil
 import tarfile
 import pprint
+import city_codes as CC
 
 def get_api_key(site='owm', show=False):
     """Without allowing API key to appear in repo, fetch from file."""
@@ -149,7 +150,7 @@ def full_forecast_download(country='US', db='weather_data_OWM.db'):
     if not os.path.exists(os.path.join('../DATA/DOWNLOADS/', dir_name)):
         os.makedirs(os.path.join('../DATA/DOWNLOADS/', dir_name))
     # Download all forecasts.
-    code_list = C.get_city_codes_from_db(country, db)
+    code_list = CC.get_city_codes_from_db(country, db)
     for i, code in enumerate(code_list):
         # Print stats so we can see where we are in long download.
         if not i % 100:
