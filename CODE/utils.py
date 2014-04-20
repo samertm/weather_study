@@ -228,8 +228,8 @@ def full_forecast_download(country='US', db='weather_data_OWM.db'):
     # Create time-stamped directory, with country-name, for this download.
     dir_name = 'downloads_OWM_' + country + '_' + construct_date()
     print('Saving to directory {}'.format(dir_name))
-    if not os.path.exists(os.path.join('../DOWNLOADS/', dir_name)):
-        os.makedirs(os.path.join('../DOWNLOADS/', dir_name))
+    if not os.path.exists(os.path.join('../DATA/DOWNLOADS/', dir_name)):
+        os.makedirs(os.path.join('../DATA/DOWNLOADS/', dir_name))
     # Download all forecasts.
     code_list = get_city_codes_from_db(country, db)
     for i, code in enumerate(code_list):
@@ -243,7 +243,7 @@ def full_forecast_download(country='US', db='weather_data_OWM.db'):
             print('Received "None" reply on query for city {}.'.format(code))
             continue
         with open(os.path.join(
-            '../DOWNLOADS/'+dir_name, code+'.txt'), 'w') as f:
+            '../DATA/DOWNLOADS/'+dir_name, code+'.txt'), 'w') as f:
             f.write(content)
     end_time = time.time()
     print('\nTime elapsed: {} seconds.'.
@@ -253,16 +253,16 @@ def tar_directory():
     """Compress all directories found in DOWNLOAD/ and delete originals."""
     start_time = time.time()
     home_dir = os.getcwd()
-    os.chdir('../DOWNLOADS')
+    os.chdir('../DATA/DOWNLOADS')
     # Do the whole procedure below for any existing directories in DOWNLOADS.
     # First find the directories.
     directories = open_directory('downloads_OWM_US_')
     print('{} directories to be compressed.'.
             format(len(directories)), end='\n\n')
     # Make sure ../COMPRESSED exists or create it.
-    if not os.path.exists('../COMPRESSED'):
-        os.makedirs('../COMPRESSED')
-        print('Created directory ../COMPRESSED', end='\n\n')
+    if not os.path.exists('../DATA/COMPRESSED'):
+        os.makedirs('../DATA/COMPRESSED')
+        print('Created directory ../DATA/COMPRESSED', end='\n\n')
     # Now compress each directory and finally delete it.
     for directory in directories:
         file_list = glob.glob(directory+'/*')
@@ -270,7 +270,7 @@ def tar_directory():
                 format(len(file_list), directory))
         # Compress each contained file, using context manager.
         with tarfile.open(
-                '../COMPRESSED/' + directory + '.tar.bz2', 'w:bz2') as f:
+                '../DATA/COMPRESSED/' + directory + '.tar.bz2', 'w:bz2') as f:
             for i, item in enumerate(file_list):
                 f.add(item)
                 if not i % 1000:

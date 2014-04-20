@@ -15,7 +15,7 @@ import utils as U
 def check_dt_uniformity_01():
     """Report all initial dt values & # of forecasts in all files in one dir."""
     # Get names of directories in download folder
-    directories = U.open_directory('../DOWNLOADS/downloads_OWM_US_')
+    directories = U.open_directory('../DATA/DOWNLOADS/downloads_OWM_US_')
     # For each directory, get all files
     for directory in directories:
         num_forecasts = set()
@@ -41,7 +41,7 @@ def check_dt_uniformity_01():
 def check_dt_uniformity_02():
     """Report the consistence of dt-time values in each file."""
     # Get names of directories in download folder
-    directories = U.open_directory('../DOWNLOADS/downloads_OWM_US_')
+    directories = U.open_directory('../DATA/DOWNLOADS/downloads_OWM_US_')
     # For each directory, get all files
     for directory in directories:
         print(directory)
@@ -81,7 +81,7 @@ def check_dt_uniformity_02():
 def find_lowest_value(to_find='rain'):
     """Report cases where rain (or other) are forecast explicitly to be 0."""
     # Get names of directories in download folder
-    directories = U.open_directory('../DOWNLOADS/downloads_OWM_US_')
+    directories = U.open_directory('../DATA/DOWNLOADS/downloads_OWM_US_')
     lowest_value= None
     # For each directory, get all files
     for directory in directories:
@@ -101,7 +101,7 @@ def find_lowest_value(to_find='rain'):
 def find_snow_or_rain_0(to_find='rain'):
     """Report cases where rain (or other) are forecast explicitly to be 0."""
     # Get names of directories in download folder
-    directories = U.open_directory('../DOWNLOADS/downloads_OWM_US_')
+    directories = U.open_directory('../DATA/DOWNLOADS/downloads_OWM_US_')
     # For each directory, get all files
     for directory in directories:
         files = U.open_directory(directory+'/')
@@ -117,7 +117,7 @@ def find_snow_or_rain_0(to_find='rain'):
 def find_identical_forecasts():
     """Determine how much of two forecast-sets are identical."""
     # Get names of directories in download folder
-    directories = U.open_directory('../DOWNLOADS/downloads_OWM_US_')
+    directories = U.open_directory('../DATA/DOWNLOADS/downloads_OWM_US_')
     # For each directory, get all files
     for dir1, dir2 in zip(directories, directories[1:]):
         print(dir1, dir2, sep='\n') # debug
@@ -144,8 +144,8 @@ def check_dt_deltas_same():
     """Report if deltas vary betw consecutive dts for single location."""
     set_of_set_contents = set()
     # Get all files in a directory
-    sub_dirs = glob.glob('../DOWNLOADS/downloads_OWM_US_*') 
-    for directory in sub_dirs:    
+    sub_dirs = glob.glob('../DATA/DOWNLOADS/downloads_OWM_US_*')
+    for directory in sub_dirs:
         files = glob.glob(directory+'/*')
         forecast_dict = U.retrieve_data_vals(files)
         for key in forecast_dict:
