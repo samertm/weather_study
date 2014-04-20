@@ -7,6 +7,7 @@
 
 import os
 import glob
+import sqlite3
 import utils as U
 
 def get_city_code_list():

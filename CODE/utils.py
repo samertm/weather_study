@@ -66,6 +66,18 @@ def construct_OWM_api_req(id='5128581', count=15): # ID 5128581 = New York City
     # Forecast is dict; key 'list' is a list containing most of the content.
     return forecast
 
+def request_NOAA_200_cities():
+    url = '''http://www.weather.gov/forecasts/xml/sample_products/browser_interface/ndfdXMLclient.php?citiesLevel=1234&product=time-series&maxt=maxt&mint=mint&qpf=qpf&snow=snow&format=24+hourly&numDays=14'''
+    while True:
+        forecast = make_urlrequest(url)
+        if forecast.msg == 'OK':
+            break
+    # Forecast is of type http.client.HTTPResponse
+    # forecast.readall(): bytes; use `.decode()` for long string
+    forecast = forecast.readall().decode()
+    # Forecast is dict; key 'list' is a list containing most of the content.
+    return forecast
+
 def construct_date():
     """Construct a time-and-date string for appending to a filename."""
     time = datetime.datetime.today()
@@ -141,8 +153,8 @@ def retrieve_data_vals(files, to_print=None):
         print('\n') # debug
     return forecast_dict
 
-def full_forecast_download(country='US', db='weather_data_OWM.db'):
-    """Download forecasts for set of locations and save to unique directory."""
+def full_forecast_download_OWM(country='US', db='weather_data_OWM.db'):
+    """Download OWN forecasts for set of locations, save to unique directory."""
     start_time = time.time()
     # Create time-stamped directory, with country-name, for this download.
     dir_name = 'downloads_OWM_' + country + '_' + construct_date()
@@ -164,6 +176,23 @@ def full_forecast_download(country='US', db='weather_data_OWM.db'):
         with open(os.path.join(
             '../DATA/DOWNLOADS/'+dir_name, code+'.txt'), 'w') as f:
             f.write(content)
+    end_time = time.time()
+    print('\nTime elapsed: {} seconds.'.
+            format(round(end_time-start_time)))
+
+def cities_forecast_download_NOAA():
+    """Download NOAA forecasts for 200 cities, save to unique directory."""
+    start_time = time.time()
+    # Create time-stamped directory for this download.
+    dir_name = 'downloads_NOAA_200_cities_' + construct_date()
+    print('Saving to directory {}'.format(dir_name))
+    if not os.path.exists(os.path.join('../DATA/DOWNLOADS/', dir_name)):
+        os.makedirs(os.path.join('../DATA/DOWNLOADS/', dir_name))
+    # Download all forecasts.
+    content = request_NOAA_200_cities()
+    with open(os.path.join(
+            '../DATA/DOWNLOADS/' + dir_name, dir_name + '.txt'), 'w') as f:
+        f.write(content)
     end_time = time.time()
     print('\nTime elapsed: {} seconds.'.
             format(round(end_time-start_time)))
