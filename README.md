@@ -2,6 +2,10 @@
 
 **Examination of bulk weather predictions and their accuracy.**
 
+This project is still under development and may look somewhat disorganized.
+
+---
+
 Forecasters predict the weather many days in advance for any given location. Those predictions typically change as the target date approaches. 
 
 Questions:
