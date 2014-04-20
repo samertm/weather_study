@@ -1,8 +1,6 @@
 ## Weather Study
 
-**Examination of bulk weather predictions and their accuracy.**
-
-This project is still under development and may look somewhat disorganized.
+**Examination of bulk weather predictions and their accuracy. (In progress.)**
 
 ---
 
