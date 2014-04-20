@@ -115,7 +115,7 @@ def request_all_NOAA_points():
                     continue
                 if forecast[-8:-1] == '</dwml>':
                     print('Forecast group {}/{} 200-forecast groups received.'.
-                            format(i, len(groups_of_200)))
+                            format(i+1, len(groups_of_200)))
                     break
                 else:
                     print('Unexpected file received, ending in:', forecast[-8:])
