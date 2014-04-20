@@ -114,11 +114,11 @@ def request_all_NOAA_points():
                     print(e, 'at group', i, group, '\n')
                     continue
                 if forecast[-8:-1] == '</dwml>':
-                    print('Group {}/{} of <= 200-forecast groups received.'.
+                    print('Forecast group {}/{} 200-forecast groups received.'.
                             format(i, len(groups_of_200)))
                     break
                 else:
-                    print('Unexpected file, ending in:', forecast[-8:])
+                    print('Unexpected file received, ending in:', forecast[-8:])
         forecasts_list.append(forecast)
     download_end_time = construct_date()
     # Store raw material in a single directory with time-range stamp.
