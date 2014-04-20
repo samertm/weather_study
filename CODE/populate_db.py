@@ -43,7 +43,7 @@ def populate_db_w_forecasts(forecast_dict, db='weather_data_OWM.db'):
 def process_dir_of_downloads(to_print=None):
     """Populate database with the forecasts from all files in DOWNLOADS."""
     # Get names of directories in download folder
-    directories = U.open_directory('../DOWNLOADS/downloads_OWM_US_')
+    directories = U.open_directory('../DATA/DOWNLOADS/downloads_OWM_US_')
     # For each directory, get all files
     for directory in directories:
         print(directory) # debug
