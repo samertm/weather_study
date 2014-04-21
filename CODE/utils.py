@@ -68,7 +68,7 @@ def construct_OWM_api_req(id='5128581', count=15): # ID 5128581 = New York City
     return forecast
 
 def request_NOAA_200_cities():
-    url = '''http://www.weather.gov/forecasts/xml/sample_products/browser_interface/ndfdXMLclient.php?citiesLevel=1234&product=time-series&maxt=maxt&mint=mint&qpf=qpf&snow=snow&format=24+hourly&numDays=14'''
+    url = '''http://www.weather.gov/forecasts/xml/sample_products/browser_interface/ndfdXMLclient.php?citiesLevel=1234&product=time-series&maxt=maxt&mint=mint&qpf=qpf&snow=snow&format=24+hourly&Unit=m'''
     while True:
         forecast = make_urlrequest(url)
         if forecast.msg == 'OK':
@@ -101,8 +101,8 @@ def request_all_NOAA_points():
         group = '+'.join(group)
         head = ('''http://www.weather.gov/forecasts/xml/sample_products/'''
                 '''browser_interface/ndfdXMLclient.php?'''
-                '''product=time-series&product=time-series'''
-                '''&maxt=maxt&mint=mint&qpf=qpf&snow=snow&listLatLon=''')
+                '''product=time-series&product=time-series&format=24+hourly'''
+                '''&Unit=m&maxt=maxt&mint=mint&qpf=qpf&snow=snow&listLatLon=''')
         url = head + group
         while True:
             forecast = make_urlrequest(url)
