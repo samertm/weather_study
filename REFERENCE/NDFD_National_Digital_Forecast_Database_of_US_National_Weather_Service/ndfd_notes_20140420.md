@@ -4,6 +4,11 @@
 
 1. Returning to NOAA work after a week or so on OWM. 
 
+1. Useful sites:
+
+  2. 200 pre-chosen cities: `http://www.weather.gov/forecasts/xml/sample_products/browser_interface/ndfdBrowserClientByDay.php?`
+  2. Up to 200 individual sites: `http://www.weather.gov/forecasts/xml/sample_products/browser_interface/ndfdXMLclient.php?`
+
 1. Matter for the API calls:
 
    2. points: `listLatLon=1...`
