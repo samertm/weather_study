@@ -23,7 +23,8 @@ DROP TABLE IF EXISTS owm_values;
 CREATE TABLE owm_values (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     location_id TEXT,
-    target_date INTEGER,
+    -- We leave target_date as string since no calculations are done with it.
+    target_date TEXT,
     -- Numerical value fields follow this format:
     --     <type>_<displacement>
     --   where "type" is maxt (temperature), mint (temperature), or rain;
