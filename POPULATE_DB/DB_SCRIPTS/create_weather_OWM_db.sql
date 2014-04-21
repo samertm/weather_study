@@ -18,6 +18,14 @@
 --    country TEXT
 --);
 
+DROP TABLE IF EXISTS downloads_inserted;
+-- Maintain records about which download-directories have been used to populate 
+--     table "owm_values".
+CREATE TABLE downloads_inserted (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    directory_name TEXT UNIQUE
+);
+
 DROP TABLE IF EXISTS owm_values;
 -- Forecast and observed-data values from the Open Weather Map project.
 CREATE TABLE owm_values (
