@@ -15,12 +15,31 @@ import city_codes as CC
 def populate_db_w_observations(forecast_dict, db='weather_data_OWM.db'):
     pass
 
-def populate_db_w_forecasts(forecast_dict, db='weather_data_OWM.db'):
+def populate_db_w_forecasts(
+            forecast_dict, directory, repop_if_already_done=False,
+            db='weather_data_OWM.db'):
     """Populate database with the contents of a forecast dictionary."""
     query_date = forecast_dict['query_date']
     connection = sqlite3.connect(os.path.join('../', db))
     with connection:
         cursor = connection.cursor()
+        # Add directory name to table downloads_inserted and decide whether to
+        # repopulate database with the data or not.
+        try:
+            cursor.execute(
+                    '''INSERT INTO downloads_inserted (directory_name) '''
+                    '''VALUES (?)''', (directory,))
+        except sqlite3.IntegrityError as e:
+            print('''Contents of directory\n    {}\n    have already been '''
+                    '''imported.'''.format(directory))
+            if not repop_if_already_done:
+                print('''    Flushing data for this directory because the '''
+                '''flag repop_if_already_done was set to False.''')
+                return
+            else:
+                print('''    Repopulating anyway, because the flag '''
+                        '''repop_if_already_done was set to True.''')
+        # Add downloaded values to table owm_values.
         for key in forecast_dict:
             if key == 'query_date':
                 continue
@@ -69,7 +88,8 @@ def process_dir_of_downloads(to_print=None):
         print('Files obtained from directory.') # debug
         forecast_dict = U.retrieve_data_vals(files, to_print)
         print('`forecast_dict` received.') # debug
-        populate_db_w_forecasts(forecast_dict)
+        populate_db_w_forecasts(forecast_dict, directory,
+                repop_if_already_done=False)
         print('Ran `populate_db_w_forecasts()`.', end='\n\n') # debug
     end_time = time.time()
     print('Total time elapsed for {} directories: {} seconds'.
