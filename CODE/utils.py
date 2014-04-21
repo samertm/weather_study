@@ -302,5 +302,5 @@ def tar_directory(dirname=None):
     os.chdir(home_dir)
     end_time = time.time()
     total_time = round(end_time - start_time)
-    print('Total time elapsed: {} seconds; {} seconds per directory on avg.'.
+    print('Total time elapsed in tarring: {} seconds; {} seconds per directory on avg.'.
             format(total_time, round(total_time/len(directories), 1)))
