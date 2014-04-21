@@ -8,6 +8,7 @@
 import os
 import sys
 import urllib
+import http
 import datetime
 import time
 import json
@@ -110,7 +111,7 @@ def request_all_NOAA_points():
                 # forecast.readall(): bytes; use `.decode()` for long string
                 try:
                     forecast = forecast.readall().decode()
-                except IncompleteRead as e:
+                except http.client.IncompleteRead as e:
                     print(e, 'at group', i, group, '\n')
                     continue
                 if forecast[-8:-1] == '</dwml>':
@@ -254,6 +255,7 @@ def cities_forecast_download_NOAA():
     with open(os.path.join(
             '../DATA/DOWNLOADS/' + dir_name, dir_name + '.txt'), 'w') as f:
         f.write(content)
+    tar_directory(dir_name)
     end_time = time.time()
     print('\nTime elapsed: {} seconds.'.
             format(round(end_time-start_time)))
