@@ -17,9 +17,13 @@
 
 ### To build             
 
+- [ ] Tools to place observation data in database.
+- [ ] Function to store in (new) db table the name of each download set that is inserted.
+- [ ] Function to retrieve data from db.
+- [ ] Observation data.
 - [ ] Check whether `get_city_code_list` is in fact working — successive downloaded files appear to be identical (according to diff). Then why are we downloading them?
 - [ ] Tools to process observation data for display.
-- [ ] Tools to place observation data in database.
+- [ ] Test suite.
 - [ ] Tools to evaluate concisely any changes between subsequent downloads.
 - [ ] Tool to evaluate extent of any differences in multiple downloads for the same 24-hour period.
 - [ ] Place OWM's name and license information on site.
