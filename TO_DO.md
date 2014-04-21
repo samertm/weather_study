@@ -21,7 +21,7 @@
 - [x] Function to store in (new) db table the name of each download set that is inserted.
 - [ ] Function to retrieve data from db.
 - [ ] Check whether `get_city_code_list` is in fact working — successive downloaded files appear to be identical (according to diff). Then why are we downloading them?
-- [ ] Tools to process observation data for display.
+- [ ] Tools to process all values for display.
 - [ ] Test suite.
 - [ ] Place name of data source and and license information on site.
 - [ ] Consider changing compression module to `shutil` (http://chimera.labs.oreilly.com/books/1230000000393/ch13.html#_problem_218).
