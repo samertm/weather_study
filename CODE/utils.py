@@ -136,6 +136,7 @@ def request_all_NOAA_points():
     print('\nTime elapsed: {} seconds.'.
             format(round(end_time-start_time)))
     print('Saved to', dir_name)
+    tar_directory(dir_name)
 
 def construct_date(date_and_time=None):
     """Construct a time-and-date string for appending to a filename."""
@@ -265,15 +266,15 @@ def tar_directory(dirname=None):
     # Do the whole procedure below for any existing directories in DOWNLOADS.
     # First find the directories.
     if not dirname:
-        directories = open_directory('downloads_OWM_US_')
+        directories = open_directory('downloads_')
     else:
         directories = [dirname]
     print('{} directories to be compressed.'.
             format(len(directories)), end='\n\n')
     # Make sure ../COMPRESSED exists or create it.
-    if not os.path.exists('../DATA/COMPRESSED'):
-        os.makedirs('../DATA/COMPRESSED')
-        print('Created directory ../DATA/COMPRESSED', end='\n\n')
+    if not os.path.exists('../COMPRESSED'):
+        os.makedirs('../COMPRESSED')
+        print('Created directory COMPRESSED', end='\n\n')
     # Now compress each directory and finally delete it.
     for directory in directories:
         file_list = glob.glob(directory+'/*')
@@ -281,7 +282,7 @@ def tar_directory(dirname=None):
                 format(len(file_list), directory))
         # Compress each contained file, using context manager.
         with tarfile.open(
-                '../DATA/COMPRESSED/' + directory + '.tar.bz2', 'w:bz2') as f:
+                '../COMPRESSED/' + directory + '.tar.bz2', 'w:bz2') as f:
             for i, item in enumerate(file_list):
                 f.add(item)
                 if not i % 1000:
