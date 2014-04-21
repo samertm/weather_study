@@ -8,6 +8,7 @@
 import os
 import sqlite3
 import ast
+import time
 import utils as U
 import city_codes as CC
 
@@ -44,7 +45,7 @@ def populate_db_w_forecasts(forecast_dict, db='weather_data_OWM.db'):
                                '''(location_id,target_date) '''
                                '''VALUES (?,?)''', (key, target_date))
                    except sqlite3.IntegrityError as e:
-                       print(e, key, query_date) # debug
+#                       print(e, key, query_date) # debug
                        # No need to do anything, since record already exists.
                        pass
                    # Use id to "update" values in specific record.
@@ -58,17 +59,21 @@ def populate_db_w_forecasts(forecast_dict, db='weather_data_OWM.db'):
 
 def process_dir_of_downloads(to_print=None):
     """Populate database with the forecasts from all files in DOWNLOADS."""
+    start_time = time.time()
     # Get names of directories in download folder
     directories = U.open_directory('../DATA/DOWNLOADS/downloads_OWM_US_')
     # For each directory, get all files
     for directory in directories:
         print(directory) # debug
         files = U.open_directory(directory+'/')
-        print('got files') # debug
+        print('Files obtained from directory.') # debug
         forecast_dict = U.retrieve_data_vals(files, to_print)
-        print('got forecast_dict') # debug
+        print('`forecast_dict` received.') # debug
         populate_db_w_forecasts(forecast_dict)
-        print('did populate_db_w_forecasts') # debug
+        print('Ran `populate_db_w_forecasts()`.', end='\n\n') # debug
+    end_time = time.time()
+    print('Total time elapsed for {} directories: {} seconds'.
+            format(len(directories), round(end_time-start_time)))
 
 def populate_db_w_city_codes(db='weather_data_OWM.db'):
     """Populate database with contents of most recently saved city code list."""
