@@ -35,4 +35,16 @@
 
   Much better time than OWM! Each is plausibly a single data set.
 
+1. Tasks I hope to get done today:
+
+  2. Data insertion into db, from OWM. Needs some sort of verification, pending creation of a formal test suite.
+
+  2. Function to store in (new) db table the name of each download set that is inserted. With this, we can keep track locally of what the local database contains.
+
+  2. Right now the download files are undergoing compression and deletion immediately at the end of the download process, so it will be necessary to do all data-related steps with a compressed file - opening it for the purpose of retrieving the data. That would happen locally, Ao that we don't have to upload the whole db.
+
+  2. Function to retrieve data from db.
+
+  2. And of course before we can start doing actual analysis of forecasts, we'll need observation data, too.
+
 [end]
