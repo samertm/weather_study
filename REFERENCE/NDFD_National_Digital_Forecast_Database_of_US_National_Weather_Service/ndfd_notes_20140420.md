@@ -1,8 +1,18 @@
 ## NDFD Notes 20140420
 
-[edited 20140420]
+[edited 20140421]
 
-1. Returning to NOAA work after a week or so on OWM. Determined that no more than 200 points can be queried at once:
+1. Returning to NOAA work after a week or so on OWM. 
+
+1. Matter for the API calls:
+
+   2. points: `listLatLon=1...`
+   2. metric: `&Unit=m`
+   2. maximum number of forecast days: `&product=time-series`
+   2. parameters: `&maxt=maxt&mint=mint&qpf=qpf&snow=snow`
+   2. daily rather than sub-daily report: `&format=24+hourly` — not sure if this always has an effect
+ 
+1. Determined that no more than 200 points can be queried at once:
 
         500 items: HTTP Error 400: Bad Request
         400 items: HTTP Error 414: Request-URI Too Large
