@@ -146,10 +146,17 @@ def construct_date(date_and_time=None):
     date_and_time = date_and_time.strftime('%Y%m%d-%H%M')
     return date_and_time
 
-def convert_from_unixtime(unixtime):
+def convert_from_unixtime(unixtime, whole=True):
     """Convert Unix time to human-readable string."""
-    return datetime.datetime.fromtimestamp(
-            unixtime).strftime('%Y-%m-%d %H:%M')
+    if not whole:
+        # Date only, no time.
+        date = datetime.datetime.fromtimestamp(
+            unixtime).strftime('%Y%m%d')
+    else:
+        # Both date and time.
+        date = datetime.datetime.fromtimestamp(
+            unixtime).strftime('%Y%m%d-%H%M')
+    return date
 
 def open_directory(path):
     """Get list of files in a given directory."""
