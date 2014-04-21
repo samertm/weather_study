@@ -25,7 +25,7 @@
 - [ ] Tools to process observation data for display.
 - [ ] Test suite.
 - [ ] Tools to evaluate concisely any changes between subsequent downloads.
-- [ ] Tool to evaluate extent of any differences in multiple downloads for the same 24-hour period.
+- [x] Tool to evaluate extent of any differences in multiple downloads for the same 24-hour period.
 - [ ] Place name of data source and and license information on site.
 - [ ] Consider changing compression module to `shutil` (http://chimera.labs.oreilly.com/books/1230000000393/ch13.html#_problem_218).
  
