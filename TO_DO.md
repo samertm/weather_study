@@ -18,7 +18,7 @@
 ### To build             
 
 - [ ] Tools to place observation data in database.
-- [ ] Function to store in (new) db table the name of each download set that is inserted.
+- [x] Function to store in (new) db table the name of each download set that is inserted.
 - [ ] Function to retrieve data from db.
 - [ ] Check whether `get_city_code_list` is in fact working — successive downloaded files appear to be identical (according to diff). Then why are we downloading them?
 - [ ] Tools to process observation data for display.
