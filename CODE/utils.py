@@ -112,7 +112,7 @@ def request_all_NOAA_points():
                 try:
                     forecast = forecast.readall().decode()
                 except http.client.IncompleteRead as e:
-                    print(e, 'at group', i, group, '\n')
+                    print(e, 'at group', i+1)
                     continue
                 if forecast[-8:-1] == '</dwml>':
                     print('Forecast group {}/{} 200-forecast groups received.'.
