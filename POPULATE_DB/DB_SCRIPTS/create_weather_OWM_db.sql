@@ -1,5 +1,5 @@
 -- *****************
--- 20140418
+-- 20140421
 -- 
 -- Script to populate Weather Study project database.
 --
@@ -9,14 +9,14 @@
 --
 -- *****************
 
-DROP TABLE IF EXISTS locations;
-CREATE TABLE locations (
-    id TEXT PRIMARY KEY UNIQUE,
-    name TEXT,
-    lat NUMBER,
-    lon NUMBER,
-    country TEXT
-);
+--DROP TABLE IF EXISTS locations;
+--CREATE TABLE locations (
+--    id TEXT PRIMARY KEY UNIQUE,
+--    name TEXT,
+--    lat NUMBER,
+--    lon NUMBER,
+--    country TEXT
+--);
 
 DROP TABLE IF EXISTS owm_values;
 -- Forecast and observed-data values from the Open Weather Map project.
@@ -93,6 +93,7 @@ CREATE TABLE owm_values (
     mint_14 NUMBER,
     rain_14 NUMBER,
     snow_14 NUMBER,
+    UNIQUE (location_id, target_date),
     FOREIGN KEY (location_id) REFERENCES locations(id)
 );
 
