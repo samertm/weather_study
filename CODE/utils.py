@@ -257,14 +257,17 @@ def cities_forecast_download_NOAA():
     print('\nTime elapsed: {} seconds.'.
             format(round(end_time-start_time)))
 
-def tar_directory():
+def tar_directory(dirname=None):
     """Compress all directories found in DOWNLOAD/ and delete originals."""
     start_time = time.time()
     home_dir = os.getcwd()
     os.chdir('../DATA/DOWNLOADS')
     # Do the whole procedure below for any existing directories in DOWNLOADS.
     # First find the directories.
-    directories = open_directory('downloads_OWM_US_')
+    if not dirname:
+        directories = open_directory('downloads_OWM_US_')
+    else:
+        directories = [dirname]
     print('{} directories to be compressed.'.
             format(len(directories)), end='\n\n')
     # Make sure ../COMPRESSED exists or create it.
