@@ -4,6 +4,8 @@
 
 **Main idea**: Forecasters predict the weather many days in advance for any given location. How do those predictions change as the target date approaches?
 
+**Tools used**: Python3, SQLite3, weather APIs, MatPlotLib, D3.
+
 ---
 
 ### To install
