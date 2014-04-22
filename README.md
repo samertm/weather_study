@@ -63,7 +63,7 @@
 
    Your local database keeps track of whether or not a given download directory has been used to populate it, and if so, by default it does not reinsert the data. To insert the same data even so, use
 
-        populate_db.process_dir_of_downloads(repop_if_already_done=True)
+        In [7]: populate_db.process_dir_of_downloads(repop_if_already_done=True)
 
 ### To analyze data.
 
