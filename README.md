@@ -10,7 +10,7 @@
 
 1. Runs in Python3. Clone from GitHub:
 
-    git clone git@github.com:WeatherStudy/weather_study.git
+        git clone git@github.com:WeatherStudy/weather_study.git
         cd weather_study
 
   or 
