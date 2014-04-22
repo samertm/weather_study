@@ -77,7 +77,7 @@ def populate_db_w_forecasts(
                         (maxt, mint, rain, snow, key, target_date)
                 )
 
-def process_dir_of_downloads(to_print=None):
+def process_dir_of_downloads(to_print=None, repop_if_already_done=False):
     """Populate database with the forecasts from all files in DOWNLOADS."""
     start_time = time.time()
     # Get names of directories in download folder
@@ -90,7 +90,7 @@ def process_dir_of_downloads(to_print=None):
         forecast_dict = U.retrieve_data_vals(files, to_print)
         print('`forecast_dict` received.') # debug
         populate_db_w_forecasts(forecast_dict, directory,
-                repop_if_already_done=False)
+                repop_if_already_done)
         print('Ran `populate_db_w_forecasts()`.', end='\n\n') # debug
     end_time = time.time()
     print('Total time elapsed for {} directories: {} seconds'.

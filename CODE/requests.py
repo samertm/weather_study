@@ -158,7 +158,7 @@ def download_OWM_full_forecast(country='US', db='weather_data_OWM.db',
             length = len(code_list)
             print('{:>6d} done out of {}: {}%.'.
                     format(i, length, round(i*100/length, 1)))
-        content = str(construct_OWM_api_req(id=code))
+        content = str(construct_OWM_api_request(id=code))
         if content == 'None':
             print('Received "None" reply on query for city {}.'.format(code))
             continue
