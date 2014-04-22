@@ -67,19 +67,19 @@
 
 ### To analyze data.
 
- 1. This step assumes that forecast data has already been collected for a number of days. 
+ 1. This step assumes that forecast data has already been collected for a number of days. We are using Numpy to conduct statistical analysis, MatPlotLib to plot, and D3 to display in the browser.
 
-(Further description is pending.)
+(Description of this part of the project is pending.)
 
 ---
 
 ### To collect NOAA forecast data.
 
- 1. NOAA offers data in a number of different forms. For a single file of forecasts for a set of 200 major cities, use:
+ 1. NOAA offers data in a number of different forms. For a single file of forecasts for a set of 200 major US cities, use:
 
         In [101]: requests.construct_NOAA_request_200_cities()
 
-   For forecasts for all the cities used in the OWM request above, use:
+   For forecasts for all the US cities used in the OWM request above, use:
 
         In [102]: requests.download_NOAA_all_US_points()
 
