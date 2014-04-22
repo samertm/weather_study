@@ -81,7 +81,7 @@
 
  1. NOAA offers data in a number of different forms. For a single file of forecasts for a set of 200 major US cities, use:
 
-        In [101]: requests.construct_NOAA_request_200_cities()
+        In [101]: requests.download_NOAA_cities_forecast()
 
    For forecasts for all the US cities used in the OWM request above, use:
 
@@ -89,7 +89,7 @@
 
    In the latter case, the argument `limit` is also available if you want to restrict the number of files downloaded:
 
-        In [103]: requests.download_NOAA_all_US_points(limit=100)
+        In [103]: requests.download_NOAA_all_US_points(limit=2)
 
  1. Currently NOAA data is not being inserted into the database.
 
