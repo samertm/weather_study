@@ -87,6 +87,8 @@
 
         In [103]: requests.download_NOAA_all_US_points(limit=100)
 
+ 1. Currently NOAA data is not being inserted into the database.
+
 ---
 
 [end]
