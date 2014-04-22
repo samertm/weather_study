@@ -10,6 +10,7 @@ import urllib
 import http
 import time
 import json
+import utils as U
 import city_codes as CC
 
 def get_api_key(site='owm', show=False):
@@ -72,11 +73,11 @@ def request_NOAA_200_cities():
     # Forecast is dict; key 'list' is a list containing most of the content.
     return forecast
 
-def request_all_NOAA_points():
+def download_NOAA_all_US_points(limit=None):
     """Make request of forecast data from NOAA for all the US cities at OWM."""
     start_time = time.time()
     # Get newest file of latitude & longitude values.
-    files = open_directory('../DATA/CITY_LISTS/city_list_normalized_')
+    files = U.open_directory('../DATA/CITY_LISTS/city_list_normalized_')
     with open(files[-1], 'r') as f:
         contents = f.read()
     # Construct list of 'latitude,longitude' strings for US points only.
@@ -90,8 +91,11 @@ def request_all_NOAA_points():
             i in range(0, len(lat_and_long_list), 200)]
     # Make requests in groups of 200 and store results in forecasts_list.
     forecasts_list = []
-    download_start_time = construct_date()
+    download_start_time = U.construct_date()
     for i, group in enumerate(groups_of_200): # debug
+        # Truncate if there is a limit.
+        if i == limit:
+            break
         group = '+'.join(group)
         head = ('''http://www.weather.gov/forecasts/xml/sample_products/'''
                 '''browser_interface/ndfdXMLclient.php?'''
@@ -115,7 +119,7 @@ def request_all_NOAA_points():
                 else:
                     print('Unexpected file received, ending in:', forecast[-8:])
         forecasts_list.append(forecast)
-    download_end_time = construct_date()
+    download_end_time = U.construct_date()
     # Store raw material in a single directory with time-range stamp.
     if download_start_time.split('-')[0] == download_end_time.split('-')[0]:
         download_end_time = download_end_time.split('-')[-1]
@@ -131,14 +135,14 @@ def request_all_NOAA_points():
     print('\nTime elapsed: {} seconds.'.
             format(round(end_time-start_time)))
     print('Saved to', dir_name)
-    tar_directory(dir_name)
+    U.tar_directory(dir_name)
 
-def full_forecast_download_OWM(country='US', db='weather_data_OWM.db', 
+def download_OWM_full_forecast(country='US', db='weather_data_OWM.db', 
             limit=None):
     """Download OWN forecasts for set of locations, save to unique directory."""
     start_time = time.time()
     # Create time-stamped directory, with country-name, for this download.
-    dir_name = 'downloads_OWM_' + country + '_' + construct_date()
+    dir_name = 'downloads_OWM_' + country + '_' + U.construct_date()
     print('Saving to directory {}'.format(dir_name))
     if not os.path.exists(os.path.join('../DATA/DOWNLOADS/', dir_name)):
         os.makedirs(os.path.join('../DATA/DOWNLOADS/', dir_name))
@@ -160,16 +164,16 @@ def full_forecast_download_OWM(country='US', db='weather_data_OWM.db',
         with open(os.path.join(
             '../DATA/DOWNLOADS/'+dir_name, code+'.txt'), 'w') as f:
             f.write(content)
-    tar_directory(dir_name)
+    U.tar_directory(dir_name)
     end_time = time.time()
     print('\nTime elapsed: {} seconds.'.
             format(round(end_time-start_time)))
 
-def cities_forecast_download_NOAA():
+def download_NOAA_cities_forecast():
     """Download NOAA forecasts for 200 cities, save to unique directory."""
     start_time = time.time()
     # Create time-stamped directory for this download.
-    dir_name = 'downloads_NOAA_200_cities_' + construct_date()
+    dir_name = 'downloads_NOAA_200_cities_' + U.construct_date()
     print('Saving to directory {}'.format(dir_name))
     if not os.path.exists(os.path.join('../DATA/DOWNLOADS/', dir_name)):
         os.makedirs(os.path.join('../DATA/DOWNLOADS/', dir_name))
@@ -178,7 +182,7 @@ def cities_forecast_download_NOAA():
     with open(os.path.join(
             '../DATA/DOWNLOADS/' + dir_name, dir_name + '.txt'), 'w') as f:
         f.write(content)
-    tar_directory(dir_name)
+    U.tar_directory(dir_name)
     end_time = time.time()
     print('\nTime elapsed: {} seconds.'.
             format(round(end_time-start_time)))

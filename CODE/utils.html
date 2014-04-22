@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module utils</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>utils</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/dpb/github_public/weather_study/CODE/utils.py">/Users/dpb/github_public/weather_study/CODE/utils.py</a></font></td></tr></table>
+    <p><tt>Utilities&nbsp;for&nbsp;Weather&nbsp;Study&nbsp;project.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="ast.html">ast</a><br>
+<a href="datetime.html">datetime</a><br>
+<a href="glob.html">glob</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+<a href="pprint.html">pprint</a><br>
+<a href="shutil.html">shutil</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+<a href="tarfile.html">tarfile</a><br>
+<a href="time.html">time</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-construct_date"><strong>construct_date</strong></a>(date_and_time=None)</dt><dd><tt>Construct&nbsp;a&nbsp;time-and-date&nbsp;string&nbsp;for&nbsp;appending&nbsp;to&nbsp;a&nbsp;filename.</tt></dd></dl>
+ <dl><dt><a name="-convert_from_unixtime"><strong>convert_from_unixtime</strong></a>(unixtime, whole=True)</dt><dd><tt>Convert&nbsp;Unix&nbsp;time&nbsp;to&nbsp;human-readable&nbsp;string.</tt></dd></dl>
+ <dl><dt><a name="-open_directory"><strong>open_directory</strong></a>(path)</dt><dd><tt>Get&nbsp;list&nbsp;of&nbsp;files&nbsp;in&nbsp;a&nbsp;given&nbsp;directory.</tt></dd></dl>
+ <dl><dt><a name="-retrieve_data_vals"><strong>retrieve_data_vals</strong></a>(files, to_print=None)</dt><dd><tt>From&nbsp;a&nbsp;list&nbsp;of&nbsp;files&nbsp;return&nbsp;a&nbsp;dictionary&nbsp;of&nbsp;forecasts.<br>
+&nbsp;<br>
+Dictionary&nbsp;contains:<br>
+&nbsp;<br>
+&nbsp;&nbsp;*&nbsp;query_date&nbsp;(from&nbsp;directory&nbsp;name&nbsp;in&nbsp;filenames)&nbsp;and<br>
+&nbsp;&nbsp;*&nbsp;a&nbsp;series&nbsp;of&nbsp;"city_id:forecast_list_pruned"&nbsp;pairs.<br>
+&nbsp;<br>
+Each&nbsp;"forecast_list_pruned"&nbsp;list&nbsp;contains&nbsp;tuples,&nbsp;bearing:<br>
+&nbsp;<br>
+&nbsp;&nbsp;*&nbsp;target&nbsp;date/time,<br>
+&nbsp;&nbsp;*&nbsp;max&nbsp;temp.,<br>
+&nbsp;&nbsp;*&nbsp;min.&nbsp;temp.,&nbsp;and<br>
+&nbsp;&nbsp;*&nbsp;rain,<br>
+&nbsp;&nbsp;*&nbsp;snow.</tt></dd></dl>
+ <dl><dt><a name="-tar_directory"><strong>tar_directory</strong></a>(dir_name=None)</dt><dd><tt>Compress&nbsp;all&nbsp;directories&nbsp;found&nbsp;in&nbsp;DOWNLOAD/&nbsp;and&nbsp;delete&nbsp;originals.</tt></dd></dl>
+</td></tr></table>
+</body></html>
