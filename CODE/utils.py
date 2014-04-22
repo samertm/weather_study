@@ -222,7 +222,8 @@ def retrieve_data_vals(files, to_print=None):
         print('\n') # debug
     return forecast_dict
 
-def full_forecast_download_OWM(country='US', db='weather_data_OWM.db'):
+def full_forecast_download_OWM(country='US', db='weather_data_OWM.db', 
+            limit=None):
     """Download OWN forecasts for set of locations, save to unique directory."""
     start_time = time.time()
     # Create time-stamped directory, with country-name, for this download.
@@ -233,6 +234,9 @@ def full_forecast_download_OWM(country='US', db='weather_data_OWM.db'):
     # Download all forecasts.
     code_list = CC.get_city_codes_from_db(country, db)
     for i, code in enumerate(code_list):
+        # Truncate if there is a limit.
+        if i == limit:
+            break
         # Print stats so we can see where we are in long download.
         if not i % 100:
             length = len(code_list)
@@ -245,6 +249,7 @@ def full_forecast_download_OWM(country='US', db='weather_data_OWM.db'):
         with open(os.path.join(
             '../DATA/DOWNLOADS/'+dir_name, code+'.txt'), 'w') as f:
             f.write(content)
+    tar_directory(dir_name)
     end_time = time.time()
     print('\nTime elapsed: {} seconds.'.
             format(round(end_time-start_time)))
@@ -267,17 +272,17 @@ def cities_forecast_download_NOAA():
     print('\nTime elapsed: {} seconds.'.
             format(round(end_time-start_time)))
 
-def tar_directory(dirname=None):
+def tar_directory(dir_name=None):
     """Compress all directories found in DOWNLOAD/ and delete originals."""
     start_time = time.time()
     home_dir = os.getcwd()
     os.chdir('../DATA/DOWNLOADS')
     # Do the whole procedure below for any existing directories in DOWNLOADS.
     # First find the directories.
-    if not dirname:
+    if not dir_name:
         directories = open_directory('downloads_')
     else:
-        directories = [dirname]
+        directories = [dir_name]
     print('{} directories to be compressed.'.
             format(len(directories)), end='\n\n')
     # Make sure ../COMPRESSED exists or create it.
@@ -305,7 +310,7 @@ def tar_directory(dirname=None):
         shutil.rmtree(directory)
         print('Original directory "{}" deleted.'.format(directory), end='\n\n')
         print('—' * 40, end='\n\n')
-    # When finished, return to directory where we started.
+    # When finished, compress and then return to directory where we started.
     os.chdir(home_dir)
     end_time = time.time()
     total_time = round(end_time - start_time)
