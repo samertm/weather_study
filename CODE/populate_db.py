@@ -13,6 +13,7 @@ import utils as U
 import city_codes as CC
 
 def populate_db_w_observations(forecast_dict, db='weather_data_OWM.db'):
+    """Populate database with observed data. (Not yet written.)"""
     pass
 
 def populate_db_w_forecasts(
