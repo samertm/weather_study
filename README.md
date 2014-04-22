@@ -42,9 +42,13 @@
 
         In [3]: populate_db.populate_db_w_city_codes()
 
+   The function will print the value of each record it inserts, unless the `to_print` argument is used:
+
+        In [4]: populate_db.populate_db_w_city_codes(to_print=None)
+
  1.  Still in the REPL, download forecast data from Open Weather Map:
 
-        In [4]: requests.download_OWM_full_forecast()
+        In [5]: requests.download_OWM_full_forecast()
         Saving to directory downloads_OWM_US_20140422-1409
             0 done out of 11731: 0.0%.
             100 done out of 11731: 0.9%.
@@ -52,18 +56,18 @@
 
    Once the download is complete, the content will be compressed and stored as a single `.tar.bz2` archive in the `COMPRESSED/` directory. This full download typically takes two or three hours. Alternately, you can use the `limit` default keyword if you want to specify some smaller number of sites:
 
-        In [5]: requests.download_OWM_full_forecast(limit=100)
+        In [6]: requests.download_OWM_full_forecast(limit=100)
 
     For the sake of consistency this download should be done only once a day at the same time of day — we prefer between 4:30 p.m. and midnight, U.S. Eastern Daylight Savings time, when we find the content of the forecasts to be relatively uniform. 
     You will need to download forecast data yourself, once a day, for every day you want to study.
 
  1.  Populate the database with your downloaded data. Right now this requires a preliminary manual step: decompress the compressed data and move the resulting subdirectories into the `DOWNLOADED/` directory. Then run
 
-        In [6]: populate_db.process_dir_of_downloads()
+        In [7]: populate_db.process_dir_of_downloads()
 
    Your local database keeps track of whether or not a given download directory has been used to populate it, and if so, by default it does not reinsert the data. To insert the same data even so, use
 
-        In [7]: populate_db.process_dir_of_downloads(repop_if_already_done=True)
+        In [8]: populate_db.process_dir_of_downloads(repop_if_already_done=True)
 
 ### To analyze data.
 
