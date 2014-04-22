@@ -38,7 +38,8 @@ def make_urlrequest(url):
             content = ''
     return content
 
-def construct_OWM_api_req(id='5128581', count=15): # ID 5128581 = New York City
+def construct_OWM_api_request(id='5128581', count=15): 
+    # ID 5128581 = New York City
     """Make OWM forecast query."""
     # "...daily..." required for the `count` variable to be meaningful.
     head = 'http://openweathermap.org/data/2.5/forecast/daily?'
@@ -60,7 +61,7 @@ def construct_OWM_api_req(id='5128581', count=15): # ID 5128581 = New York City
     # Forecast is dict; key 'list' is a list containing most of the content.
     return forecast
 
-def request_NOAA_200_cities():
+def construct_NOAA_request_200_cities():
     """Make request of forecast data from NOAA for 200 Level 1/2/3/4 cities."""
     url = '''http://www.weather.gov/forecasts/xml/sample_products/browser_interface/ndfdXMLclient.php?citiesLevel=1234&product=time-series&maxt=maxt&mint=mint&qpf=qpf&snow=snow&format=24+hourly&Unit=m'''
     while True:
