@@ -8,7 +8,7 @@
 
 ----
 
-- [X] How often are forecasts revised? We will test this by two full runs within a 24-hour (or shorter) period. 
+- [x] How often are forecasts revised? We will test this by two full runs within a 24-hour (or shorter) period. 
  * **Update**: It seems that query-runs around noon are disorganized; our three query-runs on 20140414 and 20140415 between the hours of 16:30 and 01:00 were more coherent.
  * **Update**: NOAA's gridded forecasts are updated every hour.
 - [x] What is the unit of measurement for rain (in metric queries)? Mm. (Seen on bugs.openweathermap.org/projects/api/wiki/Weather_Data)
@@ -18,16 +18,17 @@
 ### To build             
 
 - [ ] Tools to place observation data in database.
-- [x] Function to store in (new) db table the name of each download set that is inserted.
 - [ ] Function to retrieve data from db.
 - [ ] Check whether `get_city_code_list` is in fact working — successive downloaded files appear to be identical (according to diff). Then why are we downloading them?
 - [ ] Tools to process all values for display.
 - [ ] Test suite.
 - [ ] Place name of data source and and license information on site.
 - [ ] Consider changing compression module to `shutil` (http://chimera.labs.oreilly.com/books/1230000000393/ch13.html#_problem_218).
+- [ ] Replace SQL code with ORM code.
  
 ---
 
+- [x] Function to store in (new) db table the name of each download set that is inserted.
 - [x] Function to store forecast data.
 - [x] Tools to evaluate concisely any changes between subsequent downloads.
 - [x] Tool to evaluate extent of any differences in multiple downloads for the same 24-hour period.
