@@ -24,7 +24,7 @@
 
  1.  Set up SQLite3 database:
 
-        sqlite3 weather_data_OWM.db < POPULATE_DB/DB_SCRIPTS/create_weather_OWM_db.sql
+        sqlite3 weather_data_OWM.db < CODE/DB_SCRIPTS/create_weather_OWM_db.sql
 
 ### To begin collecting and inserting data
 
