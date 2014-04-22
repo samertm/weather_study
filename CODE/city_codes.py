@@ -1,7 +1,7 @@
 #! /usr/bin/python
 # city_codes.py
 # David Prager Branner and Gina Schmalzle
-# 20140420, works
+# 20140422, works
 
 """City-code tools for Weather Study project."""
 
@@ -9,10 +9,11 @@ import os
 import glob
 import sqlite3
 import utils as U
+import requests as RQ
 
 def get_city_code_list():
     """Get city code list from OWM; check to see if changed; save; normalize."""
-    cities = U.make_urlrequest( 'http://openweathermap.org/help/city_list.txt')
+    cities = RQ.make_urlrequest( 'http://openweathermap.org/help/city_list.txt')
     # Is content changed?
     # Compare hash to hash of previously downloaded version.
     cities = cities.read()
