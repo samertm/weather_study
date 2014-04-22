@@ -3,7 +3,7 @@
 # David Prager Branner and Gina Schmalzle
 # 20140419, works
 
-"""Programs to examine data in Weather Study project."""
+"""Programs to examine character of data in Weather Study project."""
 
 import os
 import ast
@@ -141,7 +141,7 @@ def find_identical_forecasts():
         print('\n')
 
 def check_dt_deltas_same():
-    """Report if deltas vary betw consecutive dts for single location."""
+    """Report if deltas vary between consecutive dts for single location."""
     set_of_set_contents = set()
     # Get all files in a directory
     sub_dirs = glob.glob('../DATA/DOWNLOADS/downloads_OWM_US_*')
