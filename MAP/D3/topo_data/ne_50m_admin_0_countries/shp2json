@@ -7,9 +7,9 @@
 # This command will convert only the country of interest
 # You must figure out the country codes you would like
 # Field named ADM0_A3 that contains the country codes
-#ogr2ogr -f GeoJSON -where "ADM0_A3 IN( 'country code here') out.json ne_50m_admin_0_countries.shp 
+ogr2ogr -f GeoJSON -where "ADM0_A3 IN( 'US1')" us.json ne_50m_admin_0_countries.shp 
 
 #Clipping area
 # This version converts the region within a selected area
 # W S E N define the wesr south east and north region 
-ogr2ogr -f GeoJSON us_clipped.json ne_50m_admin_0_countries.shp -clipsrc -130 25 -60 50
+#ogr2ogr -f GeoJSON us_clipped.json ne_50m_admin_0_countries.shp -clipsrc -130 25 -60 50

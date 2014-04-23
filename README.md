@@ -61,7 +61,7 @@
     For the sake of consistency this download should be done only once a day at the same time of day — we prefer between 4:30 p.m. and midnight, U.S. Eastern Daylight Savings time, when we find the content of the forecasts to be relatively uniform. 
     You will need to download forecast data yourself, once a day, for every day you want to study.
 
- 1.  Populate the database with your downloaded data. Right now this requires a preliminary manual step: decompress the compressed data and move the resulting subdirectories into the `DOWNLOADED/` directory. Then run
+ 1.  Populate the database with your downloaded data. Right now this requires a preliminary manual step: decompress the compressed data and move the resulting subdirectories into the `DOWNLOADS/` directory. Then run
 
         In [7]: populate_db.process_dir_of_downloads()
 
