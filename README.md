@@ -28,11 +28,11 @@
 
 ### To begin collecting and inserting data
 
- 1.  Enter the `CODE/` directory. Open a Python3 REPL. Import needed Populate database with US placenames and their codes and latitude/longitude values.
+ 1.  Enter the `CODE/` directory. Open a Python3 REPL. Import needed modules. Then populate database with US placenames and their codes and latitude/longitude values.
 
         cd CODE
         ipython
-        In [1]: import city_codes, populate_db, requests, check_data, utils
+        In [1]: import city_codes, populate_db, requests, check_data, utils, retrieve
         
         In [2]: city_codes.get_city_code_list()
 
