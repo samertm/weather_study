@@ -12,7 +12,7 @@ import utils as U
 import city_codes as CC
 
 def get_weather_data_from_db(db='weather_data_OWM.db', start_date=None, 
-        end_date=None):
+        end_date=None, exact_date=None):
     """Retrieve weather data from database and process."""
     start_time = time.time()
     select_string = (
@@ -34,7 +34,17 @@ def get_weather_data_from_db(db='weather_data_OWM.db', start_date=None,
         '''maxt_14, mint_14, rain_14, snow_14 '''
         '''FROM locations, owm_values '''
         '''ON owm_values.location_id=locations.id;''')
-    if start_date and not end_date:
+    if exact_date:
+        # Add condition to end of select_string. 
+        # We ignore start_date and end_date in this case.
+        select_string = select_string.replace(
+                ';', ' WHERE target_date=' + str(exact_date) + ';')
+    elif start_date and end_date:
+        # Add condition to end of select_string
+        select_string = select_string.replace(';', 
+                ' WHERE target_date>=' + str(start_date) +
+                ' AND target_date<=' + str(end_date) + ';')
+    elif start_date and not end_date:
         # Add condition to end of select_string
         select_string = select_string.replace(
                 ';', ' WHERE target_date>=' + str(start_date) + ';')
@@ -42,11 +52,6 @@ def get_weather_data_from_db(db='weather_data_OWM.db', start_date=None,
         # Add condition to end of select_string
         select_string = select_string.replace(
                 ';', ' WHERE target_date<=' + str(end_date) + ';')
-    elif start_date and end_date:
-        # Add condition to end of select_string
-        select_string = select_string.replace(';', 
-                ' WHERE target_date>=' + str(start_date) +
-                ' AND target_date<=' + str(end_date) + ';')
     connection = sqlite3.connect(os.path.join('../', db))
     with connection:
         cursor = connection.cursor()
