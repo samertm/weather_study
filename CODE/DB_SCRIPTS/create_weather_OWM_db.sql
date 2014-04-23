@@ -31,8 +31,8 @@ DROP TABLE IF EXISTS owm_values;
 CREATE TABLE owm_values (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     location_id TEXT,
-    -- We leave target_date as string since no calculations are done with it.
-    target_date TEXT,
+    -- We make target_date an integer so that calculations can be done with it.
+    target_date INTEGER,
     -- Numerical value fields follow this format:
     --     <type>_<displacement>
     --   where "type" is maxt (temperature), mint (temperature), or rain;
@@ -41,7 +41,7 @@ CREATE TABLE owm_values (
     --   cases, the value is forecast data.
     -- We expect 
     --     `maxt` and `mint` to be supplied in degrees Celsius and 
-    --     `rain` to be supplied in cm.
+    --     `rain` and `snow` to be supplied in cm.
     maxt_0 NUMBER,
     mint_0 NUMBER,
     rain_0 NUMBER,

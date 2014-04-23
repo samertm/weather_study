@@ -1,7 +1,7 @@
 #! /usr/bin/python
 # utils.py
 # David Prager Branner and Gina Schmalzle
-# 20140422, works
+# 20140423, works
 
 """Utilities for Weather Study project."""
 
@@ -55,10 +55,12 @@ def retrieve_data_vals(files, to_print=None):
       * rain,
       * snow.
     """
-    # Get the date of the query from the filename. `dt` values vary too much.
+    # Get the date of the query from the filename, as int. 
+    #     `dt` values vary too much.
     filename = files[0]
     dir_name = filename.split('/')[-2] # e.g. downloads_OWM_US_20140414-2215
-    query_date = dir_name.split('_')[-1] # e.g. 20140414-2215
+    query_date_and_time = dir_name.split('_')[-1] # e.g. 20140414-2215
+    query_date = int(query_date_and_time.split('-')[0]) # e.g. 20140414
     # Process each file
     forecast_dict = {'query_date': query_date}
     for file in files:
