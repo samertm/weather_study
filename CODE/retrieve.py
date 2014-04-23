@@ -34,12 +34,21 @@ def get_weather_data_from_db(db='weather_data_OWM.db', start_date=None,
         '''maxt_14, mint_14, rain_14, snow_14 '''
         '''FROM locations, owm_values '''
         '''ON owm_values.location_id=locations.id;''')
-    if start_date:
-        # add condition; qqq not yet built
-        pass
-    if end_date:
-        # add condition; qqq not yet built
-        pass
+    if start_date and not end_date:
+        # Add condition to end of select_string
+        print('Replacing')
+        select_string = select_string.replace(
+                ';', ' WHERE target_date>=' + str(start_date) + ';')
+        print(select_string)
+    elif end_date and not start_date:
+        # Add condition to end of select_string
+        select_string = select_string.replace(
+                ';', ' WHERE target_date<=' + str(end_date) + ';')
+    elif start_date and end_date:
+        # Add condition to end of select_string
+        select_string = select_string.replace(';', 
+                ' WHERE target_date>=' + str(start_date) +
+                ' AND target_date<=' + str(end_date) + ';')
     connection = sqlite3.connect(os.path.join('../', db))
     with connection:
         cursor = connection.cursor()
