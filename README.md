@@ -85,9 +85,13 @@
 
    For dates where the database contains no data, the forecast tuple is: `(None, None, None, None)`.
 
-   It is possible to narrow down the output of this function with two default arguments, whoich may be used together or singly:
+   It is possible to narrow down the output of this function with the argument `exact_date`, specifying the date as integer:
    
-       In [10]: retrieve.get_weather_data_from_db(start_date=20140423, end_date=20140424)
+       In [10]: retrieve.get_weather_data_from_db(exact_date=20140424)
+
+   It is also possible to narrow down the output of this function with two other default arguments, both also integers, which may be used together or singly:
+   
+       In [11]: retrieve.get_weather_data_from_db(start_date=20140423, end_date=20140424)
 
 
  1. (Further description of this part of the project is pending.)
