@@ -61,11 +61,11 @@ def get_weather_data_from_db(db='weather_data_OWM.db', start_date=None,
             pass
     # Convert to usable form. We receive list of simple tuples from database.
     retrieved_data = cursor_output.fetchall()
-    # Our re-composed data type is a tuple of lists. 
-    # Each list contains three items:
-    #     tuple of latitude and longitude (floats);
+    # Our re-composed data type is a list of tuples. 
+    # Each tuple contains three items:
+    #     sub-tuple containing latitude and longitude (floats);
     #     target_date (int);
-    #     list of 15 tuples, each containing
+    #     list of 15 sub-sub-tuples, each containing
     #         maxt, mint, rain, snow (floats).
     # For dates where the database contains no data, the forecast tuple
     # is: `(None, None, None, None)`.
