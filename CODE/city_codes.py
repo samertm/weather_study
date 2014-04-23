@@ -95,6 +95,6 @@ def get_city_codes_from_db(country='US', db='weather_data_OWM.db'):
                 id_hits = id_hits.fetchall()
             except sqlite3.IntegrityError or IndexError as e:
                 print('\n    ', e)
-    # id_hits is now a list of 1-tuples. Convert to plain list and retur.
+    # id_hits is now a list of 1-tuples. Convert to plain list and return.
     return [i[0] for i in id_hits]
 

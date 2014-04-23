@@ -96,7 +96,7 @@ def process_dir_of_downloads(to_print=None, repop_if_already_done=False):
     print('Total time elapsed for {} directories: {} seconds'.
             format(len(directories), round(end_time-start_time)))
 
-def populate_db_w_city_codes(db='weather_data_OWM.db'):
+def populate_db_w_city_codes(to_print=None, db='weather_data_OWM.db'):
     """Populate database with contents of most recently saved city code list."""
     connection = sqlite3.connect(os.path.join('../', db))
     with connection:
@@ -106,7 +106,8 @@ def populate_db_w_city_codes(db='weather_data_OWM.db'):
             if code == ['']:
                 print('\n    Empty tuple found; skipping.\n')
                 continue
-            print(str(tuple(code)))
+            if to_print:
+                print(str(tuple(code)))
             cursor.execute(
                     '''INSERT INTO locations VALUES''' +
                     str(tuple(code)))

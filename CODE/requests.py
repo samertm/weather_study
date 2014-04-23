@@ -179,7 +179,7 @@ def download_NOAA_cities_forecast():
     if not os.path.exists(os.path.join('../DATA/DOWNLOADS/', dir_name)):
         os.makedirs(os.path.join('../DATA/DOWNLOADS/', dir_name))
     # Download all forecasts.
-    content = request_NOAA_200_cities()
+    content = construct_NOAA_request_200_cities()
     with open(os.path.join(
             '../DATA/DOWNLOADS/' + dir_name, dir_name + '.txt'), 'w') as f:
         f.write(content)
