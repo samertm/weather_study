@@ -72,8 +72,25 @@
 ### To analyze data.
 
  1. This step assumes that forecast data has already been collected for a number of days. We are using Numpy to conduct statistical analysis, MatPlotLib to plot, and D3 to display in the browser.
+ 1. To retrieve data for the database use:
 
-(Description of this part of the project is pending.)
+        In [9]: retrieve.get_weather_data_from_db()
+
+   The data structure returned is a tuple of lists. Each list contains three items:
+
+   - tuple of latitude and longitude (floats);
+   - target_date (int);
+   - list of 15 tuples, each containing
+   - `maxt`, `mint`, `rain`, `snow` (floats).
+
+   For dates where the database contains no data, the forecast tuple is: `(None, None, None, None)`.
+
+   It is possible to narrow down the output of this function with two default arguments, whoich may be used together or singly:
+   
+       In [10]: retrieve.get_weather_data_from_db(start_date=20140423, end_date=20140424)
+
+
+ 1. (Further description of this part of the project is pending.)
 
 ---
 
