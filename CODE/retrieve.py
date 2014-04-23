@@ -36,10 +36,8 @@ def get_weather_data_from_db(db='weather_data_OWM.db', start_date=None,
         '''ON owm_values.location_id=locations.id;''')
     if start_date and not end_date:
         # Add condition to end of select_string
-        print('Replacing')
         select_string = select_string.replace(
                 ';', ' WHERE target_date>=' + str(start_date) + ';')
-        print(select_string)
     elif end_date and not start_date:
         # Add condition to end of select_string
         select_string = select_string.replace(
@@ -63,7 +61,9 @@ def get_weather_data_from_db(db='weather_data_OWM.db', start_date=None,
     #     tuple of latitude and longitude (floats);
     #     target_date (int);
     #     list of 15 tuples, each containing
-    #         maxt, mint, rain, snow (tuples).
+    #         maxt, mint, rain, snow (floats).
+    # For dates where the database contains no data, the forecast tuple
+    # is: `(None, None, None, None)`.
     composed_data = []
     for item in retrieved_data:
         lat_lon = item[0:2]
