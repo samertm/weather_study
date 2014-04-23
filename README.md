@@ -76,11 +76,11 @@
 
         In [9]: retrieve.get_weather_data_from_db()
 
-   The data structure returned is a tuple of lists. Each list contains three items:
+   The data structure returned is a list of tuples. Each tuple contains three elements:
 
-   - tuple of latitude and longitude (floats);
+   - sub-tuple containing latitude and longitude (floats);
    - target_date (int);
-   - list of 15 tuples, each containing
+   - list of 15 sub-sub-tuples, each containing
    - `maxt`, `mint`, `rain`, `snow` (floats).
 
    For dates where the database contains no data, the forecast tuple is: `(None, None, None, None)`.
