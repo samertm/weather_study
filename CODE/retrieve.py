@@ -11,7 +11,7 @@ import time
 import utils as U
 import city_codes as CC
 
-def get_weather_data_from_db(db='weather_data_OWM.db', 
+def get_multidate_data_from_db(db='weather_data_OWM.db', 
         start_date=None, end_date=None, exact_date=None):
     """Retrieve forecasts for multiple dates, return as list of tuples."""
     start_time = time.time()
@@ -88,7 +88,7 @@ def get_weather_data_from_db(db='weather_data_OWM.db',
             format(round(end_time-start_time)))
     return composed_data
 
-def get_weather_data_from_db_as_dict(exact_date, db='weather_data_OWM.db'):
+def get_single_date_data_from_db(exact_date, db='weather_data_OWM.db'):
     """Retrieve forecasts for single date, return as dictionary."""
     start_time = time.time()
     connection = sqlite3.connect(os.path.join('../', db))
