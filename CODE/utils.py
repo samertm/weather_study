@@ -1,7 +1,7 @@
 #! /usr/bin/python
 # utils.py
 # David Prager Branner and Gina Schmalzle
-# 20140423, works
+# 20140424, works
 
 """Utilities for Weather Study project."""
 
@@ -157,7 +157,7 @@ def untar_directory(dir_name=None):
         archives = open_directory('downloads_')
     else:
         archives = [dir_name]
-    print('{} directories to be compressed.'.format(len(archives)), end='\n\n')
+    print('{} directories to be extracted.'.format(len(archives)), end='\n\n')
     # Make sure ../COMPRESSED exists or create it.
     if not os.path.exists('../TEMPORARY'):
         os.makedirs('../TEMPORARY')
@@ -174,5 +174,5 @@ def untar_directory(dir_name=None):
     end_time = time.time()
     total_time = round(end_time - start_time)
     print('Total time elapsed in tarring: {} seconds; '
-            '{} seconds per directory on avg.'.
+            '{} seconds per directory on avg.\n'.
             format(total_time, round(total_time/len(archives), 1)))
