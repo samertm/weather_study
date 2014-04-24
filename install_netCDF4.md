@@ -2,8 +2,8 @@ Directions on how to install netcdf4
 ======================================
 Written by Gina Schmalzle 20140422
 
-1. You will need xcode 5.0.2 or higher to install netcdf.
-2. Once installed, make sure brew is up to date:
+1. You will need xcode 5.0.2 or higher to install `netcdf`.
+2. Once installed, make sure `brew` is up to date:
 
         brew doctor
         brew update
@@ -22,6 +22,6 @@ Written by Gina Schmalzle 20140422
 
   In addition to `netCDF4` you will need `numpy`, `scipy`, `matplotlib`.
 
-Detailed instructions on downloading peripherals for netCDF found at https://github.com/SciTools/installation-recipes/blob/master/osx10.8/install.txt.
+Detailed instructions on downloading peripherals for `netCDF` are to be found at https://github.com/SciTools/installation-recipes/blob/master/osx10.8/install.txt.
 
 [end]
