@@ -4,7 +4,7 @@
 
 - [ ] Decide how to manipulate data.
 - [ ] Decide how to visualize data.
-- [ ] What is meant by `mode=daily_compact` in a query? (It does seem to change the results slightly.) **Update**: Post question to StackOverflow.
+- [ ] What is meant by `mode=daily_compact` in a query? (It does seem to change the results slightly.) **Update**: Posted question to StackOverflow.
 
 ----
 
@@ -17,17 +17,17 @@
 
 ### To build             
 
-- [x] Tools to place observation data in database.
-- [x] Function to retrieve data from db.
-- [ ] Check whether `get_city_code_list` is in fact working — successive downloaded files appear to be identical (according to diff). Then why are we downloading them?
+- [ ] Test suite. Above all: to confirm data integrity.
 - [ ] Tools to process all values for display.
-- [ ] Test suite.
+- [ ] Check whether `get_city_code_list` is in fact working — successive downloaded files appear to be identical (according to diff). Then why are we downloading them?
 - [ ] Place name of data source and and license information on site.
 - [ ] Consider changing compression module to `shutil` (http://chimera.labs.oreilly.com/books/1230000000393/ch13.html#_problem_218).
 - [ ] Replace SQL code with ORM code.
  
 ---
 
+- [x] Tools to place observation data in database.
+- [x] Function to retrieve data from db.
 - [x] Function to store in (new) db table the name of each download set that is inserted.
 - [x] Function to store forecast data.
 - [x] Tools to evaluate concisely any changes between subsequent downloads.
