@@ -18,7 +18,7 @@
 ### To build             
 
 - [x] Tools to place observation data in database.
-- [ ] Function to retrieve data from db.
+- [x] Function to retrieve data from db.
 - [ ] Check whether `get_city_code_list` is in fact working — successive downloaded files appear to be identical (according to diff). Then why are we downloading them?
 - [ ] Tools to process all values for display.
 - [ ] Test suite.
