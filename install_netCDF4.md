@@ -12,7 +12,7 @@ Written by Gina Schmalzle 20140422
 
         brew install geos graphviz hdf5 jasper netcdf pil proj udunits
 
-  * pil did not come up for me in the pip database.  I installed pillow instead, another visualization library.
+  pil did not come up for me in the pip database.  I installed pillow instead, another visualization library.
 
 4. In your favorite virtual environment
 
