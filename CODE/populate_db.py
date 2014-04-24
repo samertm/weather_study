@@ -1,7 +1,7 @@
 #! /usr/bin/python
 # populate_db.py
 # David Prager Branner and Gina Schmalzle
-# 20140424, in progress
+# 20140424, works
 
 """Database populating tools for weather study."""
 
@@ -95,7 +95,8 @@ def process_dir_of_downloads(to_print=None, repop_if_already_done=False):
         populate_db_w_forecasts(forecast_dict, directory,
                 repop_if_already_done)
         print('Ran `populate_db_w_forecasts()`.', end='\n\n') # debug
-    shutil.rmtree('../DATA/TEMPORARY')
+    while os.path.exists('../DATA/TEMPORARY'):
+        shutil.rmtree('../DATA/TEMPORARY', ignore_errors=True)
     print('Directory ../DATA/TEMPORARY removed.')
     end_time = time.time()
     print('Total time elapsed for {} directories: {} seconds'.
