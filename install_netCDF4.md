@@ -12,12 +12,14 @@ Written by Gina Schmalzle 20140422
 
         brew install geos graphviz hdf5 jasper netcdf pil proj udunits
 
-  pil did not come up for me in the pip database.  I installed pillow instead, another visualization library.
+  The Python Imaging Library (PIL) does not yet support Python3 (http://www.pythonware.com/products/pil/, as of 20140424). I installed `pillow` instead, another visualization library.
 
 4. In your favorite virtual environment
 
         pip install netCDF4
 
-  In addition to netCDF4 you will need numpy, scipy, matplotlib.
+  In addition to netCDF4 you will need `numpy`, `scipy`, `matplotlib`.
 
 Detailed instructions on downloading peripherals for netCDF found at https://github.com/SciTools/installation-recipes/blob/master/osx10.8/install.txt
+
+[end]
