@@ -1,11 +1,11 @@
 #! /usr/bin/python
-# explore_bytes_hashes.py
+# explore_bytes_hashes_py2.py
 # David Prager Branner and Gina Schmalzle
 # 20140425
 
 """Explore changes to the hash() and md5 values of bytes objects."""
 
-import urllib.request
+import urllib2
 import hashlib
 
 url = 'http://openweathermap.org/help/city_list.txt'
@@ -14,7 +14,7 @@ md5_set = set()
 counter = 0
 while len(hash_set) < 100 or len(md5_set) < 100 or len(response_hash_set) < 100:
     counter += 1
-    response = urllib.request.urlopen(url)
+    response = urllib2.urlopen(url)
     content = response.read()
     the_hash = hash(content)
     the_md5 = hashlib.md5(content).hexdigest()
