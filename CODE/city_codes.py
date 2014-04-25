@@ -35,12 +35,6 @@ def get_city_code_list():
         print('hash of new: {}\nlast saved hash: {}'.
                 format(md5, hash_of_last), sep='\n')
         print('City-code byte-data retrieved, proves different from previous.')
-        # Why do we need to save bytes version of list, if we also save the
-        # normalized string version and a hash of the bytes version?
-        city_list_filename = 'city_list_bytes_' + U.construct_date() + '.txt'
-        with open(os.path.join(
-                '../DATA/CITY_LISTS', city_list_filename), 'wb') as f:
-            f.write(cities)
         # Save new hash of current version.
         with open(os.path.join(
                 '../DATA/CITY_LISTS', 'hash_of_last.txt'), 'w') as f:

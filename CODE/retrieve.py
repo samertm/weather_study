@@ -1,7 +1,7 @@
 #! /usr/bin/python
 # retrieve.py
 # David Prager Branner and Gina Schmalzle
-# 20140423, works
+# 20140425, works
 
 """Data-retrieval functions for Weather Study project."""
 
@@ -9,7 +9,6 @@ import os
 import sqlite3
 import time
 import utils as U
-import city_codes as CC
 
 def get_multidate_data_from_db(db='weather_data_OWM.db', 
         start_date=None, end_date=None, exact_date=None):
