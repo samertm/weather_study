@@ -6,7 +6,8 @@
 """Data-request (and related) functions for Weather Study project."""
 
 import os
-import urllib
+import urllib.request
+import urllib.error
 import http
 import time
 import json

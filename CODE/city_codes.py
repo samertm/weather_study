@@ -1,7 +1,7 @@
 #! /usr/bin/python
 # city_codes.py
 # David Prager Branner and Gina Schmalzle
-# 20140422, works
+# 20140424, works
 
 """City-code tools for Weather Study project."""
 
@@ -10,13 +10,41 @@ import glob
 import sqlite3
 import utils as U
 import requests as RQ
+import hashlib
 
 def get_city_code_list():
     """Get city code list from OWM; check to see if changed; save; normalize."""
     cities = RQ.make_urlrequest('http://openweathermap.org/help/city_list.txt')
-    # Is content changed?
-    # Compare hash to hash of previously downloaded version.
     cities = cities.read()
+    # Is content changed?
+    #
+    # Temporary: Compare hash to hash of previously downloaded **object**. 
+    # Puzzle: why does hash of bytes object seem to change every day, 
+    #     when the contents of the object itself does not?
+    md5_hash_of_last = ''
+    try:
+        with open(os.path.join(
+                '../DATA/CITY_LISTS', 'md5_hash_of_last.txt'), 'r') as f:
+            md5_hash_of_last = f.read()
+    except IOError as e:
+        print(e)
+        print('Continuing.')
+        md5_hash_of_last = '0'
+    the_hash = hashlib.md5(cities).hexdigest()
+    if the_hash != md5_hash_of_last:
+        print('hash of new: {}\nlast saved hash: {}'.
+                format(the_hash, int(md5_hash_of_last)), sep='\n')
+        print('City-code byte-data retrieved, proves different from previous.')
+    city_list_filename = 'city_list_that_was_md5hashed_' + U.construct_date() + '.txt'
+    with open(os.path.join(
+            '../DATA/CITY_LISTS', city_list_filename), 'wb') as f:
+        f.write(cities)
+    with open(os.path.join(
+            '../DATA/CITY_LISTS', 'md5_hash_of_last.txt'), 'w') as f:
+        f.write(str(hashlib.md5(cities).hexdigest()))
+    #
+    # Below is the regular code.
+    # Compare hash to hash of previously downloaded version.
     hash_of_last = ''
     try:
         with open(os.path.join(
@@ -98,3 +126,5 @@ def get_city_codes_from_db(country='US', db='weather_data_OWM.db'):
     # id_hits is now a list of 1-tuples. Convert to plain list and return.
     return [i[0] for i in id_hits]
 
+if __name__ == '__main__':
+    get_city_code_list()
