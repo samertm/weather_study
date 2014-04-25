@@ -2,12 +2,12 @@
 
 ### Questions
 
-- [ ] Decide how to manipulate data.
-- [ ] Decide how to visualize data.
 - [ ] What is meant by `mode=daily_compact` in a query? (It does seem to change the results slightly.) **Update**: Posted question to StackOverflow.
 
 ----
 
+- [x] Decide how to manipulate data.
+- [x] Decide how to visualize data.
 - [x] How often are forecasts revised? We will test this by two full runs within a 24-hour (or shorter) period. 
  * **Update**: It seems that query-runs around noon are disorganized; our three query-runs on 20140414 and 20140415 between the hours of 16:30 and 01:00 were more coherent.
  * **Update**: NOAA's gridded forecasts are updated every hour.
@@ -19,14 +19,14 @@
 
 - [ ] Test suite. Above all: to confirm data integrity.
 - [ ] Tools to process all values for display.
-- [ ] Make separate `INSTALL` instruction file.
-- [x] Check whether `get_city_code_list` is in fact working — successive downloaded files appear to be identical (according to diff). Then why are we downloading them?
+- [ ] Make separate `INSTALL` instruction file. **Update**: separate directory created and two files placed in it.
 - [ ] Place name of data source and and license information on site.
 - [ ] Consider changing compression module to `shutil` (http://chimera.labs.oreilly.com/books/1230000000393/ch13.html#_problem_218).
 - [ ] Replace SQL code with ORM code.
  
 ---
 
+- [x] Check whether `get_city_code_list` is in fact working — successive downloaded files appear to be identical (according to diff). Then why are we downloading them?
 - [x] Tools to place observation data in database.
 - [x] Function to retrieve data from db.
 - [x] Function to store in (new) db table the name of each download set that is inserted.
