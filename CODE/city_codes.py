@@ -18,32 +18,6 @@ def get_city_code_list():
     cities = cities.read()
     # Is content changed?
     #
-    # Temporary: Compare hash to hash of previously downloaded **object**. 
-    # Puzzle: why does hash of bytes object seem to change every day, 
-    #     when the contents of the object itself does not?
-    md5_hash_of_last = ''
-    try:
-        with open(os.path.join(
-                '../DATA/CITY_LISTS', 'md5_hash_of_last.txt'), 'r') as f:
-            md5_hash_of_last = f.read()
-    except IOError as e:
-        print(e)
-        print('Continuing.')
-        md5_hash_of_last = '0'
-    the_hash = hashlib.md5(cities).hexdigest()
-    if the_hash != md5_hash_of_last:
-        print('hash of new: {}\nlast saved hash: {}'.
-                format(the_hash, int(md5_hash_of_last)), sep='\n')
-        print('City-code byte-data retrieved, proves different from previous.')
-    city_list_filename = 'city_list_that_was_md5hashed_' + U.construct_date() + '.txt'
-    with open(os.path.join(
-            '../DATA/CITY_LISTS', city_list_filename), 'wb') as f:
-        f.write(cities)
-    with open(os.path.join(
-            '../DATA/CITY_LISTS', 'md5_hash_of_last.txt'), 'w') as f:
-        f.write(str(hashlib.md5(cities).hexdigest()))
-    #
-    # Below is the regular code.
     # Compare hash to hash of previously downloaded version.
     hash_of_last = ''
     try:
@@ -56,9 +30,10 @@ def get_city_code_list():
         hash_of_last = '0'
     except Exception as e:
         print('Unexpected error:', e)
-    if hash(cities) != int(hash_of_last):
+    md5 = hashlib.md5(cities).hexdigest()
+    if md5 != hash_of_last:
         print('hash of new: {}\nlast saved hash: {}'.
-                format(hash(cities), int(hash_of_last)), sep='\n')
+                format(md5, hash_of_last), sep='\n')
         print('City-code byte-data retrieved, proves different from previous.')
         # Why do we need to save bytes version of list, if we also save the
         # normalized string version and a hash of the bytes version?
@@ -69,7 +44,7 @@ def get_city_code_list():
         # Save new hash of current version.
         with open(os.path.join(
                 '../DATA/CITY_LISTS', 'hash_of_last.txt'), 'w') as f:
-            f.write(str(hash(cities)))
+            f.write(md5)
         # Report any non-ASCII content to STDOUT and normalize.
         chars = set([i for i in cities])
         for c in chars:
