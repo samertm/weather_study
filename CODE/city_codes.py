@@ -13,7 +13,7 @@ import requests as RQ
 
 def get_city_code_list():
     """Get city code list from OWM; check to see if changed; save; normalize."""
-    cities = RQ.make_urlrequest( 'http://openweathermap.org/help/city_list.txt')
+    cities = RQ.make_urlrequest('http://openweathermap.org/help/city_list.txt')
     # Is content changed?
     # Compare hash to hash of previously downloaded version.
     cities = cities.read()
