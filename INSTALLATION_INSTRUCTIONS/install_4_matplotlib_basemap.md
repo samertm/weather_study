@@ -5,16 +5,9 @@ These directions assume you have `matplotlib` and `numpy` already installed and 
 After `matplotlib` is installed follow these instructions:
 
  1. Download the latest version of `basemap` at http://sourceforge.net/projects/matplotlib/files/matplotlib-toolkits/
-The version GS downloaded for this project is `basemap-1.0.7`.
+The version GS downloaded for this project is `basemap-1.0.7`. Untar with `tar -xzf basemap-1.0.7.tar.gz` and cd into the resulting directory.
 
- 1. Follow the installation directions at http://matplotlib.org/basemap/users/installing.html.
-
-The following is what is says to do on the website.
-To install from the source, follow these steps:
-
-   2. Install pre-requisite requirements.
-
-   2. Untar the basemap version X.Y.Z source tar.gz file, and and cd to the basemap-X.Y.Z directory.
+ 1. Follow the installation directions at http://matplotlib.org/basemap/users/installing.html:
 
    2. Install the GEOS library. If you already have it on your system, just set the environment variable `GEOS_DIR` to point to the location of `libgeos_c` and `geos_c.h` (if `libgeos_c` is in `/usr/local/lib` and `geos_c.h` is in `/usr/local/include`, set `GEOS_DIR` to `/usr/local`). Then go to next step. If you don’t have it, you can build it from the source code included with basemap by following these steps:
 
