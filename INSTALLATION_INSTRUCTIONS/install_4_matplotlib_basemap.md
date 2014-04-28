@@ -20,7 +20,7 @@ export GEOS_DIR=<where you want the libs and headers to go>
 make; make install
         ~~~
 
-   2. cd back to the top level basemap directory (basemap-X.Y.Z) and run the usual python setup.py install. Check your installation by running from mpl_toolkits.basemap import Basemap at the python prompt.
+   2. cd back to the top level basemap directory (basemap-X.Y.Z) and run the usual `python setup.py install`. Check your installation by running `from mpl_toolkits.basemap import Basemap` at the python prompt.
 
    2. To test, cd to the examples directory and run `python simpletest.py`. To run all the examples (except those that have extra dependencies or require an internet connection), execute `python run_all.py`.
 
