@@ -11,7 +11,7 @@ import time
 import utils as U
 
 def get_multidate_data_from_db(db='weather_data_OWM.db', 
-        start_date=None, end_date=None, exact_date=None):
+        start_date=None, end_date=None, exact_date=None, to_print=True):
     """Retrieve forecasts for multiple dates, return as list of tuples."""
     start_time = time.time()
     select_string = (
@@ -83,11 +83,13 @@ def get_multidate_data_from_db(db='weather_data_OWM.db',
     # In each tuple, elements 0, 1 are lat. and lon.; 
     #     the remainder become 4-tuples in a list.
     end_time = time.time()
-    print('Total time elapsed: {} seconds'.
-            format(round(end_time-start_time)))
+    if to_print:
+        print('Total time elapsed: {} seconds'.
+                format(round(end_time-start_time)))
     return composed_data
 
-def get_single_date_data_from_db(exact_date, db='weather_data_OWM.db'):
+def get_single_date_data_from_db(exact_date, db='weather_data_OWM.db',
+            to_print=True):
     """Retrieve forecasts for single date, return as dictionary."""
     start_time = time.time()
     connection = sqlite3.connect(os.path.join('../', db))
@@ -135,6 +137,7 @@ def get_single_date_data_from_db(exact_date, db='weather_data_OWM.db'):
     # In each tuple, elements 0, 1 are lat. and lon.; 
     #     the remainder become 4-tuples in a list.
     end_time = time.time()
-    print('Total time elapsed: {} seconds'.
-            format(round(end_time-start_time)))
+    if to_print:
+        print('Total time elapsed: {} seconds'.
+                format(round(end_time-start_time)))
     return composed_data

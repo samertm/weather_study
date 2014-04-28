@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # requests.py
 # David Prager Branner and Gina Schmalzle
-# 20140422, works
+# 20140428, works
 
 """Data-request (and related) functions for Weather Study project."""
 
