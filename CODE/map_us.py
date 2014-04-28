@@ -76,13 +76,13 @@ def make_basemap(diff, lon, lat, mindiff, maxdiff):
 
 
 # Get Forecast data from retrieve.py
-#x = retrieve.get_single_date_data_from_db(exact_date)
+x = retrieve.get_single_date_data_from_db(exact_date)
 #y=str(x)
 #with open('x.py','w') as f:
-#	f.write(x)
-with open('x.py','r') as f:
-	x = f.read()
-x = ast.literal_eval(x)
+#	f.write(y)
+#with open('x.py','r') as f:
+#	x = f.read()
+#x = ast.literal_eval(x)
 #print(x==z)
 # Define variables
 for city in x:
@@ -155,6 +155,6 @@ print('MinDiff = ',mindiff,'MaxDiff = ', maxdiff)
 collection = [diff0_8, diff0_7, diff0_6, diff0_5, diff0_4, diff0_3, diff0_2, diff0_1]
 for plot in collection:
 	make_basemap(plot, lon, lat, mindiff, maxdiff)
-#plt.savefig('MinT20140422.png')
+plt.savefig('MinT20140422.png')
 plt.show()
 
