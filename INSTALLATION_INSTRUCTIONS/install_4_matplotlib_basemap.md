@@ -11,12 +11,14 @@ The version GS downloaded for this project is `basemap-1.0.7`. Untar with `tar -
 
    2. Install the GEOS library. If you already have it on your system, just set the environment variable `GEOS_DIR` to point to the location of `libgeos_c` and `geos_c.h` (if `libgeos_c` is in `/usr/local/lib` and `geos_c.h` is in `/usr/local/include`, set `GEOS_DIR` to `/usr/local`). Then go to next step. If you don’t have it, you can build it from the source code included with basemap by following these steps:
 
-        cd geos-3.3.3
-        export GEOS_DIR=<where you want the libs and headers to go>
-        # A reasonable choice on a Unix-like system is /usr/local, or
-        # if you do not have permission to write there, your home directory.
-        ./configure --prefix=$GEOS_DIR
-        make; make install
+        ~~~
+cd geos-3.3.3
+export GEOS_DIR=<where you want the libs and headers to go>
+# A reasonable choice on a Unix-like system is /usr/local, or
+# if you do not have permission to write there, your home directory.
+./configure --prefix=$GEOS_DIR
+make; make install
+        ~~~
 
    2. cd back to the top level basemap directory (basemap-X.Y.Z) and run the usual python setup.py install. Check your installation by running from mpl_toolkits.basemap import Basemap at the python prompt.
 
