@@ -5,10 +5,20 @@ from netCDF4 import Dataset as NetCDFFile
 import matplotlib.pyplot as plt
 import retrieve
 import ast
+import os
+import time 
+
+start_time = time.time()
 pick_data='maxt'  # Either maxt, mint, rain or snow
 exact_date=20140422  # Define Target date you would like to see
 file_type='png'
+figuresize=(20,10)
+res=600
 filename=str(exact_date)+'_'+pick_data+'.'+file_type
+# Make sure ../OUTPUT exists or create it.
+if not os.path.exists('../OUTPUT'):
+    os.makedirs('../OUTPUT')
+    print('Created directory OUTPUT', end='\n\n')
 if pick_data == 'maxt':
 	header='Maximum Temperature Difference (degrees) for '+str(exact_date)
 	clabel='MaxT (obs) - MaxT (Model), degrees' 
@@ -91,6 +101,57 @@ def make_basemap(diff, lon, lat, mindiff, maxdiff):
 	plt.title(label)
 
 
+def make_single_basemap(diff, lon, lat, mindiff, maxdiff):
+	# Make a basic map of the United states
+	if diff == diff0_1:
+		label = "1 day diff"
+	elif diff == diff0_2:
+		label = "2 day diff"
+	elif diff == diff0_3:
+		label = "3 day diff"
+	elif diff == diff0_4:
+		label = "4 day diff"
+	elif diff == diff0_5:
+		label = "5 day diff"
+	elif diff == diff0_6:
+		label = "6 day diff"
+	elif diff == diff0_7:
+		label = "7 day diff"
+	elif diff == diff0_8:
+		label = "8 day diff"
+	elif diff == diff0_9:
+		label = "9 day diff"
+	else:
+		label = "huh?"
+		diff = diff0_1
+	# create Mercator Projection Basemap instance.
+	m = Basemap(projection='merc',\
+	            llcrnrlat=25,urcrnrlat=50,\
+	            llcrnrlon=-130,urcrnrlon=-60,\
+	            rsphere=6371200.,resolution='l',area_thresh=10000)
+	# draw coastlines, state and country boundaries, edge of map.
+	m.drawcoastlines()
+	m.drawstates()
+	m.drawcountries()
+	# draw parallels.
+	parallels = np.arange(0.,90,10.)
+	m.drawparallels(parallels,labels=[1,0,0,0],fontsize=10)
+	# draw meridians
+	meridians = np.arange(180.,360.,10.)
+	m.drawmeridians(meridians,labels=[0,0,0,1],fontsize=10)
+
+	# draw Circles on the map
+	# Determine min and max differenced values 
+	jet = plt.cm.get_cmap('jet')
+	x,y = (m(lon,lat))
+	plt.scatter(x, y, c=diff, vmin=mindiff, vmax=maxdiff, cmap=jet, s=20, edgecolors='none' )
+	# add colorbar
+	plt.colorbar(label=clabel, shrink=0.5)
+	# plt.colorbar(sc, label=clabel)
+	# add title
+	plt.title(label)
+
+
 # Get Forecast data from retrieve.py
 x = retrieve.get_single_date_data_from_db(exact_date)
 
@@ -153,8 +214,7 @@ diff0_4=[x1-x2 for x1,x2 in zip(a0,a4)]
 diff0_3=[x1-x2 for x1,x2 in zip(a0,a3)]
 diff0_2=[x1-x2 for x1,x2 in zip(a0,a2)]
 diff0_1=[x1-x2 for x1,x2 in zip(a0,a1)]
-# plt.figure determines figure size 
-fig = plt.figure(figsize=(20,10)) 
+
 
 temp=str(exact_date)
 maintitle=(header)
@@ -163,7 +223,12 @@ mindiff=min(diff0_8)
 maxdiff=max(diff0_8)
 print('MinDiff = ',mindiff,'MaxDiff = ', maxdiff)
 collection = [diff0_8, diff0_7, diff0_6, diff0_5, diff0_4, diff0_3, diff0_2, diff0_1]
-for plot in collection:
-	make_basemap(plot, lon, lat, mindiff, maxdiff)
-plt.savefig(filename, dpi=1200)
+for i,plot in enumerate(collection):
+	# plt.figure determines figure size 
+	plt.figure(figsize=figuresize) 
+	make_single_basemap(plot, lon, lat, mindiff, maxdiff)
+	filename=str(exact_date)+'_'+pick_data+'_'+str(8-i)+'.'+file_type
+	plt.savefig('../OUTPUT/'+filename, dpi=res)
+end_time=time.time()
+print('Total time elapsed:', end_time-start_time)
 #plt.show()
