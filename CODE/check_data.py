@@ -1,7 +1,7 @@
-#! /usr/bin/python
+#! /usr/bin/env python
 # check_data.py
 # David Prager Branner and Gina Schmalzle
-# 20140419, works
+# 20140428, works
 
 """Programs to examine character of data in Weather Study project."""
 

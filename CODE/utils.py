@@ -1,7 +1,7 @@
-#! /usr/bin/python
+#! /usr/bin/env python
 # utils.py
 # David Prager Branner and Gina Schmalzle
-# 20140424, works
+# 20140428, works
 
 """Utilities for Weather Study project."""
 

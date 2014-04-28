@@ -1,7 +1,7 @@
-#! /usr/bin/python
+#! /usr/bin/env python
 # city_codes.py
 # David Prager Branner and Gina Schmalzle
-# 20140424, works
+# 20140428, works
 
 """City-code tools for Weather Study project."""
 

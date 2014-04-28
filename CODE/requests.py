@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/env python
 # requests.py
 # David Prager Branner and Gina Schmalzle
 # 20140422, works

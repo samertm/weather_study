@@ -1,7 +1,7 @@
-#! /usr/bin/python
+#! /usr/bin/env python
 # populate_db.py
 # David Prager Branner and Gina Schmalzle
-# 20140424, works
+# 20140428, works
 
 """Database populating tools for weather study."""
 

@@ -1,7 +1,7 @@
-#! /usr/bin/python
+#! /usr/bin/env python
 # retrieve.py
 # David Prager Branner and Gina Schmalzle
-# 20140425, works
+# 20140428, works
 
 """Data-retrieval functions for Weather Study project."""
 
