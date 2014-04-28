@@ -7,7 +7,23 @@ import retrieve
 import ast
 pick_data='maxt'  # Either maxt, mint, rain or snow
 exact_date=20140422  # Define Target date you would like to see
-
+file_type='png'
+filename=str(exact_date)+'_'+pick_data+'.'+file_type
+if pick_data == 'maxt':
+	header='Maximum Temperature Difference (degrees) for '+str(exact_date)
+	clabel='MaxT (obs) - MaxT (Model), degrees' 
+elif pick_data == 'mint':
+	header='Minimum Temperature Difference (degrees) for '+str(exact_date)
+	clabel='MinT (obs) - MinT (Model), degrees' 
+elif pick_data == 'snow':
+	header='Snow level difference (mm) for '+str(exact_date)
+	clabel='snow (obs) - snow (Model), mm' 
+elif pick_data == 'snow':
+	header='Rain level difference (mm) for '+str(exact_date)
+	clabel='rain (obs) - rain (Model), mm' 
+else:
+	header='Not sure'
+	clabel='Not sure'
 lat=[]; lon=[]; 
 a0=[]; a1=[]; a2=[]; a3=[]; a4=[]; a5=[]; a6=[]; a7=[]; a8=[]; a9=[]
 diff0_8=[]; diff0_9=[]; diff0_7=[]; diff0_6=[]; diff0_5=[];diff0_4=[]; diff0_3=[];diff0_2=[]; diff0_1=[]
@@ -70,20 +86,14 @@ def make_basemap(diff, lon, lat, mindiff, maxdiff):
 	x,y = (m(lon,lat))
 	sc = plt.scatter(x, y, c=diff, vmin=mindiff, vmax=maxdiff, cmap=jet, s=8, edgecolors='none' )
 	# add colorbar
-	plt.colorbar(sc)
+	plt.colorbar(sc, label=clabel)
 	# add title
 	plt.title(label)
 
 
 # Get Forecast data from retrieve.py
 x = retrieve.get_single_date_data_from_db(exact_date)
-#y=str(x)
-#with open('x.py','w') as f:
-#	f.write(y)
-#with open('x.py','r') as f:
-#	x = f.read()
-#x = ast.literal_eval(x)
-#print(x==z)
+
 # Define variables
 for city in x:
 	lat.append(city[0])
@@ -147,7 +157,7 @@ diff0_1=[x1-x2 for x1,x2 in zip(a0,a1)]
 fig = plt.figure(figsize=(20,10)) 
 
 temp=str(exact_date)
-maintitle=(pick_data)
+maintitle=(header)
 plt.suptitle(maintitle, fontsize=18) 
 mindiff=min(diff0_8)
 maxdiff=max(diff0_8)
@@ -155,6 +165,5 @@ print('MinDiff = ',mindiff,'MaxDiff = ', maxdiff)
 collection = [diff0_8, diff0_7, diff0_6, diff0_5, diff0_4, diff0_3, diff0_2, diff0_1]
 for plot in collection:
 	make_basemap(plot, lon, lat, mindiff, maxdiff)
-plt.savefig('MinT20140422.png')
-plt.show()
-
+plt.savefig(filename, dpi=1200)
+#plt.show()
