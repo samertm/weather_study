@@ -61,17 +61,17 @@
     For the sake of consistency this download should be done only once a day at the same time of day — we prefer between 4:30 p.m. and midnight, U.S. Eastern Daylight Savings time, when we find the content of the forecasts to be relatively uniform. 
     You will need to download forecast data yourself, once a day, for every day you want to study.
 
- 1.  Populate the database with your downloaded data. Right now this requires a preliminary manual step: decompress the compressed data and move the resulting subdirectories into the `DOWNLOADS/` directory. Then run
+ 1.  Populate the database with your downloaded data:
 
         In [7]: populate_db.process_dir_of_downloads()
 
-   Your local database keeps track of whether or not a given download directory has been used to populate it, and if so, by default it does not reinsert the data. To insert the same data even so, use
+   This step creates a temporary directory `TEMPORARY/` into which the compressed data is extracted and later deleted, leaving the compressed form intact. Your local database keeps track of whether or not a given download directory has been used to populate it, and if so, by default it does not reinsert the data. To insert the same data even so, use:
 
         In [8]: populate_db.process_dir_of_downloads(repop_if_already_done=True)
 
 ### To analyze data.
 
- 1. This step assumes that forecast data has already been collected for a number of days. We are using Numpy to conduct statistical analysis, MatPlotLib to plot, and D3 to display in the browser.
+ 1. This step assumes that forecast data has already been collected for a number of days. We are using `Numpy` to conduct statistical analysis, `MatPlotLib` to plot, and `netCDF4` to display in the browser.
  1. To retrieve data for the database there are presently two functions. For multiple dates, use:
 
         In [9]: retrieve.get_multidate_data_from_db()

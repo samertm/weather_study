@@ -1,7 +1,7 @@
 #! /usr/bin/python
 # populate_db.py
 # David Prager Branner and Gina Schmalzle
-# 20140421, in progress
+# 20140424, works
 
 """Database populating tools for weather study."""
 
@@ -9,6 +9,7 @@ import os
 import sqlite3
 import ast
 import time
+import shutil
 import utils as U
 import city_codes as CC
 
@@ -78,10 +79,12 @@ def populate_db_w_forecasts(
                 )
 
 def process_dir_of_downloads(to_print=None, repop_if_already_done=False):
-    """Populate database with the forecasts from all files in DOWNLOADS."""
+    """Populate database with the forecasts from all files in COMPRESSED."""
     start_time = time.time()
+    # Decompress all files in COMPRESSED.
+    U.untar_directory()
     # Get names of directories in download folder
-    directories = U.open_directory('../DATA/DOWNLOADS/downloads_OWM_US_')
+    directories = U.open_directory('../DATA/TEMPORARY/downloads_OWM_US_')
     # For each directory, get all files
     for directory in directories:
         print(directory) # debug
@@ -92,6 +95,9 @@ def process_dir_of_downloads(to_print=None, repop_if_already_done=False):
         populate_db_w_forecasts(forecast_dict, directory,
                 repop_if_already_done)
         print('Ran `populate_db_w_forecasts()`.', end='\n\n') # debug
+    while os.path.exists('../DATA/TEMPORARY'):
+        shutil.rmtree('../DATA/TEMPORARY', ignore_errors=True)
+    print('Directory ../DATA/TEMPORARY removed.')
     end_time = time.time()
     print('Total time elapsed for {} directories: {} seconds'.
             format(len(directories), round(end_time-start_time)))

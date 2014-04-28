@@ -1,7 +1,7 @@
 #! /usr/bin/python
 # utils.py
 # David Prager Branner and Gina Schmalzle
-# 20140423, works
+# 20140424, works
 
 """Utilities for Weather Study project."""
 
@@ -138,9 +138,41 @@ def tar_directory(dir_name=None):
         shutil.rmtree(directory)
         print('Original directory "{}" deleted.'.format(directory), end='\n\n')
         print('—' * 40, end='\n\n')
-    # When finished, compress and then return to directory where we started.
+    # When finished, return to directory where we started.
     os.chdir(home_dir)
     end_time = time.time()
     total_time = round(end_time - start_time)
-    print('Total time elapsed in tarring: {} seconds; {} seconds per directory on avg.'.
+    print('Total time elapsed in tarring: {} seconds; '
+            '{} seconds per directory on avg.'.
             format(total_time, round(total_time/len(directories), 1)))
+
+def untar_directory(dir_name=None):
+    """Extract all archives in COMPRESSED/ into TEMPORARY/."""
+    start_time = time.time()
+    home_dir = os.getcwd()
+    os.chdir('../DATA/COMPRESSED')
+    # Do the whole procedure below for any existing directories in DOWNLOADS.
+    # First find the directories.
+    if not dir_name:
+        archives = open_directory('downloads_')
+    else:
+        archives = [dir_name]
+    print('{} directories to be extracted.'.format(len(archives)), end='\n\n')
+    # Make sure ../COMPRESSED exists or create it.
+    if not os.path.exists('../TEMPORARY'):
+        os.makedirs('../TEMPORARY')
+        print('Created directory TEMPORARY', end='\n\n')
+    # Now uncompress each directory.
+    for archive in archives:
+        # Copy and then uncompress each file, using context manager.
+        with tarfile.open('../COMPRESSED/' + archive , 'r:bz2') as f:
+            f.extractall('../TEMPORARY/')
+        print('Decompressed directory\n    "{}".'.
+                format(archive), end='\n\n')
+    # When finished, return to directory where we started.
+    os.chdir(home_dir)
+    end_time = time.time()
+    total_time = round(end_time - start_time)
+    print('Total time elapsed in tarring: {} seconds; '
+            '{} seconds per directory on avg.\n'.
+            format(total_time, round(total_time/len(archives), 1)))
