@@ -6,17 +6,21 @@
 """Generate plots of forecast-differences, using list comprehensions."""
 
 from mpl_toolkits.basemap import Basemap, cm
+import matplotlib.gridspec as gridspec
 import numpy as np
-from netCDF4 import Dataset as NetCDFFile
 import matplotlib.pyplot as plt
 import retrieve
 import os
 import time
 
-def make_single_basemap(diff, day, lon, lat, mindiff, maxdiff):
+def make_single_basemap(diff, day, lon, lat, mindiff, maxdiff, hist=True):
     """Create basic map of U.S. and add forecast-difference information."""
     # Find number of days of forecasting and construct label.
     label = str(day) + ' day diff'
+    # Begin histogram creation.
+    if hist:
+        gs=gridspec.GridSpec(1,2,width_ratios=[4,1], height_ratios=[8,1])
+        plt.subplot(gs[0])
     # Create Mercator Projection Basemap instance.
     m = Basemap(
             projection='merc', llcrnrlat=25, urcrnrlat=50, llcrnrlon=-130,
@@ -29,18 +33,26 @@ def make_single_basemap(diff, day, lon, lat, mindiff, maxdiff):
     # Draw parallels.
     parallels = np.arange(0., 90, 10.)
     m.drawparallels(parallels, labels=[1, 0, 0, 0], fontsize=10)
-    # Draw meridians
+    # Draw meridians.
     meridians = np.arange(180., 360., 10.)
     m.drawmeridians(meridians, labels=[0, 0, 0, 1], fontsize=10)
-    # Draw circles on the map
+    # Plot datapoints as circles on the map.
     jet = plt.cm.get_cmap('jet')
     x, y = m(lon,lat)
     plt.scatter(x, y, c=diff, vmin=mindiff, vmax=maxdiff, cmap=jet, s=20,
             edgecolors='none')
-    # Add colorbar
+    # Add colorbar.
     plt.colorbar(label=topic['clabel'], shrink=0.5)
-    # Add title
+    # Add title.
     plt.title(label)
+    # Add histogram.
+    if hist:
+        plt.subplot(gs[1])
+        binwidth = 1.0
+        plt.hist(diff, bins = round(maxdiff-mindiff/binwidth), align='mid',
+                orientation='horizontal')
+        plt.ylim(mindiff, maxdiff)
+        plt.xlim(0,2000)
 
 start_time = time.time()
 feature = 'maxt'  # Either maxt, mint, rain or snow
