@@ -1,5 +1,6 @@
 #!/Users/ginaschmalzle/v_env3/bin/python
 from mpl_toolkits.basemap import Basemap, cm
+import matplotlib.gridspec as gridspec
 import numpy as np
 from netCDF4 import Dataset as NetCDFFile
 import matplotlib.pyplot as plt
@@ -7,13 +8,14 @@ import retrieve
 import ast
 import os
 import time 
+import json
 
 start_time = time.time()
 pick_data='maxt'  # Either maxt, mint, rain or snow
 exact_date=20140422  # Define Target date you would like to see
 file_type='png'
 figuresize=(20,10)
-res=600
+res=300
 filename=str(exact_date)+'_'+pick_data+'.'+file_type
 # Make sure ../OUTPUT exists or create it.
 if not os.path.exists('../OUTPUT'):
@@ -28,7 +30,7 @@ elif pick_data == 'mint':
 elif pick_data == 'snow':
 	header='Snow level difference (mm) for '+str(exact_date)
 	clabel='snow (obs) - snow (Model), mm' 
-elif pick_data == 'snow':
+elif pick_data == 'rain':
 	header='Rain level difference (mm) for '+str(exact_date)
 	clabel='rain (obs) - rain (Model), mm' 
 else:
@@ -151,9 +153,73 @@ def make_single_basemap(diff, lon, lat, mindiff, maxdiff):
 	# add title
 	plt.title(label)
 
+def make_single_basemap_w_hist(diff, lon, lat, mindiff, maxdiff):
+	# Make a basic map of the United states
+	if diff == diff0_1:
+		label = "1 day diff"
+	elif diff == diff0_2:
+		label = "2 day diff"
+	elif diff == diff0_3:
+		label = "3 day diff"
+	elif diff == diff0_4:
+		label = "4 day diff"
+	elif diff == diff0_5:
+		label = "5 day diff"
+	elif diff == diff0_6:
+		label = "6 day diff"
+	elif diff == diff0_7:
+		label = "7 day diff"
+	elif diff == diff0_8:
+		label = "8 day diff"
+	elif diff == diff0_9:
+		label = "9 day diff"
+	else:
+		label = "huh?"
+		diff = diff0_1
+
+	#plt.subplot2grid((1,3),(0,0), colspan=2)
+	gs=gridspec.GridSpec(1,2,width_ratios=[4,1], height_ratios=[8,1])
+	plt.subplot(gs[0])
+	# create Mercator Projection Basemap instance.
+	m = Basemap(projection='merc',\
+	            llcrnrlat=25,urcrnrlat=50,\
+	            llcrnrlon=-130,urcrnrlon=-60,\
+	            rsphere=6371200.,resolution='l',area_thresh=10000)
+	# draw coastlines, state and country boundaries, edge of map.
+	m.drawcoastlines()
+	m.drawstates()
+	m.drawcountries()
+	# draw parallels.
+	parallels = np.arange(0.,90,10.)
+	m.drawparallels(parallels,labels=[1,0,0,0],fontsize=10)
+	# draw meridians
+	meridians = np.arange(180.,360.,10.)
+	m.drawmeridians(meridians,labels=[0,0,0,1],fontsize=10)
+
+	# draw Circles on the map
+	# Determine min and max differenced values 
+	jet = plt.cm.get_cmap('jet')
+	x,y = (m(lon,lat))
+	plt.scatter(x, y, c=diff, vmin=mindiff, vmax=maxdiff, cmap=jet, s=20, edgecolors='none' )
+	# add colorbar
+	plt.colorbar(label=clabel, shrink=0.5)
+	# plt.colorbar(sc, label=clabel)
+	# add title
+	plt.title(label)
+	plt.subplot(gs[1])
+	#plt.subplot2grid((1,3),(0,2), colspan=1)
+	#hist_geom = [1,0,2,1]
+	#plt.axes(hist_geom)
+	#plt.subplot(212)
+	binwidth = 1.0
+	plt.hist(diff, bins = round(maxdiff-mindiff/binwidth), align='mid', orientation='horizontal')
+	plt.ylim(mindiff,maxdiff)
+	plt.xlim(0,2000)
 
 # Get Forecast data from retrieve.py
 x = retrieve.get_single_date_data_from_db(exact_date)
+with open ('../OUTPUT/temp.json', 'w') as f:
+	f.write(json.dumps({str(key):x[key] for key in x}))
 
 # Define variables
 for city in x:
@@ -218,7 +284,6 @@ diff0_1=[x1-x2 for x1,x2 in zip(a0,a1)]
 
 temp=str(exact_date)
 maintitle=(header)
-plt.suptitle(maintitle, fontsize=18) 
 mindiff=min(diff0_8)
 maxdiff=max(diff0_8)
 print('MinDiff = ',mindiff,'MaxDiff = ', maxdiff)
@@ -226,9 +291,10 @@ collection = [diff0_8, diff0_7, diff0_6, diff0_5, diff0_4, diff0_3, diff0_2, dif
 for i,plot in enumerate(collection):
 	# plt.figure determines figure size 
 	plt.figure(figsize=figuresize) 
-	make_single_basemap(plot, lon, lat, mindiff, maxdiff)
+	make_single_basemap_w_hist(plot, lon, lat, mindiff, maxdiff)
 	filename=str(exact_date)+'_'+pick_data+'_'+str(8-i)+'.'+file_type
 	plt.savefig('../OUTPUT/'+filename, dpi=res)
+	plt.suptitle(maintitle, fontsize=18) 
 end_time=time.time()
 print('Total time elapsed:', end_time-start_time)
 #plt.show()
