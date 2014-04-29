@@ -1,300 +1,128 @@
-#!/Users/ginaschmalzle/v_env3/bin/python
+#! /usr/bin/env python
+# map_us.py
+# David Prager Branner and Gina Schmalzle
+# 20140429, works
+
+"""Generate plots of forecast-differences, using list comprehensions."""
+
 from mpl_toolkits.basemap import Basemap, cm
 import matplotlib.gridspec as gridspec
 import numpy as np
-from netCDF4 import Dataset as NetCDFFile
 import matplotlib.pyplot as plt
 import retrieve
-import ast
 import os
-import time 
-import json
+import time
+
+def make_single_basemap(diff, day, lon, lat, mindiff, maxdiff, hist=True):
+    """Create basic map of U.S. and add forecast-difference information."""
+    # Find number of days of forecasting and construct label.
+    label = str(day) + ' day diff'
+    # Begin histogram creation.
+    if hist:
+        gs=gridspec.GridSpec(1,2,width_ratios=[4,1], height_ratios=[8,1])
+        plt.subplot(gs[0])
+    # Create Mercator Projection Basemap instance.
+    m = Basemap(
+            projection='merc', llcrnrlat=25, urcrnrlat=50, llcrnrlon=-130,
+            urcrnrlon=-60, rsphere=6371200., resolution='l',
+            area_thresh=10000)
+    # Draw coastlines, state and country boundaries, edge of map.
+    m.drawcoastlines()
+    m.drawstates()
+    m.drawcountries()
+    # Draw parallels.
+    parallels = np.arange(0., 90, 10.)
+    m.drawparallels(parallels, labels=[1, 0, 0, 0], fontsize=10)
+    # Draw meridians.
+    meridians = np.arange(180., 360., 10.)
+    m.drawmeridians(meridians, labels=[0, 0, 0, 1], fontsize=10)
+    # Plot datapoints as circles on the map.
+    jet = plt.cm.get_cmap('jet')
+    x, y = m(lon,lat)
+    plt.scatter(x, y, c=diff, vmin=mindiff, vmax=maxdiff, cmap=jet, s=20,
+            edgecolors='none')
+    # Add colorbar.
+    plt.colorbar(label=topic['clabel'], shrink=0.5)
+    # Add title.
+    plt.title(label)
+    # Add histogram.
+    if hist:
+        plt.subplot(gs[1])
+        binwidth = 1.0
+        plt.hist(diff, bins = round(maxdiff-mindiff/binwidth), align='mid',
+                orientation='horizontal')
+        plt.ylim(mindiff, maxdiff)
+        plt.xlim(0,2000)
 
 start_time = time.time()
-pick_data='maxt'  # Either maxt, mint, rain or snow
-exact_date=20140422  # Define Target date you would like to see
-file_type='png'
-figuresize=(20,10)
-res=300
-filename=str(exact_date)+'_'+pick_data+'.'+file_type
+feature = 'maxt'  # Either maxt, mint, rain or snow
+exact_date = 20140422  # Define Target date you would like to see
+file_type = 'png'
+figuresize = (20, 10)
+res = 600
 # Make sure ../OUTPUT exists or create it.
 if not os.path.exists('../OUTPUT'):
     os.makedirs('../OUTPUT')
     print('Created directory OUTPUT', end='\n\n')
-if pick_data == 'maxt':
-	header='Maximum Temperature Difference (degrees) for '+str(exact_date)
-	clabel='MaxT (obs) - MaxT (Model), degrees' 
-elif pick_data == 'mint':
-	header='Minimum Temperature Difference (degrees) for '+str(exact_date)
-	clabel='MinT (obs) - MinT (Model), degrees' 
-elif pick_data == 'snow':
-	header='Snow level difference (mm) for '+str(exact_date)
-	clabel='snow (obs) - snow (Model), mm' 
-elif pick_data == 'rain':
-	header='Rain level difference (mm) for '+str(exact_date)
-	clabel='rain (obs) - rain (Model), mm' 
+# Prepare materials appropriate to different features..
+temp_header = '{} Temperature Difference (degrees) for '+str(exact_date)
+precip_header = '{} level difference (mm) for '+str(exact_date)
+temp_label = '{} (obs?) - {} (Model?), degrees'
+precip_label = '{} (obs?) - {} (Model?), degrees'
+topics = {
+        'maxt': {'header': temp_header.format('Maximum'),
+            'clabel': temp_label.format('MaxT', 'MaxT'),
+            'position': 0},
+        'mint': {'header': temp_header.format('Minimum'),
+            'clabel': temp_label.format('MinT', 'MinT'),
+            'position': 1},
+        'rain': {'header': precip_header.format('Rain'),
+            'clabel': precip_label.format('rain', 'rain'),
+            'position': 2},
+        'snow': {'header': precip_header.format('Snow'),
+            'clabel': precip_label.format('snow', 'snow'),
+            'position': 3},
+        'other': {'header': 'Not sure', 'clabel': 'Not sure'},}
+if feature in topics:
+    topic = topics[feature]
 else:
-	header='Not sure'
-	clabel='Not sure'
-lat=[]; lon=[]; 
-a0=[]; a1=[]; a2=[]; a3=[]; a4=[]; a5=[]; a6=[]; a7=[]; a8=[]; a9=[]
-diff0_8=[]; diff0_9=[]; diff0_7=[]; diff0_6=[]; diff0_5=[];diff0_4=[]; diff0_3=[];diff0_2=[]; diff0_1=[]
-
-def make_basemap(diff, lon, lat, mindiff, maxdiff):
-	# Make a basic map of the United states
-	if diff == diff0_1:
-		label = "1 day diff"
-		pos = 331
-	elif diff == diff0_2:
-		label = "2 day diff"
-		pos = 332
-	elif diff == diff0_3:
-		label = "3 day diff"
-		pos = 333
-	elif diff == diff0_4:
-		label = "4 day diff"
-		pos = 334
-	elif diff == diff0_5:
-		label = "5 day diff"
-		pos = 335
-	elif diff == diff0_6:
-		label = "6 day diff"
-		pos = 336
-	elif diff == diff0_7:
-		label = "7 day diff"
-		pos = 337
-	elif diff == diff0_8:
-		label = "8 day diff"
-		pos = 338
-	elif diff == diff0_9:
-		label = "9 day diff"
-		pos = 339
-	else:
-		label = "huh?"
-		diff = diff0_1
-		pos = 339
-
-
-	plt.subplot(pos)
-	# create Mercator Projection Basemap instance.
-	m = Basemap(projection='merc',\
-	            llcrnrlat=25,urcrnrlat=50,\
-	            llcrnrlon=-130,urcrnrlon=-60,\
-	            rsphere=6371200.,resolution='l',area_thresh=10000)
-	# draw coastlines, state and country boundaries, edge of map.
-	m.drawcoastlines()
-	m.drawstates()
-	m.drawcountries()
-	# draw parallels.
-	parallels = np.arange(0.,90,10.)
-	m.drawparallels(parallels,labels=[1,0,0,0],fontsize=10)
-	# draw meridians
-	meridians = np.arange(180.,360.,10.)
-	m.drawmeridians(meridians,labels=[0,0,0,1],fontsize=10)
-
-	# draw Circles on the map
-	# Determine min and max differenced values 
-	jet = plt.cm.get_cmap('jet')
-	x,y = (m(lon,lat))
-	sc = plt.scatter(x, y, c=diff, vmin=mindiff, vmax=maxdiff, cmap=jet, s=8, edgecolors='none' )
-	# add colorbar
-	plt.colorbar(sc, label=clabel)
-	# add title
-	plt.title(label)
-
-
-def make_single_basemap(diff, lon, lat, mindiff, maxdiff):
-	# Make a basic map of the United states
-	if diff == diff0_1:
-		label = "1 day diff"
-	elif diff == diff0_2:
-		label = "2 day diff"
-	elif diff == diff0_3:
-		label = "3 day diff"
-	elif diff == diff0_4:
-		label = "4 day diff"
-	elif diff == diff0_5:
-		label = "5 day diff"
-	elif diff == diff0_6:
-		label = "6 day diff"
-	elif diff == diff0_7:
-		label = "7 day diff"
-	elif diff == diff0_8:
-		label = "8 day diff"
-	elif diff == diff0_9:
-		label = "9 day diff"
-	else:
-		label = "huh?"
-		diff = diff0_1
-	# create Mercator Projection Basemap instance.
-	m = Basemap(projection='merc',\
-	            llcrnrlat=25,urcrnrlat=50,\
-	            llcrnrlon=-130,urcrnrlon=-60,\
-	            rsphere=6371200.,resolution='l',area_thresh=10000)
-	# draw coastlines, state and country boundaries, edge of map.
-	m.drawcoastlines()
-	m.drawstates()
-	m.drawcountries()
-	# draw parallels.
-	parallels = np.arange(0.,90,10.)
-	m.drawparallels(parallels,labels=[1,0,0,0],fontsize=10)
-	# draw meridians
-	meridians = np.arange(180.,360.,10.)
-	m.drawmeridians(meridians,labels=[0,0,0,1],fontsize=10)
-
-	# draw Circles on the map
-	# Determine min and max differenced values 
-	jet = plt.cm.get_cmap('jet')
-	x,y = (m(lon,lat))
-	plt.scatter(x, y, c=diff, vmin=mindiff, vmax=maxdiff, cmap=jet, s=20, edgecolors='none' )
-	# add colorbar
-	plt.colorbar(label=clabel, shrink=0.5)
-	# plt.colorbar(sc, label=clabel)
-	# add title
-	plt.title(label)
-
-def make_single_basemap_w_hist(diff, lon, lat, mindiff, maxdiff):
-	# Make a basic map of the United states
-	if diff == diff0_1:
-		label = "1 day diff"
-	elif diff == diff0_2:
-		label = "2 day diff"
-	elif diff == diff0_3:
-		label = "3 day diff"
-	elif diff == diff0_4:
-		label = "4 day diff"
-	elif diff == diff0_5:
-		label = "5 day diff"
-	elif diff == diff0_6:
-		label = "6 day diff"
-	elif diff == diff0_7:
-		label = "7 day diff"
-	elif diff == diff0_8:
-		label = "8 day diff"
-	elif diff == diff0_9:
-		label = "9 day diff"
-	else:
-		label = "huh?"
-		diff = diff0_1
-
-	#plt.subplot2grid((1,3),(0,0), colspan=2)
-	gs=gridspec.GridSpec(1,2,width_ratios=[4,1], height_ratios=[8,1])
-	plt.subplot(gs[0])
-	# create Mercator Projection Basemap instance.
-	m = Basemap(projection='merc',\
-	            llcrnrlat=25,urcrnrlat=50,\
-	            llcrnrlon=-130,urcrnrlon=-60,\
-	            rsphere=6371200.,resolution='l',area_thresh=10000)
-	# draw coastlines, state and country boundaries, edge of map.
-	m.drawcoastlines()
-	m.drawstates()
-	m.drawcountries()
-	# draw parallels.
-	parallels = np.arange(0.,90,10.)
-	m.drawparallels(parallels,labels=[1,0,0,0],fontsize=10)
-	# draw meridians
-	meridians = np.arange(180.,360.,10.)
-	m.drawmeridians(meridians,labels=[0,0,0,1],fontsize=10)
-
-	# draw Circles on the map
-	# Determine min and max differenced values 
-	jet = plt.cm.get_cmap('jet')
-	x,y = (m(lon,lat))
-	plt.scatter(x, y, c=diff, vmin=mindiff, vmax=maxdiff, cmap=jet, s=20, edgecolors='none' )
-	# add colorbar
-	plt.colorbar(label=clabel, shrink=0.5)
-	# plt.colorbar(sc, label=clabel)
-	# add title
-	plt.title(label)
-	plt.subplot(gs[1])
-	#plt.subplot2grid((1,3),(0,2), colspan=1)
-	#hist_geom = [1,0,2,1]
-	#plt.axes(hist_geom)
-	#plt.subplot(212)
-	binwidth = 1.0
-	plt.hist(diff, bins = round(maxdiff-mindiff/binwidth), align='mid', orientation='horizontal')
-	plt.ylim(mindiff,maxdiff)
-	plt.xlim(0,2000)
-
+    print('{} not found in our resources. Exiting.'.format(topic))
 # Get Forecast data from retrieve.py
-x = retrieve.get_single_date_data_from_db(exact_date)
-with open ('../OUTPUT/temp.json', 'w') as f:
-	f.write(json.dumps({str(key):x[key] for key in x}))
-
+retrieved_data = retrieve.get_single_date_data_from_db(
+        exact_date, to_print=False)
 # Define variables
-for city in x:
-	lat.append(city[0])
-	lon.append(city[1])
-	if pick_data=='maxt':
-		a0.append(x[city[0],city[1]][0][0])
-		a1.append(x[city[0],city[1]][1][0])
-		a2.append(x[city[0],city[1]][2][0])
-		a3.append(x[city[0],city[1]][3][0])
-		a4.append(x[city[0],city[1]][4][0])
-		a5.append(x[city[0],city[1]][5][0])
-		a6.append(x[city[0],city[1]][6][0])
-		a7.append(x[city[0],city[1]][7][0])
-		a8.append(x[city[0],city[1]][8][0])
-		a9.append(x[city[0],city[1]][9][0])
-	elif pick_data=='mint':
-		a0.append(x[city[0],city[1]][0][1])
-		a1.append(x[city[0],city[1]][1][1])
-		a2.append(x[city[0],city[1]][2][1])
-		a3.append(x[city[0],city[1]][3][1])
-		a4.append(x[city[0],city[1]][4][1])
-		a5.append(x[city[0],city[1]][5][1])
-		a6.append(x[city[0],city[1]][6][1])
-		a7.append(x[city[0],city[1]][7][1])
-		a8.append(x[city[0],city[1]][8][1])
-		a9.append(x[city[0],city[1]][9][1])
-	elif pick_data=='rain':
-		a0.append(x[city[0],city[1]][0][2])
-		a1.append(x[city[0],city[1]][1][2])
-		a2.append(x[city[0],city[1]][2][2])
-		a3.append(x[city[0],city[1]][3][2])
-		a4.append(x[city[0],city[1]][4][2])
-		a5.append(x[city[0],city[1]][5][2])
-		a6.append(x[city[0],city[1]][6][2])
-		a7.append(x[city[0],city[1]][7][2])
-		a8.append(x[city[0],city[1]][8][2])
-		a9.append(x[city[0],city[1]][9][2])
-	elif pick_data=='snow':
-		a0.append(x[city[0],city[1]][0][3])
-		a1.append(x[city[0],city[1]][1][3])
-		a2.append(x[city[0],city[1]][2][3])
-		a3.append(x[city[0],city[1]][3][3])
-		a4.append(x[city[0],city[1]][4][3])
-		a5.append(x[city[0],city[1]][5][3])
-		a6.append(x[city[0],city[1]][6][3])
-		a7.append(x[city[0],city[1]][7][3])
-		a8.append(x[city[0],city[1]][8][3])
-		a9.append(x[city[0],city[1]][9][3])
-	else:
-		print("Input error. What data?")
-#diff0_9=[x1-x2 for x1,x2 in zip(a0,a9)]
-diff0_8=[x1-x2 for x1,x2 in zip(a0,a8)]
-diff0_7=[x1-x2 for x1,x2 in zip(a0,a7)]
-diff0_6=[x1-x2 for x1,x2 in zip(a0,a6)]
-diff0_5=[x1-x2 for x1,x2 in zip(a0,a5)]
-diff0_4=[x1-x2 for x1,x2 in zip(a0,a4)]
-diff0_3=[x1-x2 for x1,x2 in zip(a0,a3)]
-diff0_2=[x1-x2 for x1,x2 in zip(a0,a2)]
-diff0_1=[x1-x2 for x1,x2 in zip(a0,a1)]
-
-
-temp=str(exact_date)
-maintitle=(header)
-mindiff=min(diff0_8)
-maxdiff=max(diff0_8)
-print('MinDiff = ',mindiff,'MaxDiff = ', maxdiff)
-collection = [diff0_8, diff0_7, diff0_6, diff0_5, diff0_4, diff0_3, diff0_2, diff0_1]
-for i,plot in enumerate(collection):
-	# plt.figure determines figure size 
-	plt.figure(figsize=figuresize) 
-	make_single_basemap_w_hist(plot, lon, lat, mindiff, maxdiff)
-	filename=str(exact_date)+'_'+pick_data+'_'+str(8-i)+'.'+file_type
-	plt.savefig('../OUTPUT/'+filename, dpi=res)
-	plt.suptitle(maintitle, fontsize=18) 
-end_time=time.time()
-print('Total time elapsed:', end_time-start_time)
-#plt.show()
+days = range(10) # QQQ ultimately we want as many places as necessary. 15?
+# Lat and lon are needed as distinct lists.
+lat = [city[0] for city in retrieved_data]
+lon = [city[1] for city in retrieved_data]
+forecasts = [[retrieved_data[city][day][topic['position']]
+            for city in zip(lat, lon)]
+            for day in days]
+# Formerly "a" lists were lists of forecasts from a specific day and for a
+# specific future day. The following line tested that the list comprehension
+# "forecasts" replaced the "a" lists exactly.
+#print('Claim: forecasts == [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9]: {}.'.
+#        format(forecasts == [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9]))
+# QQQ Ultimately, replace "forecasts[1:9]" with code to ignore "None" content.
+differences = [[target_fc - prior_fc for target_fc, prior_fc in
+        zip(forecasts[0], forecast)] for forecast in forecasts[1:9]]
+# Formerly "diff" lists held the differences between correponding forecasts.
+# The following line tested that the list comprehension "differences" replaced
+# the "diff" lists exactly.
+#print('Claim: differences == [diff0_1, diff0_2, diff0_3, diff0_4, diff0_5, '
+#        'diff0_6, diff0_7, diff0_8]: {}.'.
+#        format(differences == [diff0_1, diff0_2, diff0_3, diff0_4, diff0_5,
+#            diff0_6, diff0_7, diff0_8]))
+plt.suptitle(topic['header'], fontsize=18)
+mindiff = round(min(differences[-1]), 2)
+maxdiff = round(max(differences[-1]), 2)
+print('MinDiff = {}, MaxDiff = {}.'.format(mindiff, maxdiff))
+for day, plot in enumerate(reversed(differences)):
+    # plt.figure determines figure size
+    plt.figure(figsize=figuresize)
+    make_single_basemap(plot, str(8 - day), lon, lat, mindiff, maxdiff)
+    filename = (str(exact_date) + '_' + feature + '_' + str(8 - day) +
+            '.' + file_type)
+    plt.savefig('../OUTPUT/' + filename, dpi=res)
+end_time = time.time()
+print('Total time elapsed: {} seconds.'.format(round(end_time-start_time)))
