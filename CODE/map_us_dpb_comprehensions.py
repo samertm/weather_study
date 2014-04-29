@@ -14,33 +14,32 @@ import os
 import time
 
 def make_single_basemap(diff, day, lon, lat, mindiff, maxdiff):
-    # Make a basic map of the United states
-    # QQQ find number of days of forecasting and construct label.
+    """Create basic map of U.S. and add forecast-difference information."""
+    # Find number of days of forecasting and construct label.
     label = str(day) + ' day diff'
-    # create Mercator Projection Basemap instance.
+    # Create Mercator Projection Basemap instance.
     m = Basemap(
             projection='merc', llcrnrlat=25, urcrnrlat=50, llcrnrlon=-130,
             urcrnrlon=-60, rsphere=6371200., resolution='l',
             area_thresh=10000)
-    # draw coastlines, state and country boundaries, edge of map.
+    # Draw coastlines, state and country boundaries, edge of map.
     m.drawcoastlines()
     m.drawstates()
     m.drawcountries()
-    # draw parallels.
+    # Draw parallels.
     parallels = np.arange(0., 90, 10.)
     m.drawparallels(parallels, labels=[1, 0, 0, 0], fontsize=10)
-    # draw meridians
+    # Draw meridians
     meridians = np.arange(180., 360., 10.)
     m.drawmeridians(meridians, labels=[0, 0, 0, 1], fontsize=10)
-    # draw Circles on the map
-    # Determine min and max differenced values
+    # Draw circles on the map
     jet = plt.cm.get_cmap('jet')
-    x,y = m(lon,lat)
+    x, y = m(lon,lat)
     plt.scatter(x, y, c=diff, vmin=mindiff, vmax=maxdiff, cmap=jet, s=20,
             edgecolors='none')
-    # add colorbar
+    # Add colorbar
     plt.colorbar(label=topic['clabel'], shrink=0.5)
-    # add title
+    # Add title
     plt.title(label)
 
 start_time = time.time()
