@@ -188,14 +188,15 @@ def get_single_date_data_from_db_json(exact_date, db='weather_data_OWM.db',
     #              value: a floating point number, 2 places' decimal accuracy.
     # Finally, the subdictionary is converted to a JSON string.
     # For dates where the database contains no data, the sub-subdictionary value
-    # is: `{'mint': None, 'rain': None, 'maxt': None, 'snow': None}`.
-    # Idea: all-None sub-subdictionary values such as this could be replaced 
-    # with None alone.
+    # would be: `{'mint': None, 'rain': None, 'maxt': None, 'snow': None}`.
+    # But we replace that with None alone, using an `if-else` clause.
     composed_data = {
             str(item[0]) + '_' + str(item[1]): {
                 i: {
                     'maxt': subitem[0], 'mint': subitem[2],
                     'rain': subitem[2], 'snow': subitem[3]} 
+                        if subitem[0] or subitem[1] or subitem[2] or subitem[3] 
+                        else None
                 for i, subitem in enumerate(zip(
                             item[2::4], item[3::4], item[4::4], item[5::4]))}
             for item in retrieved_data}
