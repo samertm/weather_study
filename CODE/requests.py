@@ -143,11 +143,12 @@ def download_NOAA_all_US_points(limit=None):
         with open(os.path.join(
                 '../DATA/DOWNLOADS/' + dir_name+'/', str(i)+'.txt'), 'w') as f:
             f.write(forecast)
+    U.tar_directory(
+            dir_name, target_dir='COMPRESSED_BUT_KEPT_FOR_STUDY_AND_NOT_IN_USE')
     end_time = time.time()
     print('\nTime elapsed: {} seconds.'.
             format(round(end_time-start_time)))
     print('Saved to', dir_name)
-    U.tar_directory(dir_name)
 
 def download_OWM_full_forecast(country='US', db='weather_data_OWM.db', 
             limit=None):
@@ -194,7 +195,8 @@ def download_NOAA_cities_forecast():
     with open(os.path.join(
             '../DATA/DOWNLOADS/' + dir_name, dir_name + '.txt'), 'w') as f:
         f.write(content)
-    U.tar_directory(dir_name)
+    U.tar_directory(
+            dir_name, target_dir='COMPRESSED_BUT_KEPT_FOR_STUDY_AND_NOT_IN_USE')
     end_time = time.time()
     print('\nTime elapsed: {} seconds.'.
             format(round(end_time-start_time)))

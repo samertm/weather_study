@@ -100,23 +100,23 @@ def retrieve_data_vals(files, to_print=None):
         print('\n') # debug
     return forecast_dict
 
-def tar_directory(dir_name=None):
+def tar_directory(source_dir=None, target_dir='COMPRESSED'):
     """Compress all directories found in DOWNLOAD/ and delete originals."""
     start_time = time.time()
     home_dir = os.getcwd()
     os.chdir('../DATA/DOWNLOADS')
     # Do the whole procedure below for any existing directories in DOWNLOADS.
     # First find the directories.
-    if not dir_name:
+    if not source_dir:
         directories = open_directory('downloads_')
     else:
-        directories = [dir_name]
+        directories = [source_dir]
     print('{} directories to be compressed.'.
             format(len(directories)), end='\n\n')
-    # Make sure ../COMPRESSED exists or create it.
-    if not os.path.exists('../COMPRESSED'):
-        os.makedirs('../COMPRESSED')
-        print('Created directory COMPRESSED', end='\n\n')
+    # Make sure target_dir exists in .. or create it.
+    if not os.path.exists('../' + target_dir):
+        os.makedirs('../' + target_dir)
+        print('Created directory {}'.format('target_dir'), end='\n\n')
     # Now compress each directory and finally delete it.
     for directory in directories:
         file_list = glob.glob(directory+'/*')
@@ -124,7 +124,7 @@ def tar_directory(dir_name=None):
                 format(len(file_list), directory))
         # Compress each contained file, using context manager.
         with tarfile.open(
-                '../COMPRESSED/' + directory + '.tar.bz2', 'w:bz2') as f:
+                '../' + target_dir + directory + '.tar.bz2', 'w:bz2') as f:
             for i, item in enumerate(file_list):
                 f.add(item)
                 if not i % 1000:
