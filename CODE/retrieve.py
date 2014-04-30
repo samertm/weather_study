@@ -193,8 +193,8 @@ def get_single_date_data_from_db_json(exact_date, db='weather_data_OWM.db',
             str(item[0]) + '_' + str(item[1]): {
                 i: {
                     'maxt': subitem[0], 'mint': subitem[2],
-                    'rain': subitem[2], 'snow': subitem[3]} for i, subitem in 
-                        enumerate(zip(
+                    'rain': subitem[2], 'snow': subitem[3]} 
+                for i, subitem in enumerate(zip(
                             item[2::4], item[3::4], item[4::4], item[5::4]))}
             for item in retrieved_data}
     # In each tuple, elements 0, 1 are lat. and lon.; 
