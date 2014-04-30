@@ -1,0 +1,24 @@
+<DOCTYPE html>
+<html>
+  <head>
+<!-- Import Styles -->
+       <link rel="stylesheet" href="leaflet/leaflet.css" />
+       <link rel="stylesheet" href="css/mystyle.css" />
+  </head>
+
+  <body>
+<!-- Make a form -->
+  <select id="date_select" onsubmit="javascript:load_elements(this.value)">
+      <option value="20140422"> April 22, 2014
+  </select>
+<!-- Import frameworks and libraries -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="leaflet/leaflet.js"></script>
+<!-- Construct Map div --> 
+	<div id="map_canvas"></div>
+  <!-- Make Graph Canvases -->
+  <div id="container" style="height: 400px" "float: right"></div>  
+  <script src="js/basemap.js"></script>
+  <script src="js/mapme.js"></script> 
+  </body>
+</html>
