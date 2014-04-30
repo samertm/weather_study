@@ -58,7 +58,10 @@ def construct_OWM_api_request(id='5128581', count=15):
     # Forecast is of type http.client.HTTPResponse
     # forecast.readall(): bytes; use `.decode()` for long string
     forecast = forecast.readall().decode()
-    forecast = json.loads(forecast)
+    try:
+        forecast = json.loads(forecast)
+    except ValueError as e:
+        print('Error at id={}: {}'.format(id, e))
     # Forecast is dict; key 'list' is a list containing most of the content.
     return forecast
 
