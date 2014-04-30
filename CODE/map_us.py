@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 import retrieve
 import os
 import time
+import argparse
 
 def make_single_basemap(diff, day, lon, lat, mindiff, maxdiff, hist=True):
     """Create basic map of U.S. and add forecast-difference information."""
@@ -55,8 +56,14 @@ def make_single_basemap(diff, day, lon, lat, mindiff, maxdiff, hist=True):
         plt.xlim(0,2000)
 
 start_time = time.time()
+parser = argparse.ArgumentParser()                                              
+parser.add_argument('date', type=int, help='enter single date')
+args = parser.parse_args()
+print(args)
 feature = 'maxt'  # Either maxt, mint, rain or snow
-exact_date = 20140422  # Define Target date you would like to see
+if not args.date:
+    args.date = 20140422
+exact_date = args.date
 file_type = 'png'
 figuresize = (20, 10)
 res = 600

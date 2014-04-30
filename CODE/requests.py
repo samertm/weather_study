@@ -67,9 +67,8 @@ def construct_OWM_api_request(id='5128581', count=15):
             error_count += 1
             print('Error (#{}) at id={}: {}'.format(error_count, id, e))
     if error_count >= 5:
-        print('{Failed to load JSON object for id={}. Continuing; returning
-                `forecast` as plain string.}'.
-                format(id))
+        print('''{Failed to load JSON object for id={}. Continuing; returning'''
+                '''`forecast` as plain string.}'''.format(id))
     # Forecast is dict; key 'list' is a list containing most of the content.
     return forecast
 
