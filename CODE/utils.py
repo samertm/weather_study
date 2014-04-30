@@ -124,7 +124,8 @@ def tar_directory(source_dir=None, target_dir='COMPRESSED'):
                 format(len(file_list), directory))
         # Compress each contained file, using context manager.
         with tarfile.open(
-                '../' + target_dir + directory + '.tar.bz2', 'w:bz2') as f:
+                os.path.join('../' + target_dir, directory + '.tar.bz2'), 
+                        'w:bz2') as f:
             for i, item in enumerate(file_list):
                 f.add(item)
                 if not i % 1000:
