@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # retrieve.py
 # David Prager Branner and Gina Schmalzle
-# 20140430
+# 20140430, works.
 
 """Data-retrieval functions for Weather Study project."""
 
@@ -144,7 +144,7 @@ def get_single_date_data_from_db(exact_date, db='weather_data_OWM.db',
     return composed_data
 
 def get_single_date_data_from_db_json(exact_date, db='weather_data_OWM.db',
-            to_print=True):
+            to_print=True, JSONize=True):
     """Retrieve forecasts for single date, return as JSON nested dictionary."""
     start_time = time.time()
     connection = sqlite3.connect(os.path.join('../', db))
@@ -186,6 +186,7 @@ def get_single_date_data_from_db_json(exact_date, db='weather_data_OWM.db',
     #              each sub-subdictionary consists of four key-value pairs:
     #              key: one of 'maxt', 'mint', 'rain', 'snow';
     #              value: a floating point number, 2 places' decimal accuracy.
+    # Finally, the subdictionary is converted to a JSON string.
     # For dates where the database contains no data, the sub-subdictionary value
     # is: `{'mint': None, 'rain': None, 'maxt': None, 'snow': None}`.
     composed_data = {
@@ -202,5 +203,7 @@ def get_single_date_data_from_db_json(exact_date, db='weather_data_OWM.db',
     if to_print:
         print('Total time elapsed: {} seconds'.
                 format(round(end_time-start_time)))
-    return composed_data
-    return json.dumps(composed_data)
+    if not JSONize:
+        return composed_data
+    else:
+        return json.dumps(composed_data)
