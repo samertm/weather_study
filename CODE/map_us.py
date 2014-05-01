@@ -9,6 +9,7 @@ from mpl_toolkits.basemap import Basemap, cm
 import matplotlib.gridspec as gridspec
 import numpy as np
 import matplotlib.pyplot as plt
+import traceback
 import retrieve
 import os
 import time
@@ -56,6 +57,7 @@ def make_single_basemap(diff, day, lon, lat, mindiff, maxdiff, hist=True):
         plt.xlim(0,2000)
 
 start_time = time.time()
+# Get variables.
 parser = argparse.ArgumentParser()                                              
 parser.add_argument('date', type=int, help='enter single date')
 args = parser.parse_args()
@@ -94,10 +96,9 @@ if feature in topics:
     topic = topics[feature]
 else:
     print('{} not found in our resources. Exiting.'.format(topic))
-# Get Forecast data from retrieve.py
+# Get Forecast data, and decide how many days are represented.
 retrieved_data = retrieve.get_single_date_data_from_db(
         exact_date, to_print=False)
-# Define variables
 days = range(10) # QQQ ultimately we want as many places as necessary. 15?
 # Lat and lon are needed as distinct lists.
 lat = [city[0] for city in retrieved_data]
@@ -136,19 +137,19 @@ for day, plot in enumerate(differences):
     plt.suptitle(topic['header'], fontsize=18)
     plt.figure(figsize=figuresize)
     if day == 2:
-        plot = [0]
-        lon1 = [0]
-        lat1 = [0]
+        plot = plot[0]
+        lon1 = lon[0]
+        lat1 = lat[0]
         print(plot, lon1, lat1)
         try:
             make_single_basemap(plot, str(day+1), lon1, lat1, mindiff, maxdiff)
         except Exception as e:
-            print(e)
+            print(traceback.format_exc())
     else:
         try:
             make_single_basemap(plot, str(day+1), lon, lat, mindiff, maxdiff)
         except Exception as e:
-            print(e)
+            print(traceback.format_exc())
     filename = (str(exact_date) + '_' + feature + '_' + str(day+1) +
             '.' + file_type)
     plt.savefig('../OUTPUT/' + filename, dpi=res)
