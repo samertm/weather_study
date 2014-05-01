@@ -39,18 +39,18 @@ def make_single_basemap(diff, day, lon, lat, mindiff, maxdiff, hist=True):
     m.drawmeridians(meridians, labels=[0, 0, 0, 1], fontsize=10)
     # Plot datapoints as circles on the map.
     jet = plt.cm.get_cmap('jet')
-    x, y = m(lon,lat)
+    x, y = m(lon, lat)
     plt.scatter(x, y, c=diff, vmin=mindiff, vmax=maxdiff, cmap=jet, s=20,
             edgecolors='none')
     # Add colorbar.
-    plt.colorbar(label=topic['clabel'], shrink=0.5)
+    plt.colorbar(mappable=None, label=topic['clabel'], shrink=0.5)
     # Add title.
     plt.title(label)
     # Add histogram.
     if hist:
         plt.subplot(gs[1])
         binwidth = 1.0
-        plt.hist(diff, bins = round(maxdiff-mindiff/binwidth), align='mid',
+        plt.hist(diff, bins=round(maxdiff-mindiff/binwidth), align='mid',
                 orientation='horizontal')
         plt.ylim(mindiff, maxdiff)
         plt.xlim(0,2000)
@@ -103,16 +103,20 @@ days = range(10) # QQQ ultimately we want as many places as necessary. 15?
 lat = [city[0] for city in retrieved_data]
 lon = [city[1] for city in retrieved_data]
 forecasts = [[retrieved_data[city][day][topic['position']]
-            for city in zip(lat, lon)]
-            for day in days]
+        for city in zip(lat, lon)
+            if retrieved_data[city][day]
+        ]
+        for day in days]
 # Formerly "a" lists were lists of forecasts from a specific day and for a
 # specific future day. The following line tested that the list comprehension
 # "forecasts" replaced the "a" lists exactly.
 #print('Claim: forecasts == [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9]: {}.'.
 #        format(forecasts == [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9]))
 # QQQ Ultimately, replace "forecasts[1:9]" with code to ignore "None" content.
-differences = [[target_fc - prior_fc for target_fc, prior_fc in
-        zip(forecasts[0], forecast)] for forecast in forecasts[1:9]]
+differences = [[target_fc - prior_fc 
+#            if (prior_fc and target_fc) 
+        for target_fc, prior_fc 
+        in zip(forecasts[0], forecast)] for forecast in forecasts[1:9]]
 # Formerly "diff" lists held the differences between correponding forecasts.
 # The following line tested that the list comprehension "differences" replaced
 # the "diff" lists exactly.
@@ -120,15 +124,32 @@ differences = [[target_fc - prior_fc for target_fc, prior_fc in
 #        'diff0_6, diff0_7, diff0_8]: {}.'.
 #        format(differences == [diff0_1, diff0_2, diff0_3, diff0_4, diff0_5,
 #            diff0_6, diff0_7, diff0_8]))
-plt.suptitle(topic['header'], fontsize=18)
-mindiff = round(min(differences[-1]), 2)
-maxdiff = round(max(differences[-1]), 2)
+mindiff = round(min(i for i in differences[-1] if i), 2)
+maxdiff = round(max(i for i in differences[-1] if i), 2)
 print('MinDiff = {}, MaxDiff = {}.'.format(mindiff, maxdiff))
-for day, plot in enumerate(reversed(differences)):
+for day, plot in enumerate(differences):
+    print('\nWe are at day {}'.format(day))
+    if not plot:
+        print('no plot!')
+        continue
     # plt.figure determines figure size
+    plt.suptitle(topic['header'], fontsize=18)
     plt.figure(figsize=figuresize)
-    make_single_basemap(plot, str(8 - day), lon, lat, mindiff, maxdiff)
-    filename = (str(exact_date) + '_' + feature + '_' + str(8 - day) +
+    if day == 2:
+        plot = [0]
+        lon1 = [0]
+        lat1 = [0]
+        print(plot, lon1, lat1)
+        try:
+            make_single_basemap(plot, str(day+1), lon1, lat1, mindiff, maxdiff)
+        except Exception as e:
+            print(e)
+    else:
+        try:
+            make_single_basemap(plot, str(day+1), lon, lat, mindiff, maxdiff)
+        except Exception as e:
+            print(e)
+    filename = (str(exact_date) + '_' + feature + '_' + str(day+1) +
             '.' + file_type)
     plt.savefig('../OUTPUT/' + filename, dpi=res)
 end_time = time.time()

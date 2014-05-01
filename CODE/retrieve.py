@@ -128,11 +128,15 @@ def get_single_date_data_from_db(exact_date, db='weather_data_OWM.db',
     #     list of 15 sub-sub-tuples, each containing
     #         maxt, mint, rain, snow (floats).
     # For dates where the database contains no data, the forecast tuple
-    # is: `(None, None, None, None)`.
+    # would be: `(None, None, None, None)` but this is replaced by `None`, 
+    # using and `if-else` clause.
     composed_data = {}
     for item in retrieved_data:
         lat_lon = item[0:2]
-        forecasts = [subitem for subitem in 
+        forecasts = [subitem
+                    if subitem[0] or subitem[1] or subitem[2] or subitem[3]
+                    else None
+                for subitem in 
                 zip(item[2::4], item[3::4], item[4::4], item[5::4])]
         composed_data[lat_lon] = forecasts
     # In each tuple, elements 0, 1 are lat. and lon.; 
