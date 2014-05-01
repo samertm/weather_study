@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # map_us.py
 # David Prager Branner and Gina Schmalzle
-# 20140429, works
+# 20140430, works
 
 """Generate plots of forecast-differences, using list comprehensions."""
 
