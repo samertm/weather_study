@@ -147,7 +147,6 @@ def get_single_date_data_from_db(exact_date, db='weather_data_OWM.db',
                 None in 
                     [subtuple for tupl in retrieved_data for subtuple in tupl] 
                     and not none_values_found['None as one whole forecast'])
-#    return retrieved_data, none_values_found # debug
     if output == 'dict of tuples':
         # Our re-composed data type is a dictionary of tuples. 
         # Each tuple contains three items:
