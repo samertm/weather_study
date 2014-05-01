@@ -91,8 +91,8 @@ def get_multidate_data_from_db(db='weather_data_OWM.db',
     return composed_data
 
 def get_single_date_data_from_db(exact_date, db='weather_data_OWM.db',
-            to_print=True, output='dict of tuples'):
-    """Retrieve forecasts for single date, return as dictionary."""
+            to_print=True, output='dict of tuples', none_values=False):
+    """Retrieve forecasts for single date; none_values adds dict of problems."""
     allowed_outputs = ['dict', 'dict of tuples', 'JSON']
     if output not in allowed_outputs:
         print('Argument `output={}` not supported; choose from {}. Exiting.'.
@@ -128,8 +128,28 @@ def get_single_date_data_from_db(exact_date, db='weather_data_OWM.db',
             print(e)
     # Convert to usable form. We receive list of simple tuples from database.
     retrieved_data = cursor_output.fetchall()
+    if none_values:
+        none_values_found = {
+                'None among one whole lat_lon pair': None in [i[0:2] 
+                        for i in retrieved_data],
+                'None in either lat or lon alone': None in 
+                        [subelem for elem in retrieved_data 
+                            for subelem in elem[0:2]
+                        ],
+                'None as one whole forecast': (None, None, None, None) in 
+                        [subtuple for tupl in retrieved_data 
+                            for subtuple in zip(
+                                tupl[2::4], tupl[3::4], tupl[4::4], tupl[5::4]
+                            )
+                        ],
+                }
+        none_values_found['None within forecast but not as whole forecast'] = (
+                None in 
+                    [subtuple for tupl in retrieved_data for subtuple in tupl] 
+                    and not none_values_found['None as one whole forecast'])
+#    return retrieved_data, none_values_found # debug
     if output == 'dict of tuples':
-        # Our re-composed data type is a dictionary. 
+        # Our re-composed data type is a dictionary of tuples. 
         # Each tuple contains three items:
         #     sub-tuple containing latitude and longitude (floats);
         #     list of 15 sub-sub-tuples, each containing
@@ -146,8 +166,20 @@ def get_single_date_data_from_db(exact_date, db='weather_data_OWM.db',
                     for subitem in 
                     zip(item[2::4], item[3::4], item[4::4], item[5::4])]
             composed_data[lat_lon] = forecasts
-        # In each tuple, elements 0, 1 are lat. and lon.; 
-        #     the remainder become 4-tuples in a list.
+# The following was prepared for use with dict-of-tuple output; instead, 
+# however, we are using `none_values_found` dictionary prepared from the
+# database output.
+#        none_values_found = {
+#                'None among tuples': None in [tupl for lst in x.values() 
+#                        for tupl in lst],
+#                'None in tuple-elements': None in [elem for lst in x.values() 
+#                        for tupl in lst 
+#                                if tupl 
+#                            for elem in tupl],
+#                'None in lat_lon pairs': None in [lst for lst in x.keys()],
+#                'None in lat or lon': None in [tupl for lst in x.keys() 
+#                        for tupl in lst],
+#                }
     else:
         # Our re-composed data type is a nested dictionary. 
         # Each key-object pair consists of:
@@ -179,8 +211,11 @@ def get_single_date_data_from_db(exact_date, db='weather_data_OWM.db',
     if to_print:
         print('Total time elapsed: {} seconds'.
                 format(round(end_time-start_time)))
+    # Prepare return-data — either single item or tuple.
     if output == 'JSON':
-        return json.dumps(composed_data)
+        to_return = json.dumps(composed_data)
     else:
-        return composed_data
-
+        to_return = composed_data
+    if none_values:
+        to_return = (to_return, none_values_found)
+    return to_return
