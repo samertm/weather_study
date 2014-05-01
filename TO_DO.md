@@ -19,7 +19,7 @@
 ### To build             
 
 - [ ] Logging.
-- [ ] `argparse` handling of command-line input.
+- [x] `argparse` handling of command-line input.
 - [ ] Test suite. Above all: to confirm data integrity.
 - [ ] Place name of data source and and license information on site.
 - [ ] Consider changing compression module to `shutil` (http://chimera.labs.oreilly.com/books/1230000000393/ch13.html#_problem_218).
