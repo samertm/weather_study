@@ -6,6 +6,7 @@
 """Data-retrieval functions for Weather Study project."""
 
 import os
+import sys
 import sqlite3
 import time
 import json
@@ -90,8 +91,13 @@ def get_multidate_data_from_db(db='weather_data_OWM.db',
     return composed_data
 
 def get_single_date_data_from_db(exact_date, db='weather_data_OWM.db',
-            to_print=True, output='tuple', JSONize=False):
+            to_print=True, output='dict of tuples'):
     """Retrieve forecasts for single date, return as dictionary."""
+    allowed_outputs = ['dict', 'dict of tuples', 'JSON']
+    if output not in allowed_outputs:
+        print('Argument `output={}` not supported; choose from {}. Exiting.'.
+                format(output, allowed_outputs))
+        sys.exit(0)
     start_time = time.time()
     connection = sqlite3.connect(os.path.join('../', db))
     with connection:
@@ -122,7 +128,7 @@ def get_single_date_data_from_db(exact_date, db='weather_data_OWM.db',
             print(e)
     # Convert to usable form. We receive list of simple tuples from database.
     retrieved_data = cursor_output.fetchall()
-    if output == 'tuple':
+    if output == 'dict of tuples':
         # Our re-composed data type is a dictionary. 
         # Each tuple contains three items:
         #     sub-tuple containing latitude and longitude (floats);
@@ -173,8 +179,8 @@ def get_single_date_data_from_db(exact_date, db='weather_data_OWM.db',
     if to_print:
         print('Total time elapsed: {} seconds'.
                 format(round(end_time-start_time)))
-    if output == 'tuple' or not JSONize:
-        return composed_data
-    else:
+    if output == 'JSON':
         return json.dumps(composed_data)
+    else:
+        return composed_data
 
