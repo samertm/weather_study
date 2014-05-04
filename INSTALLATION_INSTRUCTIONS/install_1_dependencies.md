@@ -31,7 +31,7 @@ git clone https://github.com/matplotlib/matplotlib --depth=1
 
         pip install -Ur requirements_python3.txt
 
-   Note that references to `basemap`, `matplotlib`, `netCDF14`, and `Pillow` may need to be removed since some of these things are being installed through tools other than `pip`. 
+   Note that references to `basemap`, `matplotlib`, `netCDF14` may need to be removed from the `requirements` file since some of these things are being installed through tools other than `pip`. In addition, on Ubuntu, we have encountered errors installing `cffi` and `Pillow`.
 
 ---
 
