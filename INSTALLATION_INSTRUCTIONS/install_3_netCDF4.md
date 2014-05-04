@@ -10,7 +10,7 @@
 
         brew install geos graphviz hdf5 jasper netcdf proj udunits
 
-   We would like to include the Python Imaging Library (PIL), but it does not yet support Python3 (http://www.pythonware.com/products/pil/, as of 20140424). I installed `pillow` instead, another visualization library:
+   We would like to include the Python Imaging Library (PIL), but it does not yet support Python3 (http://www.pythonware.com/products/pil/, as of 20140424). We have installed `pillow` instead, another visualization library:
   
         pip install pillow
 
