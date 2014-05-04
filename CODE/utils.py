@@ -63,10 +63,14 @@ def retrieve_data_vals(files, to_print=None):
     query_date = int(query_date_and_time.split('-')[0]) # e.g. 20140414
     # Process each file
     forecast_dict = {'query_date': query_date}
+    files = sorted(files)
     for file in files:
         forecast_list_pruned = []
-        with open(os.path.join(file), 'r') as f:
-            contents = f.read()
+        try:
+	    with open(os.path.join(file), 'r') as f:
+	        contents = f.read()
+        except Exception as e:
+            print('Error {}\n    in file {}'.format(e, file)
         content_dict = ast.literal_eval(contents)
         if content_dict == None:
             # This happens occasionally. Ignore silently and continue.
