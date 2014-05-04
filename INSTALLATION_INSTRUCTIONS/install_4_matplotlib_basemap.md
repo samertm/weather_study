@@ -1,4 +1,4 @@
-## Weather Study Installation Instructions: Part 2. Install `basemap` for MatPlotLib
+## Weather Study Installation Instructions: Part 4. Install `basemap` for MatPlotLib
 
 These directions assume you have `matplotlib` and `numpy` already installed and updated.
 
