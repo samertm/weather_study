@@ -1,6 +1,6 @@
 ## Weather Study Installation Instructions: Part 3. Install `netcdf4`
 
- 1. You will need xcode 5.0.2 or higher to install `netcdf`.
+ 1. On Mac OS X you will need `xcode` 5.0.2 or higher to install `netcdf`.
  1. Once installed, make sure `brew` is up to date:
 
         brew doctor
