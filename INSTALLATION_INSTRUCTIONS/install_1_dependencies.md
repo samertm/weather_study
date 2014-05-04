@@ -4,20 +4,26 @@
  
    2. Set up a virtual environment (we are using Python 3.4 and have not tested this code with other versions):
 
-        virtualenv --python=python3 v_env3
-        source v_env3/bin/activate
+        ~~~
+virtualenv --python=python3 v_env3
+source v_env3/bin/activate
+        ~~~
 
      Note that this `source` line must be used to activate the local virtual environment every time you start working with the Weather Study tools.
 
    2. Install `numpy`, which is a dependency of `matplotlib`:
 
-        pip install numpy
+        ~~~
+pip install numpy
+        ~~~
 
      This is a somewhat long install and may require versions of fortran, gcc, and other Unix tools. On Mac OS X 10.9 we have used `brew` to install these.
 
    2. Clone the current version of `matplotlib`:
 
-        git clone https://github.com/matplotlib/matplotlib --depth=1
+        ~~~
+git clone https://github.com/matplotlib/matplotlib --depth=1
+        ~~~
 
      We use `--depth=1` to ignore the full repository history, shortening the download process considerably.
 
