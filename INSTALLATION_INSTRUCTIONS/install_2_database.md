@@ -22,13 +22,9 @@
 
         In [3]: populate_db.populate_db_w_city_codes()
 
-   The function will print the value of each record it inserts, unless the `to_print` argument is used:
-
-        In [4]: populate_db.populate_db_w_city_codes(to_print=None)
-
  1.  Still in the REPL, download forecast data from Open Weather Map:
 
-        In [5]: requests.download_OWM_full_forecast()
+        In [4]: requests.download_OWM_full_forecast()
         Saving to directory downloads_OWM_US_20140422-1409
             0 done out of 11731: 0.0%.
             100 done out of 11731: 0.9%.
@@ -36,18 +32,18 @@
 
    Once the download is complete, the content will be compressed and stored as a single `.tar.bz2` archive in the `COMPRESSED/` directory. This full download typically takes two or three hours. Alternately, you can use the `limit` default keyword if you want to specify some smaller number of sites:
 
-        In [6]: requests.download_OWM_full_forecast(limit=100)
+        In [5]: requests.download_OWM_full_forecast(limit=100)
 
     For the sake of consistency this download should be done only once a day at the same time of day — we prefer between 4:30 p.m. and midnight, U.S. Eastern Daylight Savings time, when we find the content of the forecasts to be relatively uniform. 
     You will need to download forecast data yourself, once a day, for every day you want to study.
 
  1.  Populate the database with your downloaded data:
 
-        In [7]: populate_db.process_dir_of_downloads()
+        In [6]: populate_db.process_dir_of_downloads()
 
    This step creates a temporary directory `TEMPORARY/` into which the compressed data is extracted and later deleted, leaving the compressed form intact. Your local database keeps track of whether or not a given download directory has been used to populate it, and if so, by default it does not reinsert the data. To insert the same data even so, use:
 
-        In [8]: populate_db.process_dir_of_downloads(repop_if_already_done=True)
+        In [7]: populate_db.process_dir_of_downloads(repop_if_already_done=True)
 
 ---
 
