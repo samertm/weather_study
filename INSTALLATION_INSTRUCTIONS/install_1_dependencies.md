@@ -17,9 +17,9 @@ source v_env3/bin/activate
 pip install numpy
         ~~~
 
-     This is a somewhat long install and may require versions of fortran, gcc, and other Unix tools. On Mac OS X 10.9 we have used `brew` to install these.
+     This is a somewhat long install and may require versions of fortran, gcc, and other Unix tools. On Mac OS X 10.9 we have used `brew` to install these. On Ubuntu 14.04 we have used `sudo apt-get install python-numpy python-scipy
 
-   2. Clone the current version of `matplotlib`:
+   2. Clone the current version of `matplotlib` (which is likely to be later than that available through `brew` or `apt-get`):
 
         ~~~
 git clone https://github.com/matplotlib/matplotlib --depth=1
