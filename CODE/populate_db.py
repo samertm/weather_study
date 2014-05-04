@@ -86,6 +86,7 @@ def process_dir_of_downloads(to_print=None, repop_if_already_done=False):
     # Get names of directories in download folder
     directories = U.open_directory('../DATA/TEMPORARY/downloads_OWM_US_')
     # For each directory, get all files
+    directories.sort()
     for directory in directories:
         print(directory) # debug
         files = U.open_directory(directory+'/')
