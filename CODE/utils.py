@@ -67,10 +67,11 @@ def retrieve_data_vals(files, to_print=None):
     for file in files:
         forecast_list_pruned = []
         try:
-	    with open(os.path.join(file), 'r') as f:
-	        contents = f.read()
+            with open(os.path.join(file), 'r') as f:
+                contents = f.read()
+            print('File {} read.'.format(file))
         except Exception as e:
-            print('Error {}\n    in file {}'.format(e, file)
+            print('Error {}\n    in file {}'.format(e, file))
         content_dict = ast.literal_eval(contents)
         if content_dict == None:
             # This happens occasionally. Ignore silently and continue.
