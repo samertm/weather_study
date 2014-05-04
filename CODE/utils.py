@@ -63,7 +63,7 @@ def retrieve_data_vals(files, to_print=None):
     query_date = int(query_date_and_time.split('-')[0]) # e.g. 20140414
     # Process each file
     forecast_dict = {'query_date': query_date}
-    files = sorted(files)
+    files.sort()
     for file in files:
         forecast_list_pruned = []
         try:
