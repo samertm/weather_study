@@ -69,11 +69,13 @@ def retrieve_data_vals(files, to_print=None):
         try:
             with open(os.path.join(file), 'r') as f:
                 contents = f.read()
-            print('File {} read.'.format(file))
         except Exception as e:
             print('Error {}\n    in file {}'.format(e, file))
+        if contents == '\n':
+            print('File {} empty.'.format(file))
+            continue
         content_dict = ast.literal_eval(contents)
-        if content_dict == None:
+        if content_dict in (None, '\n'):
             # This happens occasionally. Ignore silently and continue.
             continue
         forecast_list_received =(content_dict['list'])
