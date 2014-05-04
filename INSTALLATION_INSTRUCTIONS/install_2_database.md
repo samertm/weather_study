@@ -2,7 +2,7 @@
 
  1.  Get an API key for Open Weather Map at http://openweathermap.org/appid. Store the key in a file called `owm_api.ignore` in the `DATA/` directory. It will be read from there when API calls are made; no copies of the key should be visible in your public repository. Files ending in `.ignore` are marked in `.gitignore` as not to be pushed to the repository, so your API-key will remain private.
 
- 1.  Set up SQLite3 database:
+ 1.  Make sure `sqlite3` is installed and then set up a SQLite3 database:
 
         sqlite3 weather_data_OWM.db < CODE/DB_SCRIPTS/create_weather_OWM_db.sql
 
