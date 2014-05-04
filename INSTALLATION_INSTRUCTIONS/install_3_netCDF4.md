@@ -1,18 +1,22 @@
 ## Weather Study Installation Instructions: Part 3. Install `netcdf4`
 
- 1. You will need xcode 5.0.2 or higher to install `netcdf`.
+ 1. On Mac OS X you will need `xcode` 5.0.2 or higher to install `netcdf`.
  1. Once installed, make sure `brew` is up to date:
 
         brew doctor
         brew update
 
- 1. Install graphics programs:
+ 1. Install graphics programs. For OS X:
 
         brew install geos graphviz hdf5 jasper netcdf proj udunits
 
-   We would like to include the Python Imaging Library (PIL), but it does not yet support Python3 (http://www.pythonware.com/products/pil/, as of 20140424). I installed `pillow` instead, another visualization library:
+   We would like to include the Python Imaging Library (PIL), but it does not yet support Python3 (http://www.pythonware.com/products/pil/, as of 20140424). We have installed `pillow` instead, another visualization library:
   
         pip install pillow
+
+   For Ubuntu 14.04, we have installed only:
+
+        apt-get install graphviz jasper
 
  1. In your favorite virtual environment
 

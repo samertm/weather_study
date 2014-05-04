@@ -4,26 +4,34 @@
  
    2. Set up a virtual environment (we are using Python 3.4 and have not tested this code with other versions):
 
-        virtualenv --python=python3 v_env3
-        source v_env3/bin/activate
+        ~~~
+virtualenv --python=python3 v_env3
+source v_env3/bin/activate
+        ~~~
 
      Note that this `source` line must be used to activate the local virtual environment every time you start working with the Weather Study tools.
 
    2. Install `numpy`, which is a dependency of `matplotlib`:
 
-        pip install numpy
+        ~~~
+pip install numpy
+        ~~~
 
-     This is a somewhat long install and may require versions of fortran, gcc, and other Unix tools. On Mac OS X 10.9 we have used `brew` to install these.
+     This is a somewhat long install and may require versions of fortran, gcc, and other Unix tools. On Mac OS X 10.9 we have used `brew` to install these. On Ubuntu 14.04 we have used `sudo apt-get install python-numpy python-scipy
 
-   2. Clone the current version of `matplotlib`:
+   2. Clone the current version of `matplotlib` (which is likely to be later than that available through `brew` or `apt-get`):
 
-        git clone https://github.com/matplotlib/matplotlib --depth=1
+        ~~~
+git clone https://github.com/matplotlib/matplotlib --depth=1
+        ~~~
 
      We use `--depth=1` to ignore the full repository history, shortening the download process considerably.
 
  1. Once `matplotlib` is installed, install the other requirements:
 
         pip install -Ur requirements_python3.txt
+
+   Note that references to `basemap`, `matplotlib`, `netCDF14` may need to be removed from the `requirements_python3.txt` file since some of these things are being installed through tools other than `pip`. In addition, on Ubuntu, we have encountered errors installing `cairocffi`, `cffi`, `pyzmq`, `gnureadline`, and `Pillow`; we removed these from `requirements_python3.txt` and continued with `pip` installation.
 
 ---
 
