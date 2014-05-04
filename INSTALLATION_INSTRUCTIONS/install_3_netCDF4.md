@@ -6,13 +6,17 @@
         brew doctor
         brew update
 
- 1. Install graphics programs:
+ 1. Install graphics programs. For OS X:
 
         brew install geos graphviz hdf5 jasper netcdf proj udunits
 
    We would like to include the Python Imaging Library (PIL), but it does not yet support Python3 (http://www.pythonware.com/products/pil/, as of 20140424). We have installed `pillow` instead, another visualization library:
   
         pip install pillow
+
+   For Ubuntu 14.04, we have installed only:
+
+        apt-get install graphviz jasper
 
  1. In your favorite virtual environment
 
