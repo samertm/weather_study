@@ -16,7 +16,7 @@ cd geos-3.3.3
 export GEOS_DIR=<where you want the libs and headers to go>
 # A reasonable choice on a Unix-like system is /usr/local, or
 # if you do not have permission to write there, your home directory.
-./configure --prefix=$GEOS_DIR
+./configure --prefix=$GEOS_DIR --enable-python
 make; make install
         ~~~
 
