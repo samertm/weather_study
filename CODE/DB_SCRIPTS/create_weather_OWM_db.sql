@@ -5,7 +5,7 @@
 --
 -- Run as
 --     sqlite3 weather_data_OWM.db < 
---                       CODE/DATABASE_SCRIPTS/create_weather_OWM_db.sql
+--                       CODE/DB_SCRIPTS/create_weather_OWM_db.sql
 --
 -- *****************
 
