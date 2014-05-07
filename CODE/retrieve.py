@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # retrieve.py
 # David Prager Branner and Gina Schmalzle
-# 20140430, works.
+# 20140507, works.
 
 """Data-retrieval functions for Weather Study project."""
 
@@ -93,7 +93,7 @@ def get_multidate_data_from_db(db='weather_data_OWM.db',
 def get_single_date_data_from_db(exact_date, db='weather_data_OWM.db',
             to_print=True, output='dict of tuples', none_values=False):
     """Retrieve forecasts for single date; none_values adds dict of problems."""
-    allowed_outputs = ['dict', 'dict of tuples', 'JSON']
+    allowed_outputs = ['dict', 'dict of tuples', 'JSON', 'GeoJSON']
     if output not in allowed_outputs:
         print('Argument `output={}` not supported; choose from {}. Exiting.'.
                 format(output, allowed_outputs))
