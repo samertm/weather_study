@@ -19,14 +19,15 @@
 ### To build             
 
 - [ ] Logging.
-- [x] `argparse` handling of command-line input.
+- [ ] Add `GeoJSON` option to `retrieve.get_single_date_data_from_db`.
+- [ ] Consider changing compression module to `shutil` (http://chimera.labs.oreilly.com/books/1230000000393/ch13.html#_problem_218).
+- [ ] Replace SQL code with SQLAlchemy code.
 - [ ] Test suite. Above all: to confirm data integrity.
 - [ ] Place name of data source and and license information on site.
-- [ ] Consider changing compression module to `shutil` (http://chimera.labs.oreilly.com/books/1230000000393/ch13.html#_problem_218).
-- [ ] Replace SQL code with ORM code.
  
 ---
 
+- [x] `argparse` handling of command-line input.
 - [x] Tools to process all values for display.
 - [x] Make separate `INSTALL` instruction file. **Update**: separate directory created and two files placed in it.
 - [x] Check whether `get_city_code_list` is in fact working — successive downloaded files appear to be identical (according to diff). Then why are we downloading them?
