@@ -31,7 +31,7 @@ git clone https://github.com/matplotlib/matplotlib --depth=1
 
         pip install -Ur requirements_python3_ubuntu1404.txt
 
-   Note that references to `basemap`, `matplotlib`, `netCDF14` may need to be removed from the `requirements_python3.txt` file since some of these things are being installed through tools other than `pip`. In addition, on Ubuntu, we have encountered errors installing `cairocffi`, `cffi`, `gnureadline`, and `Pillow`; we removed these from `requirements_python3.txt` and continued with `pip` installation.
+   Note that references to `basemap`, `matplotlib`, `netCDF14` may need to be removed from the `requirements_python3.txt` file since some of these things are being installed through tools other than `pip`. In addition, on Ubuntu, we have encountered errors installing `gnureadline`, and `Pillow`; we removed these from `requirements_python3.txt` and continued with `pip` installation. `cffi` required `sudo apt-get install libffi-dev` on Ubuntu 14.04.
 
 ---
 
