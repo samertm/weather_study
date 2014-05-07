@@ -211,7 +211,7 @@ def get_single_date_data_from_db(exact_date, db='weather_data_OWM.db',
         print('Total time elapsed: {} seconds'.
                 format(round(end_time-start_time)))
     # Prepare return-data — either single item or tuple.
-    if output == 'JSON':
+    if output in ('JSON', 'GeoJSON'):
         to_return = json.dumps(composed_data)
     else:
         to_return = composed_data
