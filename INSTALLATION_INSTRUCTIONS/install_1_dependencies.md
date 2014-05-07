@@ -27,11 +27,11 @@ git clone https://github.com/matplotlib/matplotlib --depth=1
 
      We use `--depth=1` to ignore the full repository history, shortening the download process considerably.
 
- 1. Once `matplotlib` is installed, install the other requirements:
+ 1. Once `matplotlib` is installed, install the other requirements. Below is the Ubuntu version:
 
-        pip install -Ur requirements_python3.txt
+        pip install -Ur requirements_python3_ubuntu1404.txt
 
-   Note that references to `basemap`, `matplotlib`, `netCDF14` may need to be removed from the `requirements_python3.txt` file since some of these things are being installed through tools other than `pip`. In addition, on Ubuntu, we have encountered errors installing `cairocffi`, `cffi`, `pyzmq`, `gnureadline`, and `Pillow`; we removed these from `requirements_python3.txt` and continued with `pip` installation.
+   Note that references to `basemap`, `matplotlib`, `netCDF14` may need to be removed from the `requirements_python3.txt` file since some of these things are being installed through tools other than `pip`. In addition, on Ubuntu, we have encountered errors installing `cairocffi`, `cffi`, `gnureadline`, and `Pillow`; we removed these from `requirements_python3.txt` and continued with `pip` installation.
 
 ---
 
