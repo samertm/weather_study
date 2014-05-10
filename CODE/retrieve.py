@@ -179,7 +179,7 @@ def get_single_date_data_from_db(exact_date, db='weather_data_OWM.db',
 #                'None in lat or lon': None in [tupl for lst in x.keys() 
 #                        for tupl in lst],
 #                }
-    else:
+    elif output == 'JSON':
         # Our re-composed data type is a nested dictionary. 
         # Each key-object pair consists of:
         #     key: latitude-longitude pair, string delimited by '_';
@@ -206,6 +206,8 @@ def get_single_date_data_from_db(exact_date, db='weather_data_OWM.db',
                                 item[2::4], item[3::4], 
                                 item[4::4], item[5::4]))}
                 for item in retrieved_data}
+    else: # output == 'GeoJSON'
+        pass
     end_time = time.time()
     if to_print:
         print('Total time elapsed: {} seconds'.
