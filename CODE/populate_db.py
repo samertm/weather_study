@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # populate_db.py
 # David Prager Branner and Gina Schmalzle
-# 20140428, works
+# 20140509, works
 
 """Database populating tools for weather study."""
 
@@ -90,6 +90,7 @@ def process_dir_of_downloads(to_print=None, repop_if_already_done=False):
     for directory in directories:
         print(directory) # debug
         files = U.open_directory(directory+'/')
+        files.sort()
         print('Files obtained from directory.') # debug
         forecast_dict = U.retrieve_data_vals(files, to_print)
         print('`forecast_dict` received.') # debug
