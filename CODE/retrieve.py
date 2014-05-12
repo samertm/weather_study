@@ -128,158 +128,16 @@ def get_single_date_data_from_db(exact_date, db='weather_data_OWM.db',
             print(e)
     # Convert to usable form. We receive list of simple tuples from database.
     retrieved_data = cursor_output.fetchall()
+    # For readability, we have moved the composition of `composed_data`
+    # and `none_values_found` into separate functions.
     if none_values:
-        none_values_found = {
-                'None among one whole lat_lon pair': None in [i[0:2] 
-                        for i in retrieved_data],
-                'None in either lat or lon alone': None in 
-                        [subelem for elem in retrieved_data 
-                            for subelem in elem[0:2]
-                        ],
-                'None as one whole forecast': (None, None, None, None) in 
-                        [subtuple for tupl in retrieved_data 
-                            for subtuple in zip(
-                                tupl[2::4], tupl[3::4], tupl[4::4], tupl[5::4]
-                            )
-                        ],
-                }
-        none_values_found['None within forecast but not as whole forecast'] = (
-                None in 
-                    [subtuple for tupl in retrieved_data for subtuple in tupl] 
-                    and not none_values_found['None as one whole forecast'])
+        none_values_found = generate_none_values(retrieved_data)
     if output == 'dict of tuples':
-        # Our re-composed data type is a dictionary of tuples. 
-        # Each tuple contains three items:
-        #     sub-tuple containing latitude and longitude (floats);
-        #     list of 15 sub-sub-tuples, each containing
-        #         maxt, mint, rain, snow (floats).
-        # For dates where the database contains no data, the forecast tuple
-        # would be: `(None, None, None, None)` but this is replaced by `None`, 
-        # using and `if-else` clause.
-        composed_data = {}
-        for item in retrieved_data:
-            lat_lon = item[0:2]
-            forecasts = [subitem
-                        if subitem[0] or subitem[1] or subitem[2] or subitem[3]
-                        else None
-                    for subitem in 
-                    zip(item[2::4], item[3::4], item[4::4], item[5::4])]
-            composed_data[lat_lon] = forecasts
-# The following was prepared for use with dict-of-tuple output; instead, 
-# however, we are using `none_values_found` dictionary prepared from the
-# database output.
-#        none_values_found = {
-#                'None among tuples': None in [tupl for lst in x.values() 
-#                        for tupl in lst],
-#                'None in tuple-elements': None in [elem for lst in x.values() 
-#                        for tupl in lst 
-#                                if tupl 
-#                            for elem in tupl],
-#                'None in lat_lon pairs': None in [lst for lst in x.keys()],
-#                'None in lat or lon': None in [tupl for lst in x.keys() 
-#                        for tupl in lst],
-#                }
+        composed_data = generate_dict_of_tuples(retrieved_data)
     elif output == 'JSON':
-        # Our re-composed data type is a nested dictionary. 
-        # Each key-object pair consists of:
-        #     key: latitude-longitude pair, string delimited by '_';
-        #     value: subdictionary; 
-        #         each subdictionary consists of fifteen key-value pairs:
-        #         key: integer between 0 and 14, i.e. days before target date;
-        #         value: sub-subdictionary;
-        #              each sub-subdictionary consists of four key-value pairs:
-        #              key: one of 'maxt', 'mint', 'rain', 'snow';
-        #              value: a floating point number, 2-place decimal accuracy.
-        # Finally, the subdictionary is converted to a JSON string.
-        # Where the database contains no data, the sub-subdictionary value
-        # would be: `{'mint': None, 'rain': None, 'maxt': None, 'snow': None}`.
-        # But we replace that with None alone, using an `if-else` clause.
-        composed_data = {
-                str(item[0]) + '_' + str(item[1]): {
-                    i: {
-                        'maxt': subitem[0], 'mint': subitem[2],
-                        'rain': subitem[2], 'snow': subitem[3]} 
-                            if (subitem[0] or subitem[1] or 
-                                subitem[2] or subitem[3])
-                            else None
-                    for i, subitem in enumerate(zip(
-                                item[2::4], item[3::4], 
-                                item[4::4], item[5::4]))}
-                for item in retrieved_data}
+        composed_data = generate_JSON(retrieved_data)
     else: # output == 'GeoJSON'
-        # Using GeoJSON format; see http://geojson.org/geojson-spec.html.
-        composed_data = {
-                'type': 'FeatureCollection',
-                'features': [
-                        {'type': 'Feature',
-                        'geometry': {
-                                'type': 'Point',
-                                'coordinates': [item[0], item[1]],
-                                },
-                        'properties': {
-                                'maxt_0': item[2],
-                                'mint_0': item[3],
-                                'rain_0': item[4],
-                                'snow_0': item[5],
-                                'maxt_1': item[6],
-                                'mint_1': item[7],
-                                'rain_1': item[8],
-                                'snow_1': item[9],
-                                'maxt_2': item[10],
-                                'mint_2': item[11],
-                                'rain_2': item[12],
-                                'snow_2': item[13],
-                                'maxt_3': item[14],
-                                'mint_3': item[15],
-                                'rain_3': item[16],
-                                'snow_3': item[17],
-                                'maxt_4': item[18],
-                                'mint_4': item[19],
-                                'rain_4': item[20],
-                                'snow_4': item[21],
-                                'maxt_5': item[22],
-                                'mint_5': item[23],
-                                'rain_5': item[24],
-                                'snow_5': item[25],
-                                'maxt_6': item[26],
-                                'mint_6': item[27],
-                                'rain_6': item[28],
-                                'snow_6': item[29],
-                                'maxt_7': item[30],
-                                'mint_7': item[31],
-                                'rain_7': item[32],
-                                'snow_7': item[33],
-                                'maxt_8': item[34],
-                                'mint_8': item[35],
-                                'rain_8': item[36],
-                                'snow_8': item[37],
-                                'maxt_9': item[38],
-                                'mint_9': item[39],
-                                'rain_9': item[40],
-                                'snow_9': item[41],
-                                'maxt_10': item[42],
-                                'mint_10': item[43],
-                                'rain_10': item[44],
-                                'snow_10': item[45],
-                                'maxt_11': item[46],
-                                'mint_11': item[47],
-                                'rain_11': item[48],
-                                'snow_11': item[49],
-                                'maxt_12': item[50],
-                                'mint_12': item[51],
-                                'rain_12': item[52],
-                                'snow_12': item[53],
-                                'maxt_13': item[54],
-                                'mint_13': item[55],
-                                'rain_13': item[56],
-                                'snow_13': item[57],
-                                'maxt_14': item[58],
-                                'mint_14': item[59],
-                                'rain_14': item[60],
-                                'snow_14': item[61],
-                                },
-                } for item in retrieved_data]
-        }
+        composed_data = generate_GeoJSON(retrieved_data)
     end_time = time.time()
     if to_print:
         print('Total time elapsed: {} seconds'.
@@ -292,3 +150,167 @@ def get_single_date_data_from_db(exact_date, db='weather_data_OWM.db',
     if none_values:
         to_return = (to_return, none_values_found)
     return to_return
+
+def generate_none_values(retrieved_data):
+    """Compose dictionary telling where `None` is found in data."""
+    none_values_found = {
+            'None among one whole lat_lon pair': None in [i[0:2] 
+                    for i in retrieved_data],
+            'None in either lat or lon alone': None in 
+                    [subelem for elem in retrieved_data 
+                        for subelem in elem[0:2]
+                    ],
+            'None as one whole forecast': (None, None, None, None) in 
+                    [subtuple for tupl in retrieved_data 
+                        for subtuple in zip(
+                            tupl[2::4], tupl[3::4], tupl[4::4], tupl[5::4]
+                        )
+                    ],
+            }
+    none_values_found['None within forecast but not as whole forecast'] = (
+            None in 
+                [subtuple for tupl in retrieved_data for subtuple in tupl] 
+                and not none_values_found['None as one whole forecast'])
+    return none_values_found
+    # The following was prepared for use with dict-of-tuple output; instead, 
+    # however, we are using `none_values_found` dictionary prepared from the
+    # database output.
+    #    none_values_found = {
+    #            'None among tuples': None in [tupl for lst in x.values() 
+    #                    for tupl in lst],
+    #            'None in tuple-elements': None in [elem for lst in x.values() 
+    #                    for tupl in lst 
+    #                            if tupl 
+    #                        for elem in tupl],
+    #            'None in lat_lon pairs': None in [lst for lst in x.keys()],
+    #            'None in lat or lon': None in [tupl for lst in x.keys() 
+    #                    for tupl in lst],
+    #            }
+
+def generate_dict_of_tuples(retrieved_data):
+    """Compose the data into a succinct dictionary of tuples."""
+    # Our re-composed data type is a dictionary of tuples. 
+    # Each tuple contains three items:
+    #     sub-tuple containing latitude and longitude (floats);
+    #     list of 15 sub-sub-tuples, each containing
+    #         maxt, mint, rain, snow (floats).
+    # For dates where the database contains no data, the forecast tuple
+    # would be: `(None, None, None, None)` but this is replaced by `None`, 
+    # using and `if-else` clause.
+    composed_data = {}
+    for item in retrieved_data:
+        lat_lon = item[0:2]
+        forecasts = [subitem
+                    if subitem[0] or subitem[1] or subitem[2] or subitem[3]
+                    else None
+                for subitem in 
+                zip(item[2::4], item[3::4], item[4::4], item[5::4])]
+        composed_data[lat_lon] = forecasts
+    return composed_data
+
+def generate_JSON(retrieved_data):
+    """Compose the data into a succinct nested dictionary."""
+    # Our re-composed data type is a nested dictionary. 
+    # Each key-object pair consists of:
+    #     key: latitude-longitude pair, string delimited by '_';
+    #     value: subdictionary; 
+    #         each subdictionary consists of fifteen key-value pairs:
+    #         key: integer between 0 and 14, i.e. days before target date;
+    #         value: sub-subdictionary;
+    #              each sub-subdictionary consists of four key-value pairs:
+    #              key: one of 'maxt', 'mint', 'rain', 'snow';
+    #              value: a floating point number, 2-place decimal accuracy.
+    # Finally, the subdictionary is converted to a JSON string.
+    # Where the database contains no data, the sub-subdictionary value
+    # would be: `{'mint': None, 'rain': None, 'maxt': None, 'snow': None}`.
+    # But we replace that with None alone, using an `if-else` clause.
+    composed_data = {
+            str(item[0]) + '_' + str(item[1]): {
+                i: {
+                    'maxt': subitem[0], 'mint': subitem[2],
+                    'rain': subitem[2], 'snow': subitem[3]} 
+                        if (subitem[0] or subitem[1] or 
+                            subitem[2] or subitem[3])
+                        else None
+                for i, subitem in enumerate(zip(
+                            item[2::4], item[3::4], 
+                            item[4::4], item[5::4]))}
+            for item in retrieved_data}
+    return composed_data
+
+def generate_GeoJSON(retrieved_data):
+    """Compose the data into the verbose GeoJSON format."""
+    # See http://geojson.org/geojson-spec.html.
+    composed_data = {
+            'type': 'FeatureCollection',
+            'features': [
+                    {'type': 'Feature',
+                    'geometry': {
+                            'type': 'Point',
+                            'coordinates': [item[0], item[1]],
+                            },
+                    'properties': {
+                            'maxt_0': item[2],
+                            'mint_0': item[3],
+                            'rain_0': item[4],
+                            'snow_0': item[5],
+                            'maxt_1': item[6],
+                            'mint_1': item[7],
+                            'rain_1': item[8],
+                            'snow_1': item[9],
+                            'maxt_2': item[10],
+                            'mint_2': item[11],
+                            'rain_2': item[12],
+                            'snow_2': item[13],
+                            'maxt_3': item[14],
+                            'mint_3': item[15],
+                            'rain_3': item[16],
+                            'snow_3': item[17],
+                            'maxt_4': item[18],
+                            'mint_4': item[19],
+                            'rain_4': item[20],
+                            'snow_4': item[21],
+                            'maxt_5': item[22],
+                            'mint_5': item[23],
+                            'rain_5': item[24],
+                            'snow_5': item[25],
+                            'maxt_6': item[26],
+                            'mint_6': item[27],
+                            'rain_6': item[28],
+                            'snow_6': item[29],
+                            'maxt_7': item[30],
+                            'mint_7': item[31],
+                            'rain_7': item[32],
+                            'snow_7': item[33],
+                            'maxt_8': item[34],
+                            'mint_8': item[35],
+                            'rain_8': item[36],
+                            'snow_8': item[37],
+                            'maxt_9': item[38],
+                            'mint_9': item[39],
+                            'rain_9': item[40],
+                            'snow_9': item[41],
+                            'maxt_10': item[42],
+                            'mint_10': item[43],
+                            'rain_10': item[44],
+                            'snow_10': item[45],
+                            'maxt_11': item[46],
+                            'mint_11': item[47],
+                            'rain_11': item[48],
+                            'snow_11': item[49],
+                            'maxt_12': item[50],
+                            'mint_12': item[51],
+                            'rain_12': item[52],
+                            'snow_12': item[53],
+                            'maxt_13': item[54],
+                            'mint_13': item[55],
+                            'rain_13': item[56],
+                            'snow_13': item[57],
+                            'maxt_14': item[58],
+                            'mint_14': item[59],
+                            'rain_14': item[60],
+                            'snow_14': item[61],
+                            },
+            } for item in retrieved_data]
+    }
+    return composed_data
