@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # city_codes.py
 # David Prager Branner and Gina Schmalzle
-# 20140428, works
+# 20140519
 
 """City-code tools for Weather Study project."""
 
@@ -11,10 +11,18 @@ import sqlite3
 import utils as U
 import requests as RQ
 import hashlib
+import logging
 
 def get_city_code_list():
     """Get city code list from OWM; check to see if changed; save; normalize."""
-    cities = RQ.make_urlrequest('http://openweathermap.org/help/city_list.txt')
+    logger = logging.getLogger('city_codes')
+    logger.setLevel(logging.ERROR)
+    logging.basicConfig(level=logging.ERROR,
+            filename='../logs/weather_study_requests.log',
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    url = 'http://openweathermap.org/help/city_list.txt'
+    
+    cities = RQ.make_urlrequest(url, logger)
     cities = cities.read()
     # Is content changed?
     #
