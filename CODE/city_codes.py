@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # city_codes.py
 # David Prager Branner and Gina Schmalzle
-# 20140519
+# 20140520
 
 """City-code tools for Weather Study project."""
 
@@ -12,14 +12,13 @@ import utils as U
 import requests as RQ
 import hashlib
 import logging
+import logger as L
 
 def get_city_code_list():
     """Get city code list from OWM; check to see if changed; save; normalize."""
-    logger = logging.getLogger('city_codes')
-    logger.setLevel(logging.ERROR)
-    logging.basicConfig(level=logging.ERROR,
-            filename='../logs/weather_study_city_codes.log',
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    logger_instance = L.Logger('city_codes', 
+            '../logs/weather_study_city_codes.log')
+    logger = logger_instance.logger
     url = 'http://openweathermap.org/help/city_list.txt'
     cities = RQ.make_urlrequest(url, logger)
     cities = cities.read()

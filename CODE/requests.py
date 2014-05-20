@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # requests.py
 # David Prager Branner and Gina Schmalzle
-# 20140519, works
+# 20140520, works
 
 """Data-request (and related) functions for Weather Study project."""
 
@@ -57,6 +57,7 @@ def make_urlrequest(url, logger=None):
             if logger:
                 logger.error('in requests.make_urlrequest(): \n    ' + url +
                         '\n    ' + str(e))
+            time.sleep(30)
             content = ''
         except Exception as e:
             print(e)
