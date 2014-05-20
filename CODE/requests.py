@@ -21,8 +21,8 @@ def main():
     logging.basicConfig(level=logging.ERROR,
             filename='../logs/weather_study_requests.log',
             format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-#    download_NOAA_cities_forecast(logger=logger)
-#    download_NOAA_all_US_points(logger=logger)
+    download_NOAA_cities_forecast(logger=logger)
+    download_NOAA_all_US_points(logger=logger)
     download_OWM_full_forecast(logger=logger)
 
 def get_api_key(site='owm', show=False):

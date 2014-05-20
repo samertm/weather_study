@@ -18,10 +18,9 @@ def get_city_code_list():
     logger = logging.getLogger('city_codes')
     logger.setLevel(logging.ERROR)
     logging.basicConfig(level=logging.ERROR,
-            filename='../logs/weather_study_requests.log',
+            filename='../logs/weather_study_city_codes.log',
             format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     url = 'http://openweathermap.org/help/city_list.txt'
-    
     cities = RQ.make_urlrequest(url, logger)
     cities = cities.read()
     # Is content changed?
