@@ -14,13 +14,16 @@ import json
 import utils as U
 import city_codes as CC
 import logging
+import logger as L
 
-def main():
-    logger = logging.getLogger('requests')
-    logger.setLevel(logging.ERROR)
-    logging.basicConfig(level=logging.ERROR,
-            filename='../logs/weather_study_requests.log',
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+def main(name='requests', filename='../logs/weather_study_requests.log'):
+#    logger = logging.getLogger('requests')
+#    logger.setLevel(logging.ERROR)
+#    logging.basicConfig(level=logging.ERROR,
+#            filename='../logs/weather_study_requests.log',
+#            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    logger_instance = L.Logger('requests', '../logs/weather_study_requests.log')
+    logger = logger_instance.logger
     download_NOAA_cities_forecast(logger=logger)
     download_NOAA_all_US_points(logger=logger)
     download_OWM_full_forecast(logger=logger)
@@ -89,7 +92,7 @@ def construct_OWM_api_request(id='5128581', count=15, logger=None):
             if logger:
                 logger.error('''in requests.construct_OWM_api_request(): '''
                         '''\n    Error (#{}) at id={}: {}'''.
-                        format(error_count, id, (str(e)))
+                        format(error_count, id, (str(e))))
     if error_count >= 5:
         print('''{Failed to load JSON object for id={}. Continuing; returning'''
                 '''`forecast` as plain string.}'''.format(id))
