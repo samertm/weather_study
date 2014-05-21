@@ -6,6 +6,7 @@
 """Data-request (and related) functions for Weather Study project."""
 
 import os
+import re
 import urllib.request
 import urllib.error
 import http
@@ -17,16 +18,22 @@ import logging
 import logger as L
 
 def main(name='requests', filename='../logs/weather_study_requests.log'):
-#    logger = logging.getLogger('requests')
-#    logger.setLevel(logging.ERROR)
-#    logging.basicConfig(level=logging.ERROR,
-#            filename='../logs/weather_study_requests.log',
-#            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    logger_instance = L.Logger('requests', '../logs/weather_study_requests.log')
+    """Run the various REQUEST functions."""
+    # Add current date to filename.
+    date_string = U.construct_date().split('-')[0]
+    filename = re.sub('.log$', '_' + date_string + '.log', filename)
+    # Instantiate logger.
+    logger_instance = L.Logger(name, filename)
     logger = logger_instance.logger
+    # Call various request functions.
     download_NOAA_cities_forecast(logger=logger)
     download_NOAA_all_US_points(logger=logger)
     download_OWM_full_forecast(logger=logger)
+    # Remove log if empty.
+    with open(filename, 'r') as f:
+        contents = f.read()
+    if not len(contents):
+        os.remove(filename)
 
 def get_api_key(site='owm', show=False):
     """Without allowing API key to appear in repo, fetch from file."""
@@ -57,6 +64,7 @@ def make_urlrequest(url, logger=None):
             if logger:
                 logger.error('in requests.make_urlrequest(): \n    ' + url +
                         '\n    ' + str(e))
+            # Sleep, to prevent repeated HTTP 512 errors from filling log.
             time.sleep(30)
             content = ''
         except Exception as e:
@@ -162,6 +170,7 @@ def download_NOAA_all_US_points(limit=None, logger=None):
                     break
                 else:
                     print('Unexpected file received, ending in:', forecast[-8:])
+                    time.sleep(30)
         forecasts_list.append(forecast)
     download_end_time = U.construct_date()
     # Store raw material in a single directory with time-range stamp.
