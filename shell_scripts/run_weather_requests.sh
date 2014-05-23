@@ -9,3 +9,4 @@ source v_env3/bin/activate
 cd CODE
 python requests.py
 git add -Av ..
+git commit -m 'upload downloads from today'
