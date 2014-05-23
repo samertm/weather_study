@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # utils.py
 # David Prager Branner and Gina Schmalzle
-# 20140509, works
+# 20140523, works
 
 """Utilities for Weather Study project."""
 
@@ -73,8 +73,14 @@ def retrieve_data_vals(files, to_print=None):
             print('Error {}\n    in file {}'.format(e, file))
         if contents == '\n':
             print('File {} empty.'.format(file))
+            # qqq this should be logged
             continue
-        content_dict = ast.literal_eval(contents)
+        try:
+            content_dict = ast.literal_eval(contents)
+        except ValueError as e:
+            # This usually means a value of `null` in a file.
+            print('Error {}\n    in file {}'.format(e, file))
+            # qqq this should be logged
         if content_dict in (None, '\n'):
             # This happens occasionally. Ignore silently and continue.
             continue

@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # requests.py
 # David Prager Branner and Gina Schmalzle
-# 20140520, works
+# 20140523, works
 
 """Data-request (and related) functions for Weather Study project."""
 
@@ -212,8 +212,9 @@ def download_OWM_full_forecast(country='US', db='weather_data_OWM.db',
             print('{:>6d} done out of {}: {}%.'.
                     format(i, length, round(i*100/length, 1)))
         content = str(construct_OWM_api_request(id=code, logger=logger))
-        if content == 'None':
-            print('Received "None" reply on query for city {}.'.format(code))
+        if content == 'None' or content == 'null':
+            print('Received empty reply on query for city {}.'.format(code))
+            # qqq this should be logged
             continue
         with open(os.path.join(
             '../DATA/DOWNLOADS/'+dir_name, code+'.txt'), 'w') as f:
