@@ -9,7 +9,7 @@ source v_env3/bin/activate
 cd CODE
 echo `pwd`
 python -c 'print("here within Python")'
-python /home/dpb/github_public/weather_study/CODE/requests.py
+/home/dpb/github_public/weather_study/CODE/requests.py
 echo 'done with python'
 git add -Av ..
 git commit -m 'upload downloads from today'
