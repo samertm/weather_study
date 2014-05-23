@@ -4,7 +4,6 @@
 # 20140523
 
 cd /home/dpb/github_public/weather_study
-git checkout master
 source v_env3/bin/activate
 cd CODE
 python requests.py
