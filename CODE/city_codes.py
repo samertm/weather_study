@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # city_codes.py
 # David Prager Branner and Gina Schmalzle
-# 20140428, works
+# 20140520
 
 """City-code tools for Weather Study project."""
 
@@ -11,10 +11,21 @@ import sqlite3
 import utils as U
 import requests as RQ
 import hashlib
+import logging
+import logger as L
 
-def get_city_code_list():
+def get_city_code_list(name='city_codes', 
+        filename='../logs/weather_study_city_codes.log'):
     """Get city code list from OWM; check to see if changed; save; normalize."""
-    cities = RQ.make_urlrequest('http://openweathermap.org/help/city_list.txt')
+    # Add current date to filename.
+    date_string = U.construct_date().split('-')[0]
+    filename = re.sub('.log$', '_' + date_string + '.log', filename)
+    # Instantiate logger.
+    logger_instance = L.Logger(name, filename)
+    logger = logger_instance.logger
+    # Make request.
+    url = 'http://openweathermap.org/help/city_list.txt'
+    cities = RQ.make_urlrequest(url, logger)
     cities = cities.read()
     # Is content changed?
     #
@@ -56,6 +67,12 @@ def get_city_code_list():
         print('Normalized city-code data saved.')
     else:
         print('No change in data found.')
+    # Remove log if empty.
+    with open(filename, 'r') as f:
+        contents = f.read()
+    if not len(contents):
+        os.remove(filename)
+
 
 def open_last_city_list():
     """Find filename of most recently saved city code list."""

@@ -1,11 +1,12 @@
 #! /usr/bin/env python
 # requests.py
 # David Prager Branner and Gina Schmalzle
-# 20140428, works
+# 20140520, works
 
 """Data-request (and related) functions for Weather Study project."""
 
 import os
+import re
 import urllib.request
 import urllib.error
 import http
@@ -13,6 +14,26 @@ import time
 import json
 import utils as U
 import city_codes as CC
+import logging
+import logger as L
+
+def main(name='requests', filename='../logs/weather_study_requests.log'):
+    """Run the various REQUEST functions."""
+    # Add current date to filename.
+    date_string = U.construct_date().split('-')[0]
+    filename = re.sub('.log$', '_' + date_string + '.log', filename)
+    # Instantiate logger.
+    logger_instance = L.Logger(name, filename)
+    logger = logger_instance.logger
+    # Call various request functions.
+    download_NOAA_cities_forecast(logger=logger)
+    download_NOAA_all_US_points(logger=logger)
+    download_OWM_full_forecast(logger=logger)
+    # Remove log if empty.
+    with open(filename, 'r') as f:
+        contents = f.read()
+    if not len(contents):
+        os.remove(filename)
 
 def get_api_key(site='owm', show=False):
     """Without allowing API key to appear in repo, fetch from file."""
@@ -28,18 +49,29 @@ def get_api_key(site='owm', show=False):
         print('Obtained API key: {}'.format(api_key))
     return api_key
 
-def make_urlrequest(url):
+def make_urlrequest(url, logger=None):
     """Tries to make URL request until successful."""
     content = ''
     while content == '':
+#        t = int(time.time()) # debug by introducing impossible URL
+#        if not (t % 7):
+#            url = 'http://abcabcabcabcabcabc.com'
+#            print('time: {}; purposeful error; url: {}'.format(t, url))
         try:
             content = urllib.request.urlopen(url)
         except urllib.error.URLError as e:
             print(url, e, sep='\n', end='\n\n')
+            if logger:
+                logger.error('in requests.make_urlrequest(): \n    ' + url +
+                        '\n    ' + str(e))
+            # Sleep, to prevent repeated HTTP 512 errors from filling log.
+            time.sleep(30)
             content = ''
+        except Exception as e:
+            print(e)
     return content
 
-def construct_OWM_api_request(id='5128581', count=15): 
+def construct_OWM_api_request(id='5128581', count=15, logger=None):
     # ID 5128581 = New York City
     """Make OWM forecast query."""
     # "...daily..." required for the `count` variable to be meaningful.
@@ -52,7 +84,7 @@ def construct_OWM_api_request(id='5128581', count=15):
     appid = '&APPID=' + get_api_key() # Apparently goes last or empty results.
     url = head + id_string + units + count_string + mode + the_type + appid
     while True:
-        forecast = make_urlrequest(url)
+        forecast = make_urlrequest(url, logger=logger)
         if forecast.msg == 'OK':
             break
     # Forecast is of type http.client.HTTPResponse
@@ -66,17 +98,21 @@ def construct_OWM_api_request(id='5128581', count=15):
         except ValueError as e:
             error_count += 1
             print('Error (#{}) at id={}: {}'.format(error_count, id, e))
+            if logger:
+                logger.error('''in requests.construct_OWM_api_request(): '''
+                        '''\n    Error (#{}) at id={}: {}'''.
+                        format(error_count, id, (str(e))))
     if error_count >= 5:
         print('''{Failed to load JSON object for id={}. Continuing; returning'''
                 '''`forecast` as plain string.}'''.format(id))
     # Forecast is dict; key 'list' is a list containing most of the content.
     return forecast
 
-def construct_NOAA_request_200_cities():
+def construct_NOAA_request_200_cities(logger=None):
     """Make request of forecast data from NOAA for 200 Level 1/2/3/4 cities."""
     url = '''http://www.weather.gov/forecasts/xml/sample_products/browser_interface/ndfdXMLclient.php?citiesLevel=1234&product=time-series&maxt=maxt&mint=mint&qpf=qpf&snow=snow&format=24+hourly&Unit=m'''
     while True:
-        forecast = make_urlrequest(url)
+        forecast = make_urlrequest(url, logger)
         if forecast.msg == 'OK':
             break
     # Forecast is of type http.client.HTTPResponse
@@ -85,7 +121,7 @@ def construct_NOAA_request_200_cities():
     # Forecast is dict; key 'list' is a list containing most of the content.
     return forecast
 
-def download_NOAA_all_US_points(limit=None):
+def download_NOAA_all_US_points(limit=None, logger=None):
     """Make request of forecast data from NOAA for all the US cities at OWM."""
     start_time = time.time()
     # Get newest file of latitude & longitude values.
@@ -115,7 +151,7 @@ def download_NOAA_all_US_points(limit=None):
                 '''&Unit=m&maxt=maxt&mint=mint&qpf=qpf&snow=snow&listLatLon=''')
         url = head + group
         while True:
-            forecast = make_urlrequest(url)
+            forecast = make_urlrequest(url, logger)
             if forecast.msg == 'OK':
                 # Forecast is of type http.client.HTTPResponse
                 # forecast.readall(): bytes; use `.decode()` for long string
@@ -123,6 +159,10 @@ def download_NOAA_all_US_points(limit=None):
                     forecast = forecast.readall().decode()
                 except http.client.IncompleteRead as e:
                     print(e, 'at group', i+1)
+                    if logger:
+                        logger.error(
+                                'in requests.download_NOAA_all_US_points(): ' +
+                                str(e) + 'at group' + str(i+1))
                     continue
                 if forecast[-8:-1] == '</dwml>':
                     print('Forecast group {}/{} 200-forecast groups received.'.
@@ -130,6 +170,7 @@ def download_NOAA_all_US_points(limit=None):
                     break
                 else:
                     print('Unexpected file received, ending in:', forecast[-8:])
+                    time.sleep(30)
         forecasts_list.append(forecast)
     download_end_time = U.construct_date()
     # Store raw material in a single directory with time-range stamp.
@@ -151,7 +192,7 @@ def download_NOAA_all_US_points(limit=None):
     print('Saved to', dir_name)
 
 def download_OWM_full_forecast(country='US', db='weather_data_OWM.db', 
-            limit=None):
+            limit=None, logger=None):
     """Download OWN forecasts for set of locations, save to unique directory."""
     start_time = time.time()
     # Create time-stamped directory, with country-name, for this download.
@@ -170,7 +211,7 @@ def download_OWM_full_forecast(country='US', db='weather_data_OWM.db',
             length = len(code_list)
             print('{:>6d} done out of {}: {}%.'.
                     format(i, length, round(i*100/length, 1)))
-        content = str(construct_OWM_api_request(id=code))
+        content = str(construct_OWM_api_request(id=code, logger=logger))
         if content == 'None':
             print('Received "None" reply on query for city {}.'.format(code))
             continue
@@ -182,7 +223,7 @@ def download_OWM_full_forecast(country='US', db='weather_data_OWM.db',
     print('\nTime elapsed: {} seconds.'.
             format(round(end_time-start_time)))
 
-def download_NOAA_cities_forecast():
+def download_NOAA_cities_forecast(logger=None):
     """Download NOAA forecasts for 200 cities, save to unique directory."""
     start_time = time.time()
     # Create time-stamped directory for this download.
@@ -191,7 +232,7 @@ def download_NOAA_cities_forecast():
     if not os.path.exists(os.path.join('../DATA/DOWNLOADS/', dir_name)):
         os.makedirs(os.path.join('../DATA/DOWNLOADS/', dir_name))
     # Download all forecasts.
-    content = construct_NOAA_request_200_cities()
+    content = construct_NOAA_request_200_cities(logger)
     with open(os.path.join(
             '../DATA/DOWNLOADS/' + dir_name, dir_name + '.txt'), 'w') as f:
         f.write(content)
@@ -201,3 +242,5 @@ def download_NOAA_cities_forecast():
     print('\nTime elapsed: {} seconds.'.
             format(round(end_time-start_time)))
 
+if __name__ == '__main__':
+        main()

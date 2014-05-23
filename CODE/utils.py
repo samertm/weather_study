@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # utils.py
 # David Prager Branner and Gina Schmalzle
-# 20140428, works
+# 20140509, works
 
 """Utilities for Weather Study project."""
 
@@ -14,6 +14,7 @@ import ast
 import shutil
 import tarfile
 import pprint
+import sqlite3
 
 def construct_date(date_and_time=None):
     """Construct a time-and-date string for appending to a filename."""
@@ -63,7 +64,6 @@ def retrieve_data_vals(files, to_print=None):
     query_date = int(query_date_and_time.split('-')[0]) # e.g. 20140414
     # Process each file
     forecast_dict = {'query_date': query_date}
-    files.sort()
     for file in files:
         forecast_list_pruned = []
         try:
@@ -154,10 +154,19 @@ def tar_directory(source_dir=None, target_dir='COMPRESSED'):
             '{} seconds per directory on avg.'.
             format(total_time, round(total_time/len(directories), 1)))
 
-def untar_directory(dir_name=None):
+def untar_directory(dir_name=None, check_db=True, db='weather_data_OWM.db'):
     """Extract all archives in COMPRESSED/ into TEMPORARY/."""
     start_time = time.time()
+    connection = sqlite3.connect(os.path.join('../', db))
     home_dir = os.getcwd()
+    # In order not to repeat decompressions unnecessarily, get list of all 
+    # archives already inserted into database.
+    with connection:
+        cursor = connection.cursor()
+        cursor_output = cursor.execute(
+                '''SELECT directory_name FROM downloads_inserted''')
+        archives_done = [item[0].split('/')[-1] 
+                 for item in cursor_output.fetchall()]
     os.chdir('../DATA/COMPRESSED')
     # Do the whole procedure below for any existing directories in DOWNLOADS.
     # First find the directories.
@@ -165,18 +174,29 @@ def untar_directory(dir_name=None):
         archives = open_directory('downloads_')
     else:
         archives = [dir_name]
-    print('{} directories to be extracted.'.format(len(archives)), end='\n\n')
+    number_archives = len(archives)
+    print('{} directories available to extract.'.
+            format(number_archives), end='\n\n')
     # Make sure ../COMPRESSED exists or create it.
     if not os.path.exists('../TEMPORARY'):
         os.makedirs('../TEMPORARY')
         print('Created directory TEMPORARY', end='\n\n')
     # Now uncompress each directory.
+    archives.sort()
     for archive in archives:
+        archive_short = archive.split('.')[0]
+    # If check_db, then first check whether this archive has already 
+    # been processed.
+        if check_db and archive_short in archives_done:
+            number_archives -= 1
+            continue
         # Copy and then uncompress each file, using context manager.
         with tarfile.open('../COMPRESSED/' + archive , 'r:bz2') as f:
             f.extractall('../TEMPORARY/')
         print('Decompressed directory\n    "{}".'.
-                format(archive), end='\n\n')
+            format(archive), end='\n\n')
+    print('In total, {} archives extracted out of {}.'.
+            format(number_archives, len(archives)))
     # When finished, return to directory where we started.
     os.chdir(home_dir)
     end_time = time.time()
