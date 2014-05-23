@@ -8,6 +8,7 @@ echo `pwd`
 source v_env3/bin/activate
 cd CODE
 echo `pwd`
+python -c 'print("here within Python")'
 python requests.py
 echo 'done with python'
 git add -Av ..
