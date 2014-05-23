@@ -8,3 +8,4 @@ git checkout master
 source v_env3/bin/activate
 cd CODE
 python requests.py
+git add -Av ..
