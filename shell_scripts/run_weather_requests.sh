@@ -7,5 +7,5 @@ cd /home/dpb/github_public/weather_study
 source v_env3/bin/activate
 cd CODE
 python /home/dpb/github_public/weather_study/CODE/requests.py
-git-add -A ..
-git-commit -m 'upload downloads from today'
+git add -A /home/dpb/github_public/weather_study
+git commit -m 'upload downloads from today'
