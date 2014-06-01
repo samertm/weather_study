@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # city_codes.py
 # David Prager Branner and Gina Schmalzle
-# 20140520
+# 20140531, works
 
 """City-code tools for Weather Study project."""
 
@@ -33,7 +33,7 @@ def get_city_code_list(name='city_codes',
     hash_of_last = ''
     try:
         with open(os.path.join(
-                '../DATA/CITY_LISTS', 'hash_of_last.txt'), 'r') as f:
+                '../data/city_lists', 'hash_of_last.txt'), 'r') as f:
             hash_of_last = f.read()
     except IOError as e:
         print(e)
@@ -48,7 +48,7 @@ def get_city_code_list(name='city_codes',
         print('City-code byte-data retrieved, proves different from previous.')
         # Save new hash of current version.
         with open(os.path.join(
-                '../DATA/CITY_LISTS', 'hash_of_last.txt'), 'w') as f:
+                '../data/city_lists', 'hash_of_last.txt'), 'w') as f:
             f.write(md5)
         # Report any non-ASCII content to STDOUT and normalize.
         chars = set([i for i in cities])
@@ -62,7 +62,7 @@ def get_city_code_list(name='city_codes',
         # Here we replace any non-ASCII characters we know about already.
         normalized = normalized.replace(chr(150), '-')
         with open(os.path.join(
-                '../DATA/CITY_LISTS', city_list_filename), 'w') as f:
+                '../data/city_lists', city_list_filename), 'w') as f:
             f.write(normalized)
         print('Normalized city-code data saved.')
     else:
@@ -76,14 +76,14 @@ def get_city_code_list(name='city_codes',
 
 def open_last_city_list():
     """Find filename of most recently saved city code list."""
-    file_list = glob.glob('../DATA/CITY_LISTS/city_list*')
+    file_list = glob.glob('../data/city_lists/city_list*')
     filename = file_list[-1]
     return filename.split('/')[-1]
 
 def isolate_city_codes():
     """Get contents of most recently saved city code list, as list of lists."""
     filename = open_last_city_list()
-    with open(os.path.join('../DATA/CITY_LISTS', filename), 'r') as f:
+    with open(os.path.join('../data/city_lists', filename), 'r') as f:
         contents = f.read()
     list_of_lines = [line.split('\t') for line in contents.split('\n')[1:]]
     # Latitude and longitude should be numbers

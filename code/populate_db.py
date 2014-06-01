@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # populate_db.py
 # David Prager Branner and Gina Schmalzle
-# 20140509, works
+# 20140531, works
 
 """Database populating tools for weather study."""
 
@@ -79,12 +79,12 @@ def populate_db_w_forecasts(
                 )
 
 def process_dir_of_downloads(to_print=None, repop_if_already_done=False):
-    """Populate database with the forecasts from all files in COMPRESSED."""
+    """Populate database with the forecasts from all files in compressed."""
     start_time = time.time()
-    # Decompress all files in COMPRESSED.
+    # Decompress all files in compressed.
     U.untar_directory()
     # Get names of directories in download folder
-    directories = U.open_directory('../DATA/TEMPORARY/downloads_OWM_US_')
+    directories = U.open_directory('../data/temporary/downloads_OWM_US_')
     # For each directory, get all files
     directories.sort()
     for directory in directories:
@@ -97,9 +97,9 @@ def process_dir_of_downloads(to_print=None, repop_if_already_done=False):
         populate_db_w_forecasts(forecast_dict, directory,
                 repop_if_already_done)
         print('Ran `populate_db_w_forecasts()`.', end='\n\n') # debug
-    while os.path.exists('../DATA/TEMPORARY'):
-        shutil.rmtree('../DATA/TEMPORARY', ignore_errors=True)
-    print('Directory ../DATA/TEMPORARY removed.')
+    while os.path.exists('../data/temporary'):
+        shutil.rmtree('../data/temporary', ignore_errors=True)
+    print('Directory ../data/temporary removed.')
     end_time = time.time()
     print('Total time elapsed for {} directories: {} seconds'.
             format(len(directories), round(end_time-start_time)))
