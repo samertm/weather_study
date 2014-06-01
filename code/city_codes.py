@@ -1,11 +1,12 @@
 #! /usr/bin/env python
 # city_codes.py
 # David Prager Branner and Gina Schmalzle
-# 20140520
+# 20140601
 
 """City-code tools for Weather Study project."""
 
 import os
+import re
 import glob
 import sqlite3
 import utils as U
