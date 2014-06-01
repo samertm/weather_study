@@ -22,7 +22,7 @@
 
 ### Further installation steps:
 
-See these files in the `INSTALLATION_INSTRUCTIONS` directory:
+See these files in the `installation_instructions` directory:
 
  1. `install_1_dependencies.md`
  1. `install_2_database.md`
