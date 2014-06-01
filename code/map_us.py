@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # map_us.py
 # David Prager Branner and Gina Schmalzle
-# 20140430, works
+# 20140531, not yet working
 
 """Generate plots of forecast-differences, using list comprehensions."""
 
@@ -58,7 +58,7 @@ def make_single_basemap(diff, day, lon, lat, mindiff, maxdiff, hist=True):
 
 start_time = time.time()
 # Get variables.
-parser = argparse.ArgumentParser()                                              
+parser = argparse.ArgumentParser()
 parser.add_argument('date', type=int, help='enter single date')
 args = parser.parse_args()
 print(args)
@@ -69,10 +69,10 @@ exact_date = args.date
 file_type = 'png'
 figuresize = (20, 10)
 res = 600
-# Make sure ../OUTPUT exists or create it.
-if not os.path.exists('../OUTPUT'):
-    os.makedirs('../OUTPUT')
-    print('Created directory OUTPUT', end='\n\n')
+# Make sure ../output exists or create it.
+if not os.path.exists('../output'):
+    os.makedirs('../output')
+    print('Created directory output', end='\n\n')
 # Prepare materials appropriate to different features..
 temp_header = '{} Temperature Difference (degrees) for '+str(exact_date)
 precip_header = '{} level difference (mm) for '+str(exact_date)
@@ -114,9 +114,9 @@ forecasts = [[retrieved_data[city][day][topic['position']]
 #print('Claim: forecasts == [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9]: {}.'.
 #        format(forecasts == [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9]))
 # QQQ Ultimately, replace "forecasts[1:9]" with code to ignore "None" content.
-differences = [[target_fc - prior_fc 
-#            if (prior_fc and target_fc) 
-        for target_fc, prior_fc 
+differences = [[target_fc - prior_fc
+#            if (prior_fc and target_fc)
+        for target_fc, prior_fc
         in zip(forecasts[0], forecast)] for forecast in forecasts[1:9]]
 # Formerly "diff" lists held the differences between correponding forecasts.
 # The following line tested that the list comprehension "differences" replaced
@@ -152,6 +152,6 @@ for day, plot in enumerate(differences):
             print(traceback.format_exc())
     filename = (str(exact_date) + '_' + feature + '_' + str(day+1) +
             '.' + file_type)
-    plt.savefig('../OUTPUT/' + filename, dpi=res)
+    plt.savefig('../output/' + filename, dpi=res)
 end_time = time.time()
 print('Total time elapsed: {} seconds.'.format(round(end_time-start_time)))
