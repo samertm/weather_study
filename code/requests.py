@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # requests.py
 # David Prager Branner and Gina Schmalzle
-# 20140520, works
+# 20140531, works
 
 """Data-request (and related) functions for Weather Study project."""
 
@@ -43,7 +43,7 @@ def get_api_key(site='owm', show=False):
         filename = 'wu_api.ignore'
     else:
         return
-    with open(os.path.join('../DATA', filename), 'r') as f:
+    with open(os.path.join('../data', filename), 'r') as f:
         api_key = f.read()
     if show:
         print('Obtained API key: {}'.format(api_key))
@@ -125,7 +125,7 @@ def download_NOAA_all_US_points(limit=None, logger=None):
     """Make request of forecast data from NOAA for all the US cities at OWM."""
     start_time = time.time()
     # Get newest file of latitude & longitude values.
-    files = U.open_directory('../DATA/CITY_LISTS/city_list_normalized_')
+    files = U.open_directory('../data/city_lists/city_list_normalized_')
     with open(files[-1], 'r') as f:
         contents = f.read()
     # Construct list of 'latitude,longitude' strings for US points only.
@@ -178,14 +178,14 @@ def download_NOAA_all_US_points(limit=None, logger=None):
         download_end_time = download_end_time.split('-')[-1]
     timestamp = download_start_time + '_to_' + download_end_time
     dir_name = 'downloads_NOAA_US_' + timestamp
-    if not os.path.exists('../DATA/DOWNLOADS/' + dir_name):
-        os.makedirs('../DATA/DOWNLOADS/' + dir_name)
+    if not os.path.exists('../data/downloads/' + dir_name):
+        os.makedirs('../data/downloads/' + dir_name)
     for i, forecast in enumerate(forecasts_list):
         with open(os.path.join(
-                '../DATA/DOWNLOADS/' + dir_name+'/', str(i)+'.txt'), 'w') as f:
+                '../data/downloads/' + dir_name+'/', str(i)+'.txt'), 'w') as f:
             f.write(forecast)
     U.tar_directory(
-            dir_name, target_dir='COMPRESSED_BUT_KEPT_FOR_STUDY_AND_NOT_IN_USE')
+            dir_name, target_dir='compressed_but_kept_for_study_and_not_in_use')
     end_time = time.time()
     print('\nTime elapsed: {} seconds.'.
             format(round(end_time-start_time)))
@@ -198,8 +198,8 @@ def download_OWM_full_forecast(country='US', db='weather_data_OWM.db',
     # Create time-stamped directory, with country-name, for this download.
     dir_name = 'downloads_OWM_' + country + '_' + U.construct_date()
     print('Saving to directory {}'.format(dir_name))
-    if not os.path.exists(os.path.join('../DATA/DOWNLOADS/', dir_name)):
-        os.makedirs(os.path.join('../DATA/DOWNLOADS/', dir_name))
+    if not os.path.exists(os.path.join('../data/downloads/', dir_name)):
+        os.makedirs(os.path.join('../data/downloads/', dir_name))
     # Download all forecasts.
     code_list = CC.get_city_codes_from_db(country, db)
     for i, code in enumerate(code_list):
@@ -216,7 +216,7 @@ def download_OWM_full_forecast(country='US', db='weather_data_OWM.db',
             print('Received "None" reply on query for city {}.'.format(code))
             continue
         with open(os.path.join(
-            '../DATA/DOWNLOADS/'+dir_name, code+'.txt'), 'w') as f:
+            '../data/downloads/'+dir_name, code+'.txt'), 'w') as f:
             f.write(content)
     U.tar_directory(dir_name)
     end_time = time.time()
@@ -229,15 +229,15 @@ def download_NOAA_cities_forecast(logger=None):
     # Create time-stamped directory for this download.
     dir_name = 'downloads_NOAA_200_cities_' + U.construct_date()
     print('Saving to directory {}'.format(dir_name))
-    if not os.path.exists(os.path.join('../DATA/DOWNLOADS/', dir_name)):
-        os.makedirs(os.path.join('../DATA/DOWNLOADS/', dir_name))
+    if not os.path.exists(os.path.join('../data/downloads/', dir_name)):
+        os.makedirs(os.path.join('../data/downloads/', dir_name))
     # Download all forecasts.
     content = construct_NOAA_request_200_cities(logger)
     with open(os.path.join(
-            '../DATA/DOWNLOADS/' + dir_name, dir_name + '.txt'), 'w') as f:
+            '../data/downloads/' + dir_name, dir_name + '.txt'), 'w') as f:
         f.write(content)
     U.tar_directory(
-            dir_name, target_dir='COMPRESSED_BUT_KEPT_FOR_STUDY_AND_NOT_IN_USE')
+            dir_name, target_dir='compressed_but_kept_for_study_and_not_in_use')
     end_time = time.time()
     print('\nTime elapsed: {} seconds.'.
             format(round(end_time-start_time)))

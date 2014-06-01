@@ -1,11 +1,11 @@
 -- *****************
--- 20140421
+-- 20140531
 -- 
 -- Script to populate Weather Study project database.
 --
 -- Run as
 --     sqlite3 weather_data_OWM.db < 
---                       CODE/DB_SCRIPTS/create_weather_OWM_db.sql
+--                       code/db_scripts/create_weather_OWM_db.sql
 --
 -- *****************
 
