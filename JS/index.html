@@ -1,0 +1,39 @@
+<DOCTYPE html>
+<html>
+  <head>
+
+
+  <h1 style="color:steelblue;border:10px solid steelblue"; >Welcome to the Forecasterator 
+        <h2> Please Select values: 
+        <select id="date_select" onsubmit="javascript:load_elements(this.value)">
+          <option value="20140422"> April 22, 2014
+        </select>
+        <select id="type_select" onsubmit="javascript:load_elements(this.value)">
+          <option value="MaxT"> Maximum Temperature
+        </select></h2>
+
+  </h1>
+<!-- Import Styles -->
+       <link rel="stylesheet" href="leaflet/leaflet.css" />
+       <link rel="stylesheet" href="css/mystyle.css" />
+
+  </head>
+
+  <body>
+<!-- Import frameworks and libraries -->
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script src="leaflet/leaflet.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script id="errpath" src="js/errorbar.js"></script>
+<!-- Construct Map div --> 
+	<div id="map_canvas"></div>
+  <script src="js/basemap.js"></script>
+  <script src="js/mapme.js"></script> 
+  <div id="bottom">
+    <div id="time"></div>
+      <input type="range" id="slider" />
+        <button type="button" id="playbtn">Play</button>
+    </div>
+  </body>
+</html>

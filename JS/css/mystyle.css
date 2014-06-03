@@ -1,0 +1,67 @@
+h1
+  {
+  font-size:250%;
+  font-family:"Arial Black", Gadget, sans-serif;
+  font-style:italic;
+  }
+#map_canvas
+  {
+  width: 50%;
+  height: 70%;
+  float: left;
+  }
+#bottom {
+  position: fixed;
+  float: bottom;
+  margin-bottom: -20px;
+  bottom: 25px;
+  height: 50px;
+  width: 100%;
+  background: rgba(0,0,0,0.1);
+  font-family: 'Helvetica';
+  color: #333;
+  text-align: center;
+  }
+#time {
+  margin-top: 10px;
+}
+#playbtn {
+  width: 100px;
+  height: 30px;
+  font-size: 14px;
+  font-family: 'Helvetica';
+}
+.legend {
+    line-height: 18px;
+    color: #555;
+    text-align: bottom;
+    position:relative;
+    bottom: -20px;
+}
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: bottom;
+    position:fixed;
+    margin-right: 40px;
+    opacity: 1;
+}
+
+body {
+  font: 10px sans-serif;
+}
+
+.bar rect {
+  fill: steelblue;
+  shape-rendering: crispEdges;
+}
+
+.bar text {
+  fill: #555;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
