@@ -1,0 +1,50 @@
+2014-06-22 16:40:04,965 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=4165913&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 510: 
+2014-06-22 16:50:04,378 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=4992635&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 510: 
+2014-06-22 16:56:03,258 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=5351515&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 510: 
+2014-06-22 17:00:03,850 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=5786485&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 510: 
+2014-06-22 17:18:03,784 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=4464897&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 510: 
+2014-06-22 17:22:02,249 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=4523097&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 500: Internal Server Error
+2014-06-22 17:50:03,327 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=5155572&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 510: 
+2014-06-22 17:55:03,354 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=5215541&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 510: 
+2014-06-22 18:00:03,723 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=5362725&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 510: 
+2014-06-22 18:01:03,338 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=5373121&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 510: 
