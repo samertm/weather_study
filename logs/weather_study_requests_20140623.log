@@ -6198,3 +6198,8 @@
     http://openweathermap.org/data/2.5/forecast/daily?id=4161313&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
 
     HTTP Error 500: Internal Server Error
+2014-06-24 02:34:05,474 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=4172935&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 510: 
