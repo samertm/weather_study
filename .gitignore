@@ -4,8 +4,9 @@
 *__pycache__
 *.swp
 *.ignore
+*output
 *.db
-*DOWNLOADS
-*TEMPORARY
-*MAP
+*downloads
+*temporary
+*map
 basemap*
