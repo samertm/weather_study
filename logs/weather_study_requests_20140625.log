@@ -1,0 +1,105 @@
+2014-06-25 17:00:03,272 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=5803786&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 510: 
+2014-06-25 17:02:08,785 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=4072130&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 510: 
+2014-06-25 17:10:04,539 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=4256384&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 510: 
+2014-06-25 17:13:39,306 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=4330209&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 500: Internal Server Error
+2014-06-25 17:14:09,636 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=4330209&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 500: Internal Server Error
+2014-06-25 17:14:40,023 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=4330209&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 500: Internal Server Error
+2014-06-25 17:15:10,348 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=4330209&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 500: Internal Server Error
+2014-06-25 17:15:41,354 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=4330209&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 500: Internal Server Error
+2014-06-25 17:16:19,898 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=4330209&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 500: Internal Server Error
+2014-06-25 17:16:50,225 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=4330209&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 500: Internal Server Error
+2014-06-25 17:17:20,580 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=4330209&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 500: Internal Server Error
+2014-06-25 17:17:51,969 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=4330209&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 500: Internal Server Error
+2014-06-25 17:18:22,323 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=4330209&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 500: Internal Server Error
+2014-06-25 17:18:52,660 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=4330209&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 500: Internal Server Error
+2014-06-25 17:20:04,421 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=4347800&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 500: Internal Server Error
+2014-06-25 17:21:57,560 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=4369758&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 500: Internal Server Error
+2014-06-25 17:40:08,808 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=4871773&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 510: 
+2014-06-25 17:50:03,137 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=5091310&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 500: Internal Server Error
+2014-06-25 18:00:06,559 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=5200639&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 510: 
+2014-06-25 18:10:05,971 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=5488600&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 500: Internal Server Error
+2014-06-25 18:14:05,530 - requests: requests.make_urlrequest: 
+    ERROR - in requests.make_urlrequest(): 
+    http://openweathermap.org/data/2.5/forecast/daily?id=5775081&units=metric&cnt=15&mode=daily_compact&type=day&APPID=1fa55da531b003f0ceb9d84735aa7c99
+
+    HTTP Error 514: 
