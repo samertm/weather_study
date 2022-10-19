@@ -192,7 +192,26 @@ def untar_directory(dir_name=None, check_db=True, db='weather_data_OWM.db'):
             continue
         # Copy and then uncompress each file, using context manager.
         with tarfile.open('../compressed/' + archive , 'r:bz2') as f:
-            f.extractall('../temporary/')
+            def is_within_directory(directory, target):
+                
+                abs_directory = os.path.abspath(directory)
+                abs_target = os.path.abspath(target)
+            
+                prefix = os.path.commonprefix([abs_directory, abs_target])
+                
+                return prefix == abs_directory
+            
+            def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+            
+                for member in tar.getmembers():
+                    member_path = os.path.join(path, member.name)
+                    if not is_within_directory(path, member_path):
+                        raise Exception("Attempted Path Traversal in Tar File")
+            
+                tar.extractall(path, members, numeric_owner=numeric_owner) 
+                
+            
+            safe_extract(f, "../temporary/")
         print('Decompressed directory\n    "{}".'.
             format(archive), end='\n\n')
     print('In total, {} archives extracted out of {}.'.
